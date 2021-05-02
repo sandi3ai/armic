@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
-import logo from "../Images/armicLogo.jpg";
+import logo from "../Images/armicLogo.png";
 
 function LoginForm({ Login, error }) {
   const [details, setDetails] = useState({ email: "", password: "" });
@@ -16,7 +16,7 @@ function LoginForm({ Login, error }) {
       <Card style={{ width: "28rem" }}>
         <Card.Img variant="left" src={logo} />
         <Card.Body>
-          <Card.Title>Prijava</Card.Title>
+          <Card.Title className="PrijavaH1">Prijava</Card.Title>
           <Form onSubmit={submitHandler}>
             <Form.Group>
               <Form.Label>Email</Form.Label>
@@ -47,7 +47,11 @@ function LoginForm({ Login, error }) {
               />
             </Form.Group>
 
-            <Button type="submit" variant="outline-success">
+            <Button
+              className="PrijavaBtn"
+              type="submit"
+              variant="outline-success"
+            >
               PRIJAVA
             </Button>
             {error !== "" ? <div className="LoginError">{error}</div> : ""}
