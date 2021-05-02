@@ -1,0 +1,34 @@
+      <div className="form-inner">
+        <div className="form-group">
+          <input
+            type="text"
+            name="email"
+            id="loginInput"
+            onChange={(e) => setDetails({ ...details, email: e.target.value })}
+            value={details.email}
+          />
+          <label htmlFor="email" id="loginLabel">
+            Email
+          </label>
+        </div>
+        <div className="form-group">
+          <input
+            type="password"
+            name="password"
+            id="loginInput"
+            onChange={(e) =>
+              setDetails({ ...details, password: e.target.value })
+            }
+            value={details.password}
+          />
+          <span></span>
+          <label htmlFor="password" id="loginLabel">
+            Password
+          </label>
+        </div>
+        <input type="submit" value="PRIJAVA" />
+        {error !== "" ? <div className="error">{error}</div> : ""}
+      </div>
+
+<input type="submit" value="PRIJAVA" />
+{error !== "" ? <div className="error">{error}</div> : ""}
