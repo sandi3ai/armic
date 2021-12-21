@@ -10,6 +10,7 @@ function NavigationBar({ Logout }) {
           <Nav.Link href="#cas">Delovni čas</Nav.Link>
           <Nav.Link href="#dopust">Dopust</Nav.Link>
           <Nav.Link href="#dezurstva">Dežurni</Nav.Link>
+          <Nav.Link href="#registracija">Registracija</Nav.Link>
         </Nav>
 
         <Button id="odjavaBtn" variant="outline-danger" onClick={Logout}>
