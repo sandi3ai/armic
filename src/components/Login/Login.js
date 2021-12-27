@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LoginForm from "./LoginForm";
 import App from "../../App";
 
-function Login() {
+function Login({ setLoggedIn }) {
   const adminUser = {
     email: "admin@admin.com",
     password: "admin",
@@ -22,6 +22,7 @@ function Login() {
       setUser({
         email: details.email,
       });
+      setLoggedIn(true);
     } else {
       setError("\n\nEmail in geslo se ne ujemata!");
       console.log("Email in geslo se ne ujemata!");
