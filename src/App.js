@@ -7,19 +7,24 @@ import useLazyApi from "./hooks/useLazyApi";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  //const { data, loading } = useApi("https://localhost/armic_api/time.php", {
-  //  name: "blabla",
-  //  password: "geslo",
-  //});
+  const { data, loading } = useApi(
+    "https://localhost/reactProjects/armic/src/rest/admin_data.php",
+    {
+      name: "blabla",
+      password: "geslo",
+    }
+  );
 
-  const makeApiCall = useLazyApi("https://localhost/armic_api/time.php");
+  const makeApiCall = useLazyApi(
+    "https://localhost/reactProjects/armic/src/rest/admin_data.php"
+  );
 
   function Logout() {
     setLoggedIn(false);
   }
 
   async function doCall() {
-    const myData = { password: "geslo", name: "haha" };
+    const myData = { password: "geslo", name: "to_je_name" };
 
     const response = await makeApiCall(myData);
 
@@ -34,7 +39,7 @@ function App() {
         <Login setLoggedIn={setLoggedIn} />
       )}
 
-      <button onClick={doCall}>holaaa</button>
+      <button onClick={doCall}>beri z baze</button>
     </div>
   );
 }

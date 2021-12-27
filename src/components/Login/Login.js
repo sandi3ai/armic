@@ -24,8 +24,8 @@ function Login({ setLoggedIn }) {
       });
       setLoggedIn(true);
     } else {
-      setError("\n\nEmail in geslo se ne ujemata!");
-      console.log("Email in geslo se ne ujemata!");
+      setError("\n\nUporabniško ime in geslo se ne ujemata!");
+      console.log("Uporabniško ime in geslo se ne ujemata!");
     }
   };
 

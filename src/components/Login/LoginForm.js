@@ -19,10 +19,10 @@ function LoginForm({ Login, error }) {
           <Card.Title className="PrijavaH1">Prijava</Card.Title>
           <Form onSubmit={submitHandler}>
             <Form.Group>
-              <Form.Label>Email</Form.Label>
+              <Form.Label>Uporabniško ime</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Vpiši email"
+                type="text"
+                placeholder="Vpiši uporabniško ime"
                 id="loginInputEmail"
                 onChange={(e) =>
                   setDetails({ ...details, email: e.target.value })

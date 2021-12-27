@@ -10,7 +10,6 @@ function useLazyApi(url) {
       })
     ).json();
   }
-
   return makeApiCall;
 }
 
