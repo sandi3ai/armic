@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Header from "./components/Header/Header";
-import Cas from "./components/Cas/Cas";
 import Login from "./components/Login/Login";
-import useApi from "./hooks/useApi";
 import useLazyApi from "./hooks/useLazyApi";
+import MyAjax from "./components/Login/MyAjax";
 
 function App() {
+  const [adminOpen, setAdminOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const { data, loading } = useApi(
+  /*const { data, loading } = useApi(
     "https://localhost/reactProjects/armic/src/rest/admin_data.php",
     {
       name: "blabla",
       password: "geslo",
     }
-  );
+  );*/
 
   const makeApiCall = useLazyApi(
     "https://localhost/reactProjects/armic/src/rest/admin_data.php"
@@ -28,7 +28,16 @@ function App() {
 
     const response = await makeApiCall(myData);
 
+    console.log("App.js, line31: ");
     console.log(response);
+  }
+
+  function openAdmins() {
+    setAdminOpen(true);
+  }
+
+  function closeAdmins() {
+    setAdminOpen(false);
   }
 
   return (
@@ -40,6 +49,9 @@ function App() {
       )}
 
       <button onClick={doCall}>beri z baze</button>
+      <button onClick={openAdmins}>MyAjax button</button>
+      <button onClick={closeAdmins}>Clear Admin data</button>
+      {adminOpen && <MyAjax />}
     </div>
   );
 }

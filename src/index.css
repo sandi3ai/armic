@@ -54,3 +54,13 @@ body {
   justify-content: center;
   font-size: x-large !important;
 }
+
+.Divino {
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 0.8rem;
+  backdrop-filter: blur(4px);
+}

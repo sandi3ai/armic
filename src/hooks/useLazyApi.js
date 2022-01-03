@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-
 function useLazyApi(url) {
   async function makeApiCall(params) {
     return await (
