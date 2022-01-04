@@ -27,8 +27,6 @@ function App() {
     const myData = { password: "geslo", name: "to_je_name" };
 
     const response = await makeApiCall(myData);
-
-    console.log("App.js, line31: ");
     console.log(response);
   }
 
@@ -48,9 +46,9 @@ function App() {
         <Login setLoggedIn={setLoggedIn} />
       )}
 
-      <button onClick={doCall}>beri z baze</button>
-      <button onClick={openAdmins}>MyAjax button</button>
-      <button onClick={closeAdmins}>Clear Admin data</button>
+      <button onClick={doCall}>doCall.js - admin_data.php</button>
+      <button onClick={openAdmins}>Show MyAdmin.js</button>
+      <button onClick={closeAdmins}>Hide MyAdmin.js</button>
       {adminOpen && <MyAjax />}
     </div>
   );

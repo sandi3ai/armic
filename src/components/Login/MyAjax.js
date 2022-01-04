@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 function MyAjax() {
   const [error, setError] = useState(null);
-  const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
 
   useEffect(() => {
@@ -10,11 +9,9 @@ function MyAjax() {
       .then((res) => res.json())
       .then(
         (result) => {
-          setIsLoaded(true);
           setItems(result);
         },
         (error) => {
-          setIsLoaded(true);
           setError(error);
         }
       );
@@ -26,7 +23,6 @@ function MyAjax() {
         <div>Error: {error.message}</div>
       ) : (
         <ul>
-          {console.log("loaded, success")}
           {items.map((item) => (
             <li key={item.adminID}>
               <b>Uporabnik: </b>

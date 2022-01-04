@@ -64,3 +64,8 @@ body {
   border-radius: 0.8rem;
   backdrop-filter: blur(4px);
 }
+
+button {
+  background-color: rgb(230, 220, 214);
+  padding: 5px;
+}
