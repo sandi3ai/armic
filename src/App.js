@@ -8,7 +8,7 @@ function App() {
   const [adminOpen, setAdminOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   /*const { data, loading } = useApi(
-    "https://localhost/reactProjects/armic/src/rest/admin_data.php",
+    "https://localhost/reactProjects/armic/src/rest/login.php",
     {
       name: "blabla",
       password: "geslo",
