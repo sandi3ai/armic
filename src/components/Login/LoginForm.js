@@ -14,7 +14,7 @@ function LoginForm({ Login, error }) {
   return (
     <div className="loginForm">
       <Card style={{ width: "28rem" }}>
-        <Card.Img variant="left" src={logo} />
+        <Card.Img className="armic-logo" variant="left" src={logo} />
         <Card.Body>
           <Card.Title className="PrijavaH1">Prijava</Card.Title>
           <Form onSubmit={submitHandler}>
