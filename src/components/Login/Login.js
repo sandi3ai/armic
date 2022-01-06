@@ -1,54 +1,48 @@
 import React, { useState, useEffect } from "react";
 import LoginForm from "./LoginForm";
 import App from "../../App";
+import useLazyApi from "../../hooks/useLazyApi";
+import useApi from "../../hooks/useApi";
 
 function Login({ setLoggedIn }) {
-  const adminUser = {
-    email: "admin@admin.com",
-    password: "admin",
-  };
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
-  const Login = (details) => {
-    console.log(details);
-
-    /*useEffect(() => {
-      fetch("http://localhost/reactProjects/armic/src/rest/admin_data.php")
-        .then((res) => res.json())
-        .then(
-          (data) => console.log("wow" + data),
-          (error) => {
-            setError(error);
-          }
-        );
-    }, []);*/
-    // ZAKAJ NE MOREM UPORABITI USEEFFECTA TUKAJ? JE ZNOTRAJ FUNKCIJE...
-
-    if (
-      details.email === adminUser.email &&
-      details.password === adminUser.password
-    ) {
-      console.log("Logged in");
-      setUser({
-        email: details.email,
-      });
-      setLoggedIn(true);
-    } else {
-      setError("\n\nUporabniško ime in geslo se ne ujemata!");
-    }
-  };
-
+  //const [isLoading, setIsLoading] = useState(false);
+  const doLogin = useLazyApi(
+    "http://localhost/reactProjects/armic/src/rest/login.php"
+  );
+  const checkLogin = useApi(
+    "http://localhost/reactProjects/armic/src/rest/check_login.php"
+  );
+  /*const doLogout = useApi(
+    "http://localhost/reactProjects/armic/src/rest/logout.php"
+  );*/
+  function login(details) {
+    doLogin(details).then((res) => {
+      if (res.adminID > -1) {
+        setLoggedIn(true);
+      } else {
+        setError("Napačni prijavni podatki");
+      }
+    });
+  }
   const Logout = () => {
     setUser({ email: "", password: "" });
+    //doLogout();
   };
 
+  useEffect(() => {
+    console.log(checkLogin);
+    if (checkLogin && checkLogin.data && checkLogin.data.adminID > 0) {
+      setLoggedIn(true);
+    }
+  }, [checkLogin]);
   return (
     <div>
       {user.email !== "" ? (
         <App Logout={Logout} />
       ) : (
-        <LoginForm Login={Login} error={error} />
+        <LoginForm Login={login} error={error} />
       )}
     </div>
   );

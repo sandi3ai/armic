@@ -16,7 +16,7 @@ function App() {
   );*/
 
   const makeApiCall = useLazyApi(
-    "https://localhost/reactProjects/armic/src/rest/admin_data.php"
+    "https://localhost/reactProjects/armic/src/rest/login.php"
   );
 
   function Logout() {
@@ -25,7 +25,6 @@ function App() {
 
   async function doCall() {
     const myData = { password: "geslo", name: "to_je_name" };
-
     const response = await makeApiCall(myData);
     console.log(response);
   }
@@ -46,7 +45,7 @@ function App() {
         <Login setLoggedIn={setLoggedIn} />
       )}
 
-      <button onClick={doCall}>doCall.js - admin_data.php</button>
+      <button onClick={doCall}>doCall.js - login.php</button>
       <button onClick={openAdmins}>Show MyAdmin.js</button>
       <button onClick={closeAdmins}>Hide MyAdmin.js</button>
       {adminOpen && <MyAjax />}

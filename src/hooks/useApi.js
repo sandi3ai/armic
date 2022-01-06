@@ -6,6 +6,7 @@ function useApi(url, params = {}) {
   useEffect(() => {
     fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(params),
     }).then(async (res) => {

@@ -3,6 +3,7 @@ function useLazyApi(url) {
     return await (
       await fetch(url, {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(params),
       })
