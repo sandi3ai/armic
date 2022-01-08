@@ -7,29 +7,32 @@ import useApi from "../../hooks/useApi";
 function Login({ setLoggedIn }) {
   const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-  //const [isLoading, setIsLoading] = useState(false);
   const doLogin = useLazyApi(
     "http://localhost/reactProjects/armic/src/rest/login.php"
   );
   const checkLogin = useApi(
     "http://localhost/reactProjects/armic/src/rest/check_login.php"
   );
-  /*const doLogout = useApi(
+  const doLogout = useLazyApi(
     "http://localhost/reactProjects/armic/src/rest/logout.php"
-  );*/
+  );
   function login(details) {
-    doLogin(details).then((res) => {
-      if (res.adminID > -1) {
+    console.log("details.email: " + details.email);
+    console.log("details.password: " + details.password);
+    doLogin(details).then((result) => {
+      if (result.adminID > -1) {
         setLoggedIn(true);
+        console.log("adminID: " + result.adminID);
       } else {
         setError("Napačni prijavni podatki");
       }
     });
   }
-  const Logout = () => {
+  function Logout() {
     setUser({ email: "", password: "" });
-    //doLogout();
-  };
+    console.log("Login.js function Logout()");
+    doLogout();
+  }
 
   useEffect(() => {
     console.log(checkLogin);
@@ -39,11 +42,7 @@ function Login({ setLoggedIn }) {
   }, [checkLogin]);
   return (
     <div>
-      {user.email !== "" ? (
-        <App Logout={Logout} />
-      ) : (
-        <LoginForm Login={login} error={error} />
-      )}
+      {user.email !== "" ? <App /> : <LoginForm Login={login} error={error} />}
     </div>
   );
 }

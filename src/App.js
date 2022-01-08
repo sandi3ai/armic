@@ -14,13 +14,16 @@ function App() {
       password: "geslo",
     }
   );*/
-
   const makeApiCall = useLazyApi(
-    "https://localhost/reactProjects/armic/src/rest/login.php"
+    "http://localhost/reactProjects/armic/src/rest/login.php"
+  );
+  const callLogout = useLazyApi(
+    "http://localhost/reactProjects/armic/src/rest/logout.php"
   );
 
   function Logout() {
     setLoggedIn(false);
+    callLogout({});
   }
 
   async function doCall() {

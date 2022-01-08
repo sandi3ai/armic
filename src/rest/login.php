@@ -16,10 +16,10 @@
     else {
         echo json_encode(["adminID" => $result["adminID"]]);
         $_SESSION["adminID"] = $result["adminID"];
-
         /*echo json_encode(["adminID" => $result[0]["adminID"]]);
         $_SESSION["adminID"] = $result[0]["adminID"];
-        popravil s tega, ker ni delalo, ponovno deluje, ker sem izbrisal [0]*/
+        popravil s tega, ker ni delalo, ponovno deluje, ker sem izbrisal [0]
+        če je fetchAll(vrstica12) mora bit [0]spredi, če je pa fetch, pa ne*/
 
         //session se nastavi na adminID, na vseh ostalih php fileih v sessionu pa na začetku daš
         //session_start() in pol lahko gledaš če je notri $_SESSION
