@@ -1,6 +1,5 @@
 body {
   font-family: "Montserrat", sans-serif;
-  /*background-image: linear-gradient(#982640, black);*/
   background-image: url(./components/Images/background.jpg);
   background-size: cover;
   min-height: 100vh;
@@ -15,38 +14,30 @@ body {
 
 .armic-logo {
   margin: auto;
-  width: 60%;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 50%;
 }
 
 .LoginError {
   margin-top: 10px;
   font-style: italic;
   font-weight: bold;
-  color: #982640;
+  color: #740f26;
+  font-size: 1.3rem;
 }
 
 .card {
   border-radius: 1rem !important;
-  padding: 50px 0;
+  padding: 50px 0px 0px;
   background: linear-gradient(
     to top right,
     rgba(255, 255, 255, 0.7),
     rgba(255, 255, 255, 0.1)
   ) !important;
-  min-width: 60vh !important;
   z-index: 1;
   backdrop-filter: blur(10px);
+  min-width: 60vh;
+  max-width: 60vh;
+  margin: auto;
 }
 
 .card-body {
@@ -76,6 +67,13 @@ button {
 }
 
 .NavBar {
-  position: fixed;
-  top: 0px;
+  margin-top: 0px;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  left: 0;
+  width: 100%; /* Full width */
+}
+
+.Page {
+  background-image: linear-gradient(#982640, black);
 }
