@@ -1,0 +1,14 @@
+.page {
+  background-image: linear-gradient(#343a40, #3d000f);
+  color: greenyellow;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.content {
+  margin: 5rem 2rem 2rem;
+  border: 1px solid white;
+}

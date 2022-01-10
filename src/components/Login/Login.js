@@ -17,8 +17,6 @@ function Login({ setLoggedIn }) {
     "http://localhost/reactProjects/armic/src/rest/logout.php"
   );
   function login(details) {
-    console.log("details.email: " + details.email);
-    console.log("details.password: " + details.password);
     doLogin(details).then((result) => {
       if (result.adminID > -1) {
         setLoggedIn(true);
@@ -35,7 +33,6 @@ function Login({ setLoggedIn }) {
   }
 
   useEffect(() => {
-    console.log(checkLogin);
     if (checkLogin && checkLogin.data && checkLogin.data.adminID > 0) {
       setLoggedIn(true);
     }

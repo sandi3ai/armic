@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import Login from "./components/Login/Login";
 import useLazyApi from "./hooks/useLazyApi";
 import MyAjax from "./components/Login/MyAjax";
+import Page from "./components/Page/Page";
 
 function App() {
   const [adminOpen, setAdminOpen] = useState(false);
@@ -43,7 +44,7 @@ function App() {
   return (
     <div className="App">
       {loggedIn ? (
-        <Header Logout={Logout} />
+        <Page Logout={Logout} />
       ) : (
         <Login setLoggedIn={setLoggedIn} />
       )}

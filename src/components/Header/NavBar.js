@@ -13,7 +13,7 @@ function NavigationBar({ Logout }) {
             <Nav>
               <Nav.Link href="#delovniCas">Delovni čas</Nav.Link>
               <Nav.Link href="#dopust">Dopust</Nav.Link>
-              <Nav.Link href="#dezurstva">Dezurstva</Nav.Link>
+              <Nav.Link href="#dezurstva">Dežurstva</Nav.Link>
               <Button id="odjavaBtn" variant="outline-danger" onClick={Logout}>
                 Odjava
               </Button>
@@ -23,22 +23,5 @@ function NavigationBar({ Logout }) {
       </Navbar>
     </div>
   );
-}
-
-{
-  /*<div className="NavBar">
-    <Navbar bg="dark" variant="dark">
-      <Nav className="mr-auto">
-        <Nav.Link href="#cas">Delovni čas</Nav.Link>
-        <Nav.Link href="#dopust">Dopust</Nav.Link>
-        <Nav.Link href="#dezurstva">Dežurni</Nav.Link>
-        <Nav.Link href="#registracija">Registracija</Nav.Link>
-      </Nav>
-
-      <Button id="odjavaBtn" variant="outline-danger" onClick={Logout}>
-        Odjava
-      </Button>
-    </Navbar>
-  </div>*/
 }
 export default NavigationBar;
