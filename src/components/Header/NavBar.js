@@ -1,13 +1,13 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Nav, Container } from "react-bootstrap";
+import logo from "../Images/armicLogo.png";
 
 function NavigationBar({ Logout }) {
   return (
     <div className="NavBar">
       <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Avtomati Armič</Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav>

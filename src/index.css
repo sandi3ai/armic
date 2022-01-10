@@ -50,25 +50,15 @@
   font-size: x-large !important;
 }
 
-.Divino {
+.divine {
+  margin: 1rem;
+  padding: 1rem;
+  color: black;
   background: linear-gradient(
     to top right,
-    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.788),
     rgba(255, 255, 255, 0.1)
   );
-  border-radius: 0.8rem;
+  border-radius: 10px;
   backdrop-filter: blur(4px);
-}
-
-button {
-  background-color: rgb(230, 220, 214);
-  padding: 5px;
-}
-
-.NavBar {
-  margin-top: 0px;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  left: 0;
-  width: 100%; /* Full width */
 }

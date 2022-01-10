@@ -6,7 +6,7 @@ function Page({ Logout }) {
   return (
     <div className="page">
       <Header Logout={Logout} />
-      <div className="content">
+      <div className="divine">
         1This is a Page..
         <br /> 2this too is a page
         <br /> 3this too is a page

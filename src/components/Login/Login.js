@@ -13,9 +13,6 @@ function Login({ setLoggedIn }) {
   const checkLogin = useApi(
     "http://localhost/reactProjects/armic/src/rest/check_login.php"
   );
-  const doLogout = useLazyApi(
-    "http://localhost/reactProjects/armic/src/rest/logout.php"
-  );
   function login(details) {
     doLogin(details).then((result) => {
       if (result.adminID > -1) {
@@ -25,11 +22,6 @@ function Login({ setLoggedIn }) {
         setError("Napačni prijavni podatki");
       }
     });
-  }
-  function Logout() {
-    setUser({ email: "", password: "" });
-    console.log("Login.js function Logout()");
-    doLogout();
   }
 
   useEffect(() => {
@@ -43,5 +35,4 @@ function Login({ setLoggedIn }) {
     </div>
   );
 }
-
 export default Login;
