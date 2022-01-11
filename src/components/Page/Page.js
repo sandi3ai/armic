@@ -7,12 +7,53 @@ function Page({ Logout }) {
     <div className="page">
       <Header Logout={Logout} />
       <div className="divine">
-        1This is a Page..
-        <br /> 2this too is a page
-        <br /> 3this too is a page
-        <br /> 4this too is a page
-        <br /> 5this too is a page
-        <br /> 6this too is a page
+        Page component
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
       </div>
     </div>
   );

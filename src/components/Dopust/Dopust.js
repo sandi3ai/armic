@@ -1,9 +1,9 @@
 import React from "react";
 
-export const Cas = () => {
+export const Dopust = () => {
   return (
     <div className="content">
-      <h2>DELOVNI ČAS ZAPOSLENIH:</h2>
+      <h2>DOPUSTI:</h2>
     </div>
   );
 };
