@@ -7,4 +7,7 @@ $stmt->execute();
 while($dezurstva = $stmt->fetch()) {
     print_r($dezurstva);
 }
+
+$stmt = null;
+$conn = null;
 ?>
