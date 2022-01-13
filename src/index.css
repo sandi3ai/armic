@@ -49,16 +49,3 @@
   justify-content: center;
   font-size: x-large !important;
 }
-
-.divine {
-  margin: 1rem;
-  padding: 1rem;
-  color: black;
-  background: linear-gradient(
-    to top right,
-    rgba(255, 255, 255, 0.788),
-    rgba(255, 255, 255, 0.1)
-  );
-  border-radius: 10px;
-  backdrop-filter: blur(4px);
-}

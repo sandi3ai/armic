@@ -27,7 +27,6 @@ function NavigationBar({ Logout }) {
                 <Nav.Link as={Link} to="/dopust">
                   Dopust
                 </Nav.Link>
-
                 <Button
                   id="odjavaBtn"
                   variant="outline-danger"

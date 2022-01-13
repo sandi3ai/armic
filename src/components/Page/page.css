@@ -1,8 +1,6 @@
 .page {
   background: linear-gradient(to top right, rgba(255, 255, 255), rgb(0, 0, 0));
-  background-size: cover;
   color: #740f26;
-  position: absolute;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -20,6 +18,18 @@
   ) !important;
   z-index: 1;
   backdrop-filter: blur(10px);
+}
+.divine {
+  margin: 1rem;
+  padding: 1rem;
+  color: black;
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 255, 0.788),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 1rem;
+  backdrop-filter: blur(4px);
 }
 
 .navbar {
