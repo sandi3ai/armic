@@ -1,5 +1,14 @@
+body {
+  background-color: #44355b;
+  background-image: linear-gradient(315deg, #44355b 0%, #ececec 74%);
+
+  height: 100%;
+  margin: 0;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .page {
-  background: linear-gradient(to top right, rgba(255, 255, 255), rgb(0, 0, 0));
   color: #740f26;
   top: 0px;
   right: 0px;
