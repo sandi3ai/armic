@@ -1,16 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
+import NovVnos from "./NovVnos";
 
 export const Dezurni = () => {
+  const [novVnos, setNovVnos] = useState(false);
+
+  function showNovVnos() {
+    if (novVnos === false) {
+      setNovVnos(true);
+    } else {
+      setNovVnos(false);
+    }
+  }
+
   return (
     <div>
       <div className="content">
         <h2>SEZNAM DEŽURNIH:</h2>
       </div>
       <div className="content">
-        <Button>Nov vnos</Button>
-        <Button>Uredi vnos</Button>
+        <Button onClick={showNovVnos}>Nov vnos</Button>
+        {novVnos ? <NovVnos /> : null}
       </div>
     </div>
   );

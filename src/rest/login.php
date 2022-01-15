@@ -25,4 +25,7 @@
         //session_start() in pol lahko gledaš če je notri $_SESSION
         //za login nastavis $_SESSION adminID = -1
     }
+    
+$stmt = null;
+$conn = null;
 ?>

@@ -6,5 +6,8 @@
         }
         else {
             echo json_encode(["adminID" => -1]);
-        }    
+        } 
+        
+$stmt = null;
+$conn = null;//zapiranje povezave   
 ?>

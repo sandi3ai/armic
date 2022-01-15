@@ -9,7 +9,6 @@ body {
 }
 
 .page {
-  color: #740f26;
   top: 0px;
   right: 0px;
   bottom: 0px;
@@ -50,4 +49,7 @@ body {
 }
 img.NavBarLogo {
   max-width: 75px;
+}
+h2 {
+  color: #740f26;
 }

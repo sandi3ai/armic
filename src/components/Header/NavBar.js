@@ -12,9 +12,7 @@ function NavigationBar({ Logout }) {
       <div>
         <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
           <Container>
-            <Navbar.Brand as={Link} to="/">
-              Avtomati Armič
-            </Navbar.Brand>
+            <Navbar.Brand>Avtomati Armič</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
