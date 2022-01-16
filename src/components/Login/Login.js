@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import LoginForm from "./LoginForm";
-import App from "../../App";
 import useLazyApi from "../../hooks/useLazyApi";
 import useApi from "../../hooks/useApi";
-
 function Login({ setLoggedIn }) {
-  const [user, setUser] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const doLogin = useLazyApi(
     "http://localhost/reactProjects/armic/src/rest/login.php"
@@ -17,7 +14,6 @@ function Login({ setLoggedIn }) {
     doLogin(details).then((result) => {
       if (result.adminID > -1) {
         setLoggedIn(true);
-        console.log(user);
         console.log("adminID: " + result.adminID);
       } else {
         setError("Napačni prijavni podatki");
@@ -32,8 +28,9 @@ function Login({ setLoggedIn }) {
   }, [checkLogin]);
   return (
     <div>
-      {user.email !== "" ? <App /> : <LoginForm Login={login} error={error} />}
+      <LoginForm Login={login} error={error} />
     </div>
   );
 }
+
 export default Login;
