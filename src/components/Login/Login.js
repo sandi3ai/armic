@@ -17,6 +17,7 @@ function Login({ setLoggedIn }) {
     doLogin(details).then((result) => {
       if (result.adminID > -1) {
         setLoggedIn(true);
+        console.log(user);
         console.log("adminID: " + result.adminID);
       } else {
         setError("Napačni prijavni podatki");

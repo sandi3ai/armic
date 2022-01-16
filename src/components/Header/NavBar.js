@@ -10,7 +10,7 @@ function NavigationBar({ Logout }) {
   return (
     <BrowserRouter>
       <div>
-        <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
+        <Navbar collapseOnSelect expand="md" variant="dark">
           <Container>
             <Navbar.Brand>Avtomati Armič</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />

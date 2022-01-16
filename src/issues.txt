@@ -1,0 +1,8 @@
+
+Na kliku "logout" se včasih ne logouta, požene se "check_login.php",
+ta ima še vedno vrednost {"adminID":1}. Če refreshamo se problem reši,
+sicer pa še vedno lahko uporabljamo stran, kot da smo prijavljeni.
+Potrebno nastaviti nek timeout... nastavil sleep() v check_login.php
+
+
+
