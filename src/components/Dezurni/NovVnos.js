@@ -15,8 +15,8 @@ const NovVnos = () => {
     };
     console.log(postData);
     Axios.post(url, {
-      date: date,
-      name: name,
+      date: postData.date,
+      name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
     });
@@ -39,8 +39,6 @@ const NovVnos = () => {
             Ob kliku na koledar se odpre koledar
           </Form.Text>
         </Form.Group>
-        {date}
-
         <Form.Group className="mb-3">
           <Form.Label>Izvajalec dežurstva: </Form.Label>
           <Form.Control
@@ -50,8 +48,8 @@ const NovVnos = () => {
             type="text"
             placeholder="Ime in priimek izvajalca"
           />
-          {name}
         </Form.Group>
+        {date}, {name + "  "}
         <Button variant="primary" type="submit">
           Dodaj
         </Button>
