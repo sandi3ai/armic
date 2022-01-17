@@ -5,7 +5,7 @@ $sql = "SELECT * FROM dezurstva";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 while($dezurstva = $stmt->fetch()) {
-    print_r($dezurstva);
+    echo json_encode($dezurstva);
 }
 $stmt = null;
 $conn = null;

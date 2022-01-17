@@ -15,7 +15,7 @@ const NovVnos = () => {
     };
     console.log(postData);
     Axios.post(url, {
-      date: postData.date,
+      date: postData.date, //preveri če je OK!, v bazo sicer vstavi, ampak NULL
       name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
@@ -49,7 +49,6 @@ const NovVnos = () => {
             placeholder="Ime in priimek izvajalca"
           />
         </Form.Group>
-        {date}, {name + "  "}
         <Button variant="primary" type="submit">
           Dodaj
         </Button>

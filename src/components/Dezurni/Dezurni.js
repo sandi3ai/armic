@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
-import axios from "axios";
 import NovVnos from "./NovVnos";
+import ReadDezurni from "./ReadDezurni";
 
 export const Dezurni = () => {
   const [novVnos, setNovVnos] = useState(false);
@@ -22,6 +22,7 @@ export const Dezurni = () => {
       <div className="content">
         <Button onClick={showNovVnos}>Nov vnos</Button>
         {novVnos ? <NovVnos /> : null}
+        <ReadDezurni />
       </div>
     </div>
   );
