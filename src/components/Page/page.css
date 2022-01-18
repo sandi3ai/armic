@@ -40,6 +40,37 @@ body {
   backdrop-filter: blur(4px);
 }
 
+.dezurniParent {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-flow: column wrap;
+}
+
+.col {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  flex-flow: row wrap;
+}
+
+.dezuren {
+  margin: 3px;
+  padding: 10px;
+  color: black;
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 255, 0.788),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 1rem;
+  backdrop-filter: blur(4px);
+  width: 50%;
+  align-items: center;
+}
+
 .navbar {
   background-color: rgb(44, 1, 1) !important;
   font-size: 1.3rem;
@@ -52,4 +83,11 @@ img.NavBarLogo {
 }
 h2 {
   color: #740f26;
+}
+.deleteBtn {
+  width: fit-content;
+  float: right !important; /*
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;*/
 }

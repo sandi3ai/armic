@@ -22,6 +22,8 @@ export const Dezurni = () => {
       <div className="content">
         <Button onClick={showNovVnos}>Nov vnos</Button>
         {novVnos ? <NovVnos /> : null}
+      </div>
+      <div className="content">
         <ReadDezurni />
       </div>
     </div>
