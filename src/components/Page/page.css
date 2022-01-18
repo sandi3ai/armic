@@ -86,8 +86,5 @@ h2 {
 }
 .deleteBtn {
   width: fit-content;
-  float: right !important; /*
-  display: block !important;
-  margin-left: auto !important;
-  margin-right: 0 !important;*/
+  float: right !important;
 }
