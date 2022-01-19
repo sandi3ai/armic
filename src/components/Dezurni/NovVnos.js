@@ -7,6 +7,7 @@ const NovVnos = () => {
     "http://localhost/reactProjects/armic/src/rest/novDezurni.php";
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
+  const [successTxt, setSuccessTxt] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
@@ -21,13 +22,17 @@ const NovVnos = () => {
     }).then(() => {
       console.log("submitForm executed");
       setName("");
+      setSuccessTxt(true);
+      setTimeout(() => {
+        setSuccessTxt(false);
+      }, 4000);
     });
   }
 
   return (
     <div>
       <br />
-      <Form onSubmit={(e) => submitForm(e)}>
+      <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
         <Form.Group className="mb-3">
           <Form.Label>Datum dežurstva: </Form.Label>
           <Form.Control
@@ -38,7 +43,7 @@ const NovVnos = () => {
             placeholder="dan/mesec/leto"
           />
           <Form.Text className="text-muted">
-            Ob kliku na koledar se odpre koledar
+            Ob kliku na ikono koledarja se odpre koledar
           </Form.Text>
         </Form.Group>
         <Form.Group className="mb-3">
@@ -51,9 +56,13 @@ const NovVnos = () => {
             placeholder="Ime in priimek izvajalca"
           />
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Dodaj
-        </Button>
+
+        <div className="successBox">
+          <Button variant="primary" type="submit">
+            Dodaj
+          </Button>
+          {successTxt && "  Novo dežurstvo uspešno dodano!"}
+        </div>
       </Form>
     </div>
   );

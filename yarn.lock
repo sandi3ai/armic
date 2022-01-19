@@ -1079,6 +1079,11 @@
     "minimatch" "^3.0.4"
     "strip-json-comments" "^3.1.1"
 
+"@fortawesome/fontawesome-free@^5.15.4":
+  "integrity" "sha512-eYm8vijH/hpzr/6/1CJ/V/Eb1xQFW2nnUKArb3z+yUWv7HTwj6M7SP957oMjfZjAHU6qpoNc2wQvIxBLWYa/Jg=="
+  "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-5.15.4.tgz"
+  "version" "5.15.4"
+
 "@gar/promisify@^1.0.1":
   "integrity" "sha512-82cpyJyKRoQoRi+14ibCeGPu0CwypgtBAdBhq1WfvagpCZNKqwXbKwXllYSMG91DhmG4jt9gN8eP6lGOtozuaw=="
   "resolved" "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.2.tgz"
@@ -7874,6 +7879,11 @@
     "prop-types" "^15.7.2"
     "react-fast-compare" "^3.1.1"
     "react-side-effect" "^2.1.0"
+
+"react-icons@^4.3.1":
+  "integrity" "sha512-cB10MXLTs3gVuXimblAdI71jrJx8njrJZmNMEMC+sQu5B/BIOmlsAjskdqpn81y8UBVEGuHODd7/ci5DvoSzTQ=="
+  "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.3.1.tgz"
+  "version" "4.3.1"
 
 "react-is@^16.3.2", "react-is@^16.8.1":
   "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="

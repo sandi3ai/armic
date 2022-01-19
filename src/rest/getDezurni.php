@@ -12,6 +12,7 @@ while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 }
 echo json_encode($fetch);
 
+
 $stmt = null;
 $conn = null;
 ?>

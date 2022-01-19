@@ -18,7 +18,7 @@ body {
 .content {
   border-radius: 1rem !important;
   padding: 1rem;
-  margin: 1rem;
+  margin: 0.5rem;
   background: linear-gradient(
     to top right,
     rgba(255, 255, 255, 0.7),
@@ -45,11 +45,12 @@ body {
   align-items: center;
   flex-wrap: wrap;
   flex-flow: row wrap;
+  column-width: 350px;
 }
 
 .dezuren {
   margin: 5px;
-  padding: 15px;
+  padding: 10px 5px 10px;
   color: black;
   background: linear-gradient(
     to top right,
@@ -58,7 +59,7 @@ body {
   );
   border-radius: 1rem;
   backdrop-filter: blur(4px);
-  width: 30%;
+  width: 100%;
   align-items: center;
 }
 
@@ -80,4 +81,15 @@ h2 {
   float: right !important;
   justify-content: center;
   padding: 0.2rem 0.5rem 0rem 0.5rem !important;
+}
+
+.successBox {
+  font-style: italic;
+  font-weight: bold;
+  color: #740f26;
+  font-size: 1rem;
+}
+
+.novVnos {
+  columns: 2 400px;
 }

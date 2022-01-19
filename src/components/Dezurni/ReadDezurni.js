@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button } from "react-bootstrap";
-import DezurniMap from "./DezurniMap";
+import moment from "moment";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
@@ -23,15 +24,37 @@ function ReadDezurni() {
     getDezurni();
   }, []);
 
+  const deleteDezurni = (id, event) => {
+    event.preventDefault(); // prepreči osveževanje strani
+    Axios.post(
+      "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php",
+      { id: id }
+    )
+      .then(() => {
+        console.log(id + " number sent on deleteDezurni");
+        getDezurni();
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
-    <div className="dezurniParent">
+    <div>
       <Button onClick={getDezurni}>Osveži seznam dežurnih</Button>
-      {received &&
-        data.map((data) => (
-          <div key={data.dezurniID}>
-            <DezurniMap data={data} />
-          </div>
-        ))}
+      <div className="dezurniParent">
+        {received &&
+          data.map((data) => (
+            <div key={data.dezurniID}>
+              <div className="dezuren">
+                {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
+                {data.dezurniIzvajalec}
+                <FaRegTrashAlt
+                  className="deleteBtn" //trash icon
+                  onClick={(event) => deleteDezurni(data.dezurniID, event)}
+                />
+              </div>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
