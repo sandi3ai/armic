@@ -1,6 +1,6 @@
 body {
   background-color: #44355b;
-  background-image: linear-gradient(315deg, #44355b 0%, #ececec 74%);
+  background-image: linear-gradient(315deg, #44355b9a 0%, #ececec 74%);
 
   height: 100%;
   margin: 0;
@@ -41,24 +41,15 @@ body {
 }
 
 .dezurniParent {
-  display: flex;
+  display: column;
   align-items: center;
   flex-wrap: wrap;
-  flex-flow: column wrap;
-}
-
-.col {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-wrap: wrap;
-  align-content: flex-start;
   flex-flow: row wrap;
 }
 
 .dezuren {
-  margin: 3px;
-  padding: 10px;
+  margin: 5px;
+  padding: 15px;
   color: black;
   background: linear-gradient(
     to top right,
@@ -67,7 +58,7 @@ body {
   );
   border-radius: 1rem;
   backdrop-filter: blur(4px);
-  width: 50%;
+  width: 30%;
   align-items: center;
 }
 
@@ -87,4 +78,6 @@ h2 {
 .deleteBtn {
   width: fit-content;
   float: right !important;
+  justify-content: center;
+  padding: 0.2rem 0.5rem 0rem 0.5rem !important;
 }

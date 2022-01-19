@@ -3,7 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import Axios from "axios";
 
 const NovVnos = () => {
-  const url = "http://localhost/reactProjects/armic/src/rest/novDezurni.php";
+  const postUrl =
+    "http://localhost/reactProjects/armic/src/rest/novDezurni.php";
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
 
@@ -14,11 +15,12 @@ const NovVnos = () => {
       name,
     };
     console.log(postData);
-    Axios.post(url, {
+    Axios.post(postUrl, {
       date: postData.date, //preveri če je OK!, v bazo sicer vstavi, ampak NULL
       name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
+      setName("");
     });
   }
 
