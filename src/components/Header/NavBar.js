@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Cas } from "../Cas/Cas";
 import { Dezurni } from "../Dezurni/Dezurni";
 import { Dopust } from "../Dopust/Dopust";
+import logo from "../Images/armicLogo_textOnly.png";
 
 function NavigationBar({ Logout }) {
   return (
@@ -12,9 +13,11 @@ function NavigationBar({ Logout }) {
       <div>
         <Navbar collapseOnSelect expand="md" variant="dark">
           <Container>
-            <Navbar.Brand>Avtomati Armič</Navbar.Brand>
+            <Navbar.Brand>
+              <img className="navBarLogo" src={logo} alt="Avtomati Armič" />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
+            <Navbar.Collapse className="theNavBar" id="responsive-navbar-nav">
               <Nav className="me-auto">
                 <Nav.Link as={Link} to="/cas">
                   Delovni čas

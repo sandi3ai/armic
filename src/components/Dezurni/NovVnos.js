@@ -21,11 +21,14 @@ const NovVnos = () => {
       name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
+      if (name || date !== "") {
+        //prikaže success box, le če sta oba podatka izpolnjena
+        setSuccessTxt(true);
+        setTimeout(() => {
+          setSuccessTxt(false);
+        }, 4000);
+      }
       setName("");
-      setSuccessTxt(true);
-      setTimeout(() => {
-        setSuccessTxt(false);
-      }, 4000);
     });
   }
 
@@ -58,7 +61,7 @@ const NovVnos = () => {
         </Form.Group>
 
         <div className="successBox">
-          <Button variant="primary" type="submit">
+          <Button variant="outline-success" type="submit">
             Dodaj
           </Button>
           {successTxt && "  Novo dežurstvo uspešno dodano!"}

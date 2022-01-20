@@ -20,7 +20,9 @@ export const Dezurni = () => {
         <h2>SEZNAM DEŽURNIH:</h2>
       </div>
       <div className="content">
-        <Button onClick={showNovVnos}>Nov vnos</Button>
+        <Button variant="outline-primary" onClick={showNovVnos}>
+          Skrij / prikaži nov vnos
+        </Button>
         {novVnos ? <NovVnos /> : null}
       </div>
       <div className="content">

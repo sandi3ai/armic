@@ -10,7 +10,20 @@ v komponenti NovVnos? Zato da se refresha...
 
 - če ni vrstic v SQL tabeli 'dezurstva' vse crasha
 
+-auth.php = adminID nima vrednosti, ne vem kako naj ga prensem, brez da naredim poseben SELECT iz baze
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+rsf+tab // create new functional component
+rafce+tab //create new class component

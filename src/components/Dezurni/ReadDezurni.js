@@ -39,7 +39,9 @@ function ReadDezurni() {
 
   return (
     <div>
-      <Button onClick={getDezurni}>Osveži seznam dežurnih</Button>
+      <Button variant="outline-primary" onClick={getDezurni}>
+        Osveži seznam dežurnih
+      </Button>
       <div className="dezurniParent">
         {received &&
           data.map((data) => (

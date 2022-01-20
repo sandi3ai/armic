@@ -14,6 +14,12 @@ body {
   bottom: 0px;
   left: 0px;
 }
+.theNavBar {
+  justify-content: right;
+}
+.navBarLogo {
+  height: 2.5rem;
+}
 
 .content {
   border-radius: 1rem !important;
@@ -57,7 +63,7 @@ body {
     rgba(255, 255, 255, 0.788),
     rgba(255, 255, 255, 0.1)
   );
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   backdrop-filter: blur(4px);
   width: 100%;
   align-items: center;
@@ -81,6 +87,11 @@ h2 {
   float: right !important;
   justify-content: center;
   padding: 0.2rem 0.5rem 0rem 0.5rem !important;
+  font-size: 1.3rem;
+}
+.deleteBtn:hover {
+  cursor: pointer;
+  color: red;
 }
 
 .successBox {
@@ -92,4 +103,7 @@ h2 {
 
 .novVnos {
   columns: 2 400px;
+}
+
+.Button {
 }
