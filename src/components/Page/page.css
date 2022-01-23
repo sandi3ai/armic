@@ -107,3 +107,10 @@ h2 {
 
 .Button {
 }
+
+.buttonGroup {
+  margin: 8px;
+}
+[type="radio"] {
+  display: none;
+}
