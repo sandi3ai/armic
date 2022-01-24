@@ -21,6 +21,7 @@ const NovVnos = () => {
       name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
+      setName("");
       if (name || date !== "") {
         //prikaže success box, le če sta oba podatka izpolnjena
         setSuccessTxt(true);
@@ -28,7 +29,6 @@ const NovVnos = () => {
           setSuccessTxt(false);
         }, 4000);
       }
-      setName("");
     });
   }
 

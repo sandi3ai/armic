@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Navbar, Nav, Container } from "react-bootstrap";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Home } from "../Home/Home";
 import { Cas } from "../Cas/Cas";
 import { Dezurni } from "../Dezurni/Dezurni";
 import { Dopust } from "../Dopust/Dopust";
@@ -14,7 +15,9 @@ function NavigationBar({ Logout }) {
         <Navbar collapseOnSelect expand="md" variant="dark">
           <Container>
             <Navbar.Brand>
-              <img className="navBarLogo" src={logo} alt="Avtomati Armič" />
+              <Nav.Link as={Link} to="/">
+                <img className="navBarLogo" src={logo} alt="Avtomati Armič" />
+              </Nav.Link>
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse className="theNavBar" id="responsive-navbar-nav">
@@ -42,6 +45,7 @@ function NavigationBar({ Logout }) {
 
         <div>
           <Routes>
+            <Route path="/" element={<Home />} />
             <Route path="/cas" element={<Cas />} />
             <Route path="/dezurni" element={<Dezurni />} />
             <Route path="/dopust" element={<Dopust />} />

@@ -21,8 +21,9 @@ export const VnosZaposlenega = () => {
       position: postData.position,
     }).then(() => {
       console.log("submitForm executed");
-      if (name || position !== "") {
-        //prikaže success box, le če sta oba podatka izpolnjena
+      setName("");
+      if (name && position !== "") {
+        //prikaže success box, če so vsi podatki izpolnjeni
         setSuccessTxt(true);
         setTimeout(() => {
           setSuccessTxt(false);
@@ -33,29 +34,27 @@ export const VnosZaposlenega = () => {
 
   return (
     <div>
-      <br />
+      <hr />
       <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
-        <Form.Group className="mb-3">
-          <Form.Label>Pozicija zaposlenega: </Form.Label>
-          <Form.Control
-            name="position"
-            onChange={(e) => setPosition(e.target.value)}
-            value={position}
-            type="text"
-            placeholder="Pozicija delovnega mesta"
-          />
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Pozicija zaposlenega: </Form.Label>
-          <DropdownButton
-            id="dropdown-variant-secondary"
-            title="Izberi s seznama"
-          >
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-          </DropdownButton>
-        </Form.Group>
+        <Form.Label>Izberi delovno mesto: </Form.Label>
+        <DropdownButton
+          variant="outline-primary"
+          title={position}
+          onSelect={(e) => setPosition(e)}
+          value={position}
+        >
+          <Dropdown.Item eventKey="OA">Oskrbovalec avtomatov</Dropdown.Item>
+          <Dropdown.Item eventKey="OA-vodja">
+            Oskrbovalec avtomatov - vodja
+          </Dropdown.Item>
+          <Dropdown.Item eventKey="Servis">Servis</Dropdown.Item>
+          <Dropdown.Item eventKey="Voda">Voda </Dropdown.Item>
+          <Dropdown.Item eventKey="Skladišče">Skladišče</Dropdown.Item>
+          <Dropdown.Item eventKey="Administracija">
+            Administracija
+          </Dropdown.Item>
+        </DropdownButton>
+        <hr />
         <Form.Group className="mb-3">
           <Form.Label>Ime in priimek zaposlenega: </Form.Label>
           <Form.Control

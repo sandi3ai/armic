@@ -42,11 +42,11 @@ function ReadDezurni() {
       <Button variant="outline-primary" onClick={getDezurni}>
         Osveži seznam dežurnih
       </Button>
-      <div className="dezurniParent">
+      <div className="parent">
         {received &&
           data.map((data) => (
             <div key={data.dezurniID}>
-              <div className="dezuren">
+              <div className="child">
                 {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
                 {data.dezurniIzvajalec}
                 <FaRegTrashAlt

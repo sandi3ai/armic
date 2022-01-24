@@ -46,7 +46,7 @@ body {
   backdrop-filter: blur(4px);
 }
 
-.dezurniParent {
+.parent {
   display: column;
   align-items: center;
   flex-wrap: wrap;
@@ -54,7 +54,7 @@ body {
   column-width: 350px;
 }
 
-.dezuren {
+.child {
   margin: 5px;
   padding: 10px 5px 10px;
   color: black;
