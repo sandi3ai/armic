@@ -5,14 +5,14 @@ function ToggleButtonGroup() {
   const [radioValue, setRadioValue] = useState("1");
 
   const radios = [
-    { name: "Active", value: "1" },
-    { name: "Radio", value: "2" },
-    { name: "Radio", value: "3" },
-    { name: "Skupinovodja: Mitja Uršič", value: "4" },
+    { name: "Venčeslav Starc", value: "1" },
+    { name: "Jan Šoštarič", value: "2" },
+    { name: "Gabrijel Devrenič", value: "3" },
+    { name: "Mitja Uršič", value: "4" },
   ];
 
   return (
-    <>
+    <div>
       <ButtonGroup className="buttonGroup">
         {radios.map((radio, idx) => (
           <ToggleButton
@@ -29,7 +29,9 @@ function ToggleButtonGroup() {
           </ToggleButton>
         ))}
       </ButtonGroup>
-    </>
+      <br />
+      Izbrani radio gumb je : {radioValue}
+    </div>
   );
 }
 

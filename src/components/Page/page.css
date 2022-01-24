@@ -105,11 +105,11 @@ h2 {
   columns: 2 400px;
 }
 
-.Button {
-}
-
 .buttonGroup {
   margin: 8px;
+  flex-wrap: wrap; /*responsive-
+   če zmanjka prostora-
+   se pomakne v naslednjo vrsto*/
 }
 [type="radio"] {
   display: none;
