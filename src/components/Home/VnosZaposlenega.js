@@ -35,13 +35,14 @@ export const VnosZaposlenega = () => {
   return (
     <div>
       <hr />
-      <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
+      <Form onSubmit={(e) => submitForm(e)}>
         <Form.Label>Izberi delovno mesto: </Form.Label>
         <DropdownButton
           variant="outline-primary"
           title={position}
           onSelect={(e) => setPosition(e)}
           value={position}
+          drop="down"
         >
           <Dropdown.Item eventKey="OA">Oskrbovalec avtomatov</Dropdown.Item>
           <Dropdown.Item eventKey="OA-vodja">

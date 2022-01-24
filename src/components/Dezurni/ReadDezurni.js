@@ -45,15 +45,13 @@ function ReadDezurni() {
       <div className="parent">
         {received &&
           data.map((data) => (
-            <div key={data.dezurniID}>
-              <div className="child">
-                {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
-                {data.dezurniIzvajalec}
-                <FaRegTrashAlt
-                  className="deleteBtn" //trash icon
-                  onClick={(event) => deleteDezurni(data.dezurniID, event)}
-                />
-              </div>
+            <div key={data.dezurniID} className="child">
+              {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
+              {data.dezurniIzvajalec}
+              <FaRegTrashAlt
+                className="deleteBtn" //trash icon
+                onClick={(event) => deleteDezurni(data.dezurniID, event)}
+              />
             </div>
           ))}
       </div>

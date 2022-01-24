@@ -14,6 +14,7 @@ const IzbrisZaposlenega = () => {
       Axios.get(getUrl).then((response) => {
         setData(response.data.zaposleni);
         setReceived(true);
+        showIzbrisVnosa();
       });
     } catch (error) {
       alert(error.message);
@@ -33,12 +34,14 @@ const IzbrisZaposlenega = () => {
       <Button variant="outline-danger" onClick={getZaposleni}>
         Izbriši delavca
       </Button>
-      {showIzbrisVnosa &&
-        data.map((data) => (
-          <div key={data.zaposleniID}>
-            <div className="child">{data.zaposleniIme}</div>
-          </div>
-        ))}
+      <div className="parent">
+        {izbrisiVnos &&
+          data.map((data) => (
+            <div key={data.zaposleniID} className="child">
+              {data.zaposleniIme}
+            </div>
+          ))}
+      </div>
     </div>
   );
 };

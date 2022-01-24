@@ -24,6 +24,7 @@ export const Home = () => {
           Dodaj delavca
         </Button>
         {novVnos ? <VnosZaposlenega /> : null}
+        <hr />
         <IzbrisZaposlenega />
       </div>
     </div>
