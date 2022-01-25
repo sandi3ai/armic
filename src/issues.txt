@@ -22,3 +22,6 @@ v komponenti NovVnos? Zato da se refresha...
 
 rsf+tab // create new functional component
 rafce+tab //create new class component
+npm add react-big-calendar  // knjižnice ki mi pridejo v poštev
+        react-datepicker
+        date-fns

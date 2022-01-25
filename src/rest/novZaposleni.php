@@ -5,6 +5,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 $name = $_POST['name'];
 $position = $_POST['position'];
+echo $position;
 
 
 if ($name != null) {

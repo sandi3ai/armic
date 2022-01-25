@@ -55,7 +55,7 @@ export const VnosZaposlenega = () => {
             Administracija
           </Dropdown.Item>
         </DropdownButton>
-        <hr />
+        <br />
         <Form.Group className="mb-3">
           <Form.Label>Ime in priimek zaposlenega: </Form.Label>
           <Form.Control

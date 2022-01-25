@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const IzbrisZaposlenega = () => {
   const [data, setData] = useState([]);
@@ -37,10 +38,17 @@ const IzbrisZaposlenega = () => {
       {data.map((data) => (
         <div key={data.zaposleniID} className="child">
           {data.zaposleniIme} - {data.zaposleniPozicija}
-          <FaRegTrashAlt
-            className="deleteBtn" //trash icon
-            onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
-          />
+          <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
+            placement="top"
+            overlay={
+              <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
+            }
+          >
+            <FaRegTrashAlt
+              className="deleteBtn" //trash icon
+              onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
+            />
+          </OverlayTrigger>
         </div>
       ))}
     </div>

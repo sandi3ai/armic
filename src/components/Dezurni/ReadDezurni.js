@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
 
@@ -48,10 +48,17 @@ function ReadDezurni() {
             <div key={data.dezurniID} className="child">
               {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
               {data.dezurniIzvajalec}
-              <FaRegTrashAlt
-                className="deleteBtn" //trash icon
-                onClick={(event) => deleteDezurni(data.dezurniID, event)}
-              />
+              <OverlayTrigger /* Na mouse-hover napis "izbriši dežurstvo" */
+                placement="top"
+                overlay={
+                  <Tooltip id="button-tooltip-2">Izbriši dežurstvo</Tooltip>
+                }
+              >
+                <FaRegTrashAlt
+                  className="deleteBtn" //trash icon
+                  onClick={(event) => deleteDezurni(data.dezurniID, event)}
+                />
+              </OverlayTrigger>
             </div>
           ))}
       </div>
