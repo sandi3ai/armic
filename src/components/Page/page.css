@@ -51,7 +51,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   flex-flow: row wrap;
-  column-width: 350px;
+  column-width: 310px;
 }
 
 .child {
