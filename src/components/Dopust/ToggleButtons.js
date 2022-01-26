@@ -4,60 +4,53 @@ import Axios from "axios";
 
 function ToggleButtonGroup() {
   const [radioValue, setRadioValue] = useState("1");
-  const [data, setData] = useState([]);
-  const [vodje, setVodje] = useState([{ name: "", value: "" }]);
+  const [vodje, setVodje] = useState([{ name: "", value: "", poz: "" }]);
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
 
   const getZaposleni = () => {
     try {
       Axios.get(getUrl).then((response) => {
-        setData(response.data.zaposleni);
-        console.log(response.data.zaposleni);
-        filterOAV(data); //mogoče napiši ali vstavi funkcijo tukaj --
+        filterOAV(response.data.zaposleni);
       });
     } catch (error) {
       alert(error.message);
     }
   };
+
+  const filterOAV = (data) => {
+    setVodje(
+      data
+        .map(function (data, idx) {
+          return {
+            name: data.zaposleniIme,
+            value: idx,
+            poz: data.zaposleniPozicija,
+          };
+        })
+        .filter((zaposleni) => zaposleni.poz === "OA-vodja")
+    );
+  };
+
   useEffect(() => {
     getZaposleni();
   }, []);
 
-  const filterOAV = (data) => {
-    console.log("filterOAV");
-    console.log(data);
-    data.map(function (data, idx) {
-      if (data.zaposleniPozicija === "OA-vodja") {
-        setVodje({ ...vodje, name: data.zaposleniIme, value: idx });
-        console.log("vodje");
-        console.log(vodje);
-      }
-    });
-  };
-
-  const radios = [
-    { name: "Venčeslav Starc", value: "1" },
-    { name: "Jan Šoštarič", value: "2" },
-    { name: "Gabrijel Devrenič", value: "3" },
-    { name: "Mitja Uršič", value: "4" },
-  ];
-
   return (
     <div>
       <ButtonGroup className="buttonGroup">
-        {radios.map((radio, idx) => (
+        {vodje.map((vodja, idx) => (
           <ToggleButton
             key={idx}
             id={`radio-${idx}`}
             type="radio"
             variant={idx % 2 ? "outline-success" : "outline-primary"}
             name="radio"
-            value={radio.name}
-            checked={radioValue === radio.value}
+            value={vodja.name}
+            checked={radioValue === vodja.name}
             onChange={(e) => setRadioValue(e.currentTarget.value)}
           >
-            {radio.name}
+            {vodja.name}
           </ToggleButton>
         ))}
       </ButtonGroup>
