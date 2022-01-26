@@ -5,20 +5,27 @@ import Axios from "axios";
 export const VnosZaposlenega = () => {
   const postUrl =
     "http://localhost/reactProjects/armic/src/rest/novZaposleni.php";
+  const getUrl =
+    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
+
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
+  const [vodje, setVodje] = useState([{ name: "", id: "" }]);
+  const [leader, setLeader] = useState("");
 
   function submitForm(e) {
     e.preventDefault();
     const postData = {
       name,
       position,
+      leader,
     };
     console.log(postData);
     Axios.post(postUrl, {
       name: postData.name,
       position: postData.position,
+      leader: postData.leader,
     }).then(() => {
       console.log("submitForm executed");
       setName("");
@@ -31,6 +38,31 @@ export const VnosZaposlenega = () => {
       }
     });
   }
+
+  const getZaposleni = () => {
+    try {
+      Axios.get(getUrl).then((response) => {
+        console.log(response.data.zaposleni);
+        getVodje(response.data.zaposleni);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const getVodje = (data) => {
+    setVodje(
+      data
+        .map(function (data) {
+          return {
+            name: data.zaposleniIme,
+            id: data.zaposleniID,
+            poz: data.zaposleniPozicija,
+          };
+        })
+        .filter((zaposleni) => zaposleni.poz === "OA-vodja")
+    );
+  };
 
   return (
     <div>
@@ -66,6 +98,24 @@ export const VnosZaposlenega = () => {
             placeholder="Ime in priimek zaposlenega"
           />
         </Form.Group>
+
+        <Form.Label>Delavcu dodaj vodjo: </Form.Label>
+        <DropdownButton
+          variant="outline-primary"
+          title={leader}
+          onClick={(e) => getZaposleni(e)}
+          onSelect={(e) => setLeader(e)}
+          value={leader}
+          drop="down"
+        >
+          <Dropdown.Item eventKey="NULL">Zaposleni nima vodje</Dropdown.Item>
+          {vodje.map((vodja) => (
+            <Dropdown.Item key={vodja.id} eventKey={vodja.name}>
+              {vodja.name}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
+        <br />
 
         <div className="successBox">
           <Button variant="outline-success" type="submit">

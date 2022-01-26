@@ -3,7 +3,7 @@ import { ButtonGroup, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
 
 function ToggleButtonGroup() {
-  const [radioValue, setRadioValue] = useState("1");
+  const [radioValue, setRadioValue] = useState("");
   const [vodje, setVodje] = useState([{ name: "", value: "", poz: "" }]);
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
@@ -55,7 +55,7 @@ function ToggleButtonGroup() {
         ))}
       </ButtonGroup>
       <br />
-      Izbrani radio gumb je : {radioValue}
+      Izbrana skupina: <strong>{radioValue} </strong>
     </div>
   );
 }

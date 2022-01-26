@@ -114,3 +114,8 @@ h2 {
 [type="radio"] {
   display: none;
 }
+
+.dropdown-item {
+  z-index: 2 !important;
+  position: relative !important;
+}

@@ -18,14 +18,15 @@ export const Home = () => {
       <div className="content">
         <h2>Zaposleni v podjetju:</h2>
         <p>
-          Tukaj lahko dodate ali izbrišete delavca in mu dodelite pozicijo
-          delovnega mesta.
+          Tukaj lahko dodate ali izbrišete delavca, mu dodelite pozicijo
+          delovnega mesta in morebitno vodjo.
         </p>
         <Button variant="outline-primary" onClick={showNovVnos}>
           Dodaj delavca
         </Button>
         {novVnos ? <VnosZaposlenega /> : null}
         <hr />
+        <h2>Seznam:</h2>
         <IzbrisZaposlenega />
       </div>
     </div>
