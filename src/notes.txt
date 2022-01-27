@@ -3,4 +3,14 @@ rafce+tab //create new class component
 npm add react-big-calendar  // knjižnice ki mi pridejo v poštev
         react-datepicker
         date-fns
-        
+
+
+Za dopuste je plan: moram met dopuste po skupinah,
+torej ena oseba iz ene skupine gre lahko istočasno na dopust.. 
+v bazo zgleda ne morem shranit več datumov v eno vrstico...
+tk da sm naredu novo tabelo
+dopusti,
+ma pa vrstice
+dopustID, dopustnikID(tuji ključ), vodja, datumZačetka, datumKonca...
+a se ti zdi to ok rešitev? outputam seznam dopustov glede na datum,
+da se bolje vidi kdaj je kdo na dopustu
