@@ -6,7 +6,8 @@ $sql = "SELECT * FROM dezurstva ORDER BY dezurniDatum ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
-$fetch=array();
+$fetch= array('dezurstva' => []);
+//fetch je array ki ima ključ dezurstva, in je prazen array
 
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $fetch['dezurstva'][] = $row;

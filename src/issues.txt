@@ -4,6 +4,7 @@ ta ima še vedno vrednost {"adminID":1}. Če refreshamo se problem reši,
 sicer pa še vedno lahko uporabljamo stran, kot da smo prijavljeni.
 Potrebno nastaviti nek timeout... nastavil sleep() v check_login.php -
 ni pomagalo ker se je zaradi tega ob refreshu narediu LOGOUT.
+rešeno z await async
 
 - kako veš katera je child componenta? in kako bi lahko klical getDezurni iz ReadDezurni.js
 v komponenti NovVnos? Zato da se refresha...
@@ -11,6 +12,15 @@ v komponenti NovVnos? Zato da se refresha...
 - če ni vrstic v SQL tabeli 'dezurstva' vse crasha
 
 -auth.php = adminID nima vrednosti, ne vem kako naj ga prensem, brez da naredim poseben SELECT iz baze
+
+uporaba useEffect da se naložijo podatki, ko se naloži stran? 
+(PRIMER:
+  useEffect(() => {
+    getZaposleni();
+  }, []);
+)
+
+
 
 
 

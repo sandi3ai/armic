@@ -119,3 +119,8 @@ h2 {
   z-index: 2 !important;
   position: relative !important;
 }
+
+.dropdown-menu.show {
+  overflow: scroll;
+  max-height: 20rem;
+}

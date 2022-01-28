@@ -2,29 +2,29 @@ import React, { useState, useEffect } from "react";
 import { ButtonGroup, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
 
+const getZaposleni = (filterOAV) => {
+  const getUrl =
+    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
+  try {
+    Axios.get(getUrl).then((response) => {
+      filterOAV(response.data.zaposleni);
+    });
+  } catch (error) {
+    alert(error.message);
+  }
+};
+
 function ToggleButtonGroup() {
   const [radioValue, setRadioValue] = useState("/");
   const [vodje, setVodje] = useState([{ name: "", value: "", poz: "" }]);
-  const getUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-
-  const getZaposleni = () => {
-    try {
-      Axios.get(getUrl).then((response) => {
-        filterOAV(response.data.zaposleni);
-      });
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 
   const filterOAV = (data) => {
     setVodje(
       data
-        .map(function (data, idx) {
+        .map(function (data) {
           return {
             name: data.zaposleniIme,
-            value: idx,
+            value: data.zaposleniID,
             poz: data.zaposleniPozicija,
           };
         })
@@ -33,7 +33,7 @@ function ToggleButtonGroup() {
   };
 
   useEffect(() => {
-    getZaposleni();
+    getZaposleni(filterOAV);
   }, []);
 
   return (

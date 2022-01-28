@@ -11,9 +11,9 @@ function App() {
     "http://localhost/reactProjects/armic/src/rest/logout.php"
   );
 
-  function Logout() {
+  async function Logout() {
+    await callLogout({});
     setLoggedIn(false);
-    callLogout({});
   }
 
   return (
