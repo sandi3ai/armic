@@ -1,27 +1,29 @@
 import React from "react";
+import { Table } from "react-bootstrap";
 
 const CasData = (data) => {
-  console.log(data);
   return (
     <div className="content">
-      <table>
-        <tr>
-          <th>Uporabnik</th>
-          <th>Datum</th>
-          <th>Cas zacetka</th>
-          <th>Cas konca</th>
-        </tr>
-        <tr>
-          {data.map((data) => (
-            <div>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Uporabnik</th>
+            <th>Datum</th>
+            <th>Čas začetka</th>
+            <th>Čas zaključka</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.data.map((data, idx) => (
+            <tr key={idx}>
               <td>{data.userID}</td>
               <td>{data.datum}</td>
               <td>{data.casZacetek}</td>
               <td>{data.casKonec}</td>
-            </div>
+            </tr>
           ))}
-        </tr>
-      </table>
+        </tbody>
+      </Table>
     </div>
   );
 };

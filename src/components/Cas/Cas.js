@@ -17,6 +17,7 @@ export const Cas = () => {
     moment().subtract(1, "months").endOf("month").format("yyyy-MM-DD")
   );
   const [casData, setCasData] = useState([]);
+  const [thereIsData, setThereIsData] = useState(false);
 
   function preglejBtn(e) {
     try {
@@ -25,10 +26,21 @@ export const Cas = () => {
         (response) => {
           setCasData(response.data.cas);
           console.log(response.data.cas);
+          checkForData(response.data.cas);
         }
       );
     } catch (error) {
       alert(error.message);
+    }
+  }
+
+  function checkForData(data) {
+    if (data.length > 0) {
+      console.log(data.length + " - this the data length");
+      setThereIsData(true);
+    } else {
+      console.log("There no data length. FOOL.");
+      setThereIsData(false);
     }
   }
 
@@ -62,7 +74,6 @@ export const Cas = () => {
             title={dropValue}
             onClick={(e) => getZaposleni(e)}
             onSelect={(e) => setDropValue(e)}
-            value={dropValue}
             drop="down"
           >
             {data.map((data) => (
@@ -104,7 +115,7 @@ export const Cas = () => {
           </div>
         </Form>
       </div>
-      <CasData data={casData} />
+      {thereIsData ? <CasData data={casData} /> : "There is no data to display"}
     </div>
   );
 };
