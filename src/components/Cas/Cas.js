@@ -25,7 +25,6 @@ export const Cas = () => {
       Axios.post(getCasUrl, { startDate, endDate, dropValue }).then(
         (response) => {
           setCasData(response.data.cas);
-          console.log(response.data.cas);
           checkForData(response.data.cas);
         }
       );
@@ -39,7 +38,7 @@ export const Cas = () => {
       console.log(data.length + " - this the data length");
       setThereIsData(true);
     } else {
-      console.log("There no data length. FOOL.");
+      console.log("There no data length.");
       setThereIsData(false);
     }
   }
