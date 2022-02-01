@@ -7,16 +7,26 @@ const CasData = (data) => {
     const zacetek = moment(start, "HH:mm:ss");
     const konec = moment(finish, "HH:mm:ss");
     const razlika = konec.diff(zacetek);
-    const trajanje = moment.duration(razlika);
-    console.log(trajanje.humanize());
-    const ure = trajanje.hours() + ":" + trajanje.minutes();
+    const ure = moment.utc(razlika).format("HH:mm");
     return ure;
+  }
+
+  function subtractTimeDiff(start, finish) {
+    const zacetek = moment(start, "HH:mm:ss");
+    const konec = moment(finish, "HH:mm:ss");
+    const razlika = konec.diff(zacetek);
+    return razlika;
+  }
+
+  function getTotalTime() {
+    const totalTimeMs = data.data.reduce((sum, data) => {
+      return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
+    }, 0);
+    return moment.utc(totalTimeMs).format("HH.mm");
   }
 
   function totalTime(steviloUr) {
     console.log(steviloUr);
-    const stUr = moment(steviloUr, "HH:mm");
-    console.log(stUr);
   }
 
   return (
@@ -47,10 +57,7 @@ const CasData = (data) => {
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={6}>
-              Tukaj naredi skupno število ur, in mogoče število dni... mogoče
-              povprečen čas začetka, povprečen čas zaključka
-            </td>
+            <td colSpan={6}>{getTotalTime()}</td>
           </tr>
         </tfoot>
       </Table>
