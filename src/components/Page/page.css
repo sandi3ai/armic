@@ -124,3 +124,8 @@ h2 {
   overflow: scroll;
   max-height: 20rem;
 }
+
+.tableFooter {
+  font-weight: bold;
+  color: #740f26;
+}

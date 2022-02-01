@@ -4,9 +4,7 @@ import moment from "moment";
 
 const CasData = (data) => {
   function subtractTime(start, finish) {
-    const zacetek = moment(start, "HH:mm:ss");
-    const konec = moment(finish, "HH:mm:ss");
-    const razlika = konec.diff(zacetek);
+    const razlika = subtractTimeDiff(start, finish);
     const ure = moment.utc(razlika).format("HH:mm");
     return ure;
   }
@@ -19,14 +17,14 @@ const CasData = (data) => {
   }
 
   function getTotalTime() {
-    const totalTimeMs = data.data.reduce((sum, data) => {
+    const totalTimeMiliseconds = data.data.reduce((sum, data) => {
       return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
     }, 0);
-    return moment.utc(totalTimeMs).format("HH.mm");
+    return moment.utc(totalTimeMiliseconds).format("HH:mm");
   }
 
-  function totalTime(steviloUr) {
-    console.log(steviloUr);
+  function getAverageTime() {
+    //spiši podobno kot getTotalTime() za dobro jutro :)
   }
 
   return (
@@ -51,13 +49,14 @@ const CasData = (data) => {
               <td>{data.casZacetek}</td>
               <td>{data.casKonec}</td>
               <td>{subtractTime(data.casZacetek, data.casKonec)}</td>
-              {totalTime(subtractTime(data.casZacetek, data.casKonec))}
             </tr>
           ))}
         </tbody>
-        <tfoot>
+        <tfoot className="tableFooter">
           <tr>
-            <td colSpan={6}>{getTotalTime()}</td>
+            <td colSpan={5}>Skupno število ur:</td>
+
+            <td>{getTotalTime()}</td>
           </tr>
         </tfoot>
       </Table>
