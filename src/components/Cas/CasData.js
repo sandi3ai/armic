@@ -20,11 +20,17 @@ const CasData = (data) => {
     const totalTimeMiliseconds = data.data.reduce((sum, data) => {
       return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
     }, 0);
-    return moment.utc(totalTimeMiliseconds).format("HH:mm");
+    //return moment.utc(totalTimeMiliseconds).format("HH:mm");
+    return totalTimeMiliseconds;
   }
 
   function getAverageTime() {
-    //spiši podobno kot getTotalTime() za dobro jutro :)
+    const avgTimeMiliseconds = data.data.reduce((sum, data, currentIndex) => {
+      currentIndex += 1;
+      console.log(currentIndex);
+      return sum + subtractTimeDiff(data.casZacetek, data.casKonec) / 3;
+    }, 0);
+    return avgTimeMiliseconds;
   }
 
   return (
@@ -54,7 +60,8 @@ const CasData = (data) => {
         </tbody>
         <tfoot className="tableFooter">
           <tr>
-            <td colSpan={5}>Skupno število ur:</td>
+            <td>Povprečen čas: {getAverageTime()}</td>
+            <td colSpan={2}>Skupno število ur:</td>
 
             <td>{getTotalTime()}</td>
           </tr>
