@@ -20,7 +20,11 @@ const CasData = (data) => {
     const totalTimeMiliseconds = data.data.reduce((sum, data) => {
       return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
     }, 0);
-    return moment.utc(totalTimeMiliseconds).format("HH:mm");
+    const tempTime = moment.duration(totalTimeMiliseconds);
+    const ure = Math.floor(tempTime.asHours()); //prikaže seštevek ur, zaokrožen na dol
+    const minute = tempTime.asMinutes() % 60; //modul 60, da prikaže le ostanek minute od ur
+    //return moment.utc(totalTimeMiliseconds).format("HH:mm"); - v tem primeru je 25 ur prikazalo kot eno uro
+    return ure + ":" + minute;
   }
 
   function getAverageTime() {
