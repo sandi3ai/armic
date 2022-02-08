@@ -8,6 +8,8 @@ export const Cas = () => {
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
   const getCasUrl = "http://localhost/reactProjects/armic/src/rest/getCas.php";
+  const getNameUrl =
+    "http://localhost/reactProjects/armic/src/rest/getName.php";
   const [data, setData] = useState([]);
   const [dropValue, setDropValue] = useState("");
   const [startDate, setStartDate] = useState(
@@ -18,6 +20,7 @@ export const Cas = () => {
   );
   const [casData, setCasData] = useState([]);
   const [thereIsData, setThereIsData] = useState(false);
+  const [name, setName] = useState("");
 
   function preglejBtn(e) {
     try {
@@ -53,6 +56,18 @@ export const Cas = () => {
     }
   };
 
+  const idToName = () => {
+    try {
+      Axios.post(getNameUrl, { dropValue }).then((response) => {
+        const res = response;
+        console.log(res);
+        setName(res);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   useEffect(() => {
     getZaposleni();
   }, []);
@@ -70,8 +85,8 @@ export const Cas = () => {
 
           <DropdownButton
             variant="outline-primary"
-            title={dropValue}
-            onClick={(e) => getZaposleni(e)}
+            title="notitle"
+            onClick={((e) => getZaposleni(e), idToName())}
             onSelect={(e) => setDropValue(e)}
             drop="down"
           >

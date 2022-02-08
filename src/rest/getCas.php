@@ -13,7 +13,7 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 
 $fetch= array('cas' => []);
-//fetch je array ki ima ključ dezurstva, in je prazen array
+//fetch je array ki ima ključ cas, in je prazen array
 
 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
     $fetch['cas'][] = $row;

@@ -34,14 +34,14 @@ const CasData = (data) => {
     return moment.utc(avgTimeMiliseconds / data.data.length).format("HH:mm");
   }
 
-  function getAverageStart() {
+  /*function getAverageStart() {
     const avgStart = data.data.reduce((sum, data) => {
       console.log(data.casZacetek);
-      console.log(moment(data.casZacetek).valueOf());
+      console.log(moment.utc(data.casZacetek).valueOf());
       return sum + data.casZacetek;
     });
     return avgStart;
-  }
+  }*/
 
   return (
     <div className="content">
@@ -70,11 +70,8 @@ const CasData = (data) => {
         </tbody>
         <tfoot className="tableFooter">
           <tr>
-            <td colSpan={2}>Povprečen čas: {getAverageTime()}</td>
-            <td colSpan={2}>Skupno število ur:</td>
-
-            <td>{getTotalTime()}</td>
-            <td>{getAverageStart()}</td>
+            <td colSpan={3}>Povprečen čas - {getAverageTime()}</td>
+            <td colSpan={3}>Skupno število ur - {getTotalTime()}</td>
           </tr>
         </tfoot>
       </Table>
