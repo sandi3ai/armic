@@ -56,10 +56,11 @@ export const Cas = () => {
     }
   };
 
-  const idToName = () => {
+  const idToName = (newValue) => {
+    console.log(newValue);
     try {
-      Axios.post(getNameUrl, { dropValue }).then((response) => {
-        const res = response;
+      Axios.post(getNameUrl, { dropValue: newValue }).then((response) => {
+        const res = response.data.zaposleniIme;
         console.log(res);
         setName(res);
       });
@@ -67,6 +68,14 @@ export const Cas = () => {
       alert(error.message);
     }
   };
+
+  function checkIfName(name) {
+    if (name === "" || name === null) {
+      return "Izberi zaposlenega";
+    } else {
+      return name;
+    }
+  }
 
   useEffect(() => {
     getZaposleni();
@@ -85,10 +94,13 @@ export const Cas = () => {
 
           <DropdownButton
             variant="outline-primary"
-            title="notitle"
-            onClick={((e) => getZaposleni(e), idToName())}
-            onSelect={(e) => setDropValue(e)}
+            onClick={(e) => getZaposleni(e)}
+            onSelect={(e) => {
+              setDropValue(e);
+              idToName(e);
+            }}
             drop="down"
+            title={name}
           >
             {data.map((data) => (
               <Dropdown.Item key={data.zaposleniID} eventKey={data.zaposleniID}>
