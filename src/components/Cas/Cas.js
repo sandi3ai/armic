@@ -100,7 +100,7 @@ export const Cas = () => {
               idToName(e);
             }}
             drop="down"
-            title={name}
+            title={checkIfName(name)}
           >
             {data.map((data) => (
               <Dropdown.Item key={data.zaposleniID} eventKey={data.zaposleniID}>
@@ -137,11 +137,16 @@ export const Cas = () => {
             <Button variant="outline-success" type="submit">
               Preglej
             </Button>
-            {/*successTxt && " Nov zaposleni uspešno dodan!"*/}
           </div>
         </Form>
       </div>
-      {thereIsData ? <CasData data={casData} /> : "There is no data to display"}
+      {thereIsData ? (
+        <CasData data={casData} />
+      ) : (
+        <div className="divine">
+          Za izbran vnos ni informacij o delovnem času
+        </div>
+      )}
     </div>
   );
 };

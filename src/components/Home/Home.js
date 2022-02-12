@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import VnosZaposlenega from "./VnosZaposlenega";
 import IzbrisZaposlenega from "./IzbrisZaposlenega";
+import NovaSkupina from "./NovaSkupina";
 
 export const Home = () => {
   const [novVnos, setNovVnos] = useState(false);
+  const [novaSkupina, setNovaSkupina] = useState(false);
 
   function showNovVnos() {
     if (novVnos === false) {
@@ -13,20 +15,41 @@ export const Home = () => {
       setNovVnos(false);
     }
   }
+
+  function showNovaSkupina() {
+    if (novaSkupina === false) {
+      setNovaSkupina(true);
+    } else {
+      setNovaSkupina(false);
+    }
+  }
   return (
     <div>
       <div className="content">
         <h2>Zaposleni v podjetju:</h2>
         <p>
-          Tukaj lahko dodate ali izbrišete delavca, mu dodelite pozicijo
-          delovnega mesta in morebitno vodjo.
+          Tukaj lahko dodate ali izbrišete delavca, mu dodelite skupino, ali pa
+          skupino ustvarite
         </p>
-        <Button variant="outline-primary" onClick={showNovVnos}>
+        <Button
+          className="vnosBtn"
+          variant="outline-primary"
+          onClick={showNovVnos}
+        >
           Dodaj delavca
         </Button>
+
         {novVnos ? <VnosZaposlenega /> : null}
+        <Button
+          className="vnosBtn"
+          variant="outline-primary"
+          onClick={showNovaSkupina}
+        >
+          Ustvari novo skupino
+        </Button>
+        {novaSkupina ? <NovaSkupina /> : null}
         <hr />
-        <h2>Seznam:</h2>
+        <h2>Seznam zaposlenih:</h2>
         <IzbrisZaposlenega />
       </div>
     </div>

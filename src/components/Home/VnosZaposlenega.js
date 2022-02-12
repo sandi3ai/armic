@@ -119,7 +119,7 @@ export const VnosZaposlenega = () => {
 
         <div className="successBox">
           <Button variant="outline-success" type="submit">
-            Dodaj
+            Dodaj novega zaposlenega
           </Button>
           {successTxt && " Nov zaposleni uspešno dodan!"}
         </div>

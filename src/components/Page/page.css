@@ -21,6 +21,10 @@ body {
   height: 2.5rem;
 }
 
+#odjavaBtn {
+  margin: 3px;
+}
+
 .content {
   border-radius: 1rem !important;
   padding: 1rem;
@@ -72,6 +76,7 @@ body {
 .navbar {
   background-color: rgb(44, 1, 1) !important;
   font-size: 1.3rem;
+  padding: 0rem 1rem !important;
 }
 .nav {
   float: left;
@@ -128,4 +133,14 @@ h2 {
 .tableFooter {
   font-weight: bold;
   color: #740f26;
+}
+
+.table-bordered td,
+.table-bordered th,
+.table {
+  border: none !important;
+}
+
+.vnosBtn {
+  margin: 10px 10px 10px 0px;
 }

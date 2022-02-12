@@ -48,8 +48,7 @@ const CasData = (data) => {
       <Table striped bordered hover size="sm">
         <thead>
           <tr>
-            <th>Število dni</th>
-            <th>Uporabnik</th>
+            <th></th>
             <th>Datum</th>
             <th>Čas začetka</th>
             <th>Čas zaključka</th>
@@ -59,8 +58,7 @@ const CasData = (data) => {
         <tbody>
           {data.data.map((data, idx) => (
             <tr key={idx}>
-              <td>{idx + 1}</td>
-              <td>{data.userID}</td>
+              <td>{idx + 1}.</td>
               <td>{moment(data.datum).format("D.M.YYYY")}</td>
               <td>{data.casZacetek}</td>
               <td>{data.casKonec}</td>
@@ -70,8 +68,11 @@ const CasData = (data) => {
         </tbody>
         <tfoot className="tableFooter">
           <tr>
-            <td colSpan={3}>Povprečen čas - {getAverageTime()}</td>
-            <td colSpan={3}>Skupno število ur - {getTotalTime()}</td>
+            <td colSpan={3} className="tdFooter">
+              Povprečen čas - {getAverageTime()}
+            </td>
+
+            <td colSpan={2}>Skupno število ur - {getTotalTime()}</td>
           </tr>
         </tfoot>
       </Table>
