@@ -37,7 +37,7 @@ const IzbrisZaposlenega = () => {
     <div className="parent">
       {data.map((data) => (
         <div key={data.zaposleniID} className="child">
-          {data.zaposleniIme} - {data.zaposleniPozicija}
+          {data.zaposleniIme}
           <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
             placement="top"
             overlay={

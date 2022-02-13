@@ -5,33 +5,28 @@ import Axios from "axios";
 export const VnosZaposlenega = () => {
   const postUrl =
     "http://localhost/reactProjects/armic/src/rest/novZaposleni.php";
-  const getUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const getSkupine =
+  const getUrlSkupine =
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
 
   const [name, setName] = useState("");
-  const [position, setPosition] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
-  const [vodje, setVodje] = useState([{ name: "", id: "" }]);
-  const [leader, setLeader] = useState("");
+  const [izbranaSkupina, setIzbranaSkupina] = useState("");
+  const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
 
   function submitForm(e) {
     e.preventDefault();
     const postData = {
       name,
-      position,
-      leader,
+      izbranaSkupina,
     };
     console.log(postData);
     Axios.post(postUrl, {
       name: postData.name,
-      position: postData.position,
-      leader: postData.leader,
+      group: postData.izbranaSkupina,
     }).then(() => {
       console.log("submitForm executed");
       setName("");
-      if (name && position !== "") {
+      if (name && izbranaSkupina !== "") {
         //prikaže success box, če so vsi podatki izpolnjeni
         setSuccessTxt(true);
         setTimeout(() => {
@@ -41,29 +36,14 @@ export const VnosZaposlenega = () => {
     });
   }
 
-  const getZaposleni = () => {
+  const getSkupine = () => {
     try {
-      Axios.get(getUrl).then((response) => {
-        console.log(response.data.zaposleni);
-        getVodje(response.data.zaposleni);
+      Axios.get(getUrlSkupine).then((response) => {
+        setSkupine(response.data.skupine);
       });
     } catch (error) {
       alert(error.message);
     }
-  };
-
-  const getVodje = (data) => {
-    setVodje(
-      data
-        .map(function (data) {
-          return {
-            name: data.zaposleniIme,
-            id: data.zaposleniID,
-            poz: data.zaposleniPozicija,
-          };
-        })
-        .filter((zaposleni) => zaposleni.poz === "OA-vodja")
-    );
   };
 
   return (
@@ -72,25 +52,6 @@ export const VnosZaposlenega = () => {
 
       <h3>Dodaj novega zaposlenega</h3>
       <Form onSubmit={(e) => submitForm(e)}>
-        <Form.Label>Izberi delovno mesto: </Form.Label>
-        <DropdownButton
-          variant="outline-primary"
-          title={position}
-          onSelect={(e) => setPosition(e)}
-          value={position}
-          drop="down"
-        >
-          <Dropdown.Item eventKey="OA">Oskrbovalec avtomatov</Dropdown.Item>
-          <Dropdown.Item eventKey="OA-vodja">
-            Oskrbovalec avtomatov - vodja
-          </Dropdown.Item>
-          <Dropdown.Item eventKey="Servis">Servis</Dropdown.Item>
-          <Dropdown.Item eventKey="Voda">Voda </Dropdown.Item>
-          <Dropdown.Item eventKey="Skladišče">Skladišče</Dropdown.Item>
-          <Dropdown.Item eventKey="Administracija">
-            Administracija
-          </Dropdown.Item>
-        </DropdownButton>
         <br />
         <Form.Group className="mb-3">
           <Form.Label>Ime in priimek zaposlenega: </Form.Label>
@@ -103,36 +64,18 @@ export const VnosZaposlenega = () => {
           />
         </Form.Group>
 
-        <Form.Label>Delavcu dodaj vodjo: </Form.Label>
-        <DropdownButton
-          variant="outline-primary"
-          title={leader}
-          onClick={(e) => getZaposleni(e)}
-          onSelect={(e) => setLeader(e)}
-          value={leader}
-          drop="down"
-        >
-          <Dropdown.Item eventKey="NULL">Zaposleni nima vodje</Dropdown.Item>
-          {vodje.map((vodja) => (
-            <Dropdown.Item key={vodja.id} eventKey={vodja.name}>
-              {vodja.name}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <br />
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
           variant="outline-primary"
-          title={leader}
-          onClick={(e) => getZaposleni(e)}
-          onSelect={(e) => setLeader(e)}
-          value={leader}
+          title={izbranaSkupina}
+          onClick={(e) => getSkupine(e)}
+          onSelect={(e) => setIzbranaSkupina(e)}
+          value={izbranaSkupina}
           drop="down"
         >
-          <Dropdown.Item eventKey="NULL">Zaposleni nima vodje</Dropdown.Item>
-          {vodje.map((vodja) => (
-            <Dropdown.Item key={vodja.id} eventKey={vodja.name}>
-              {vodja.name}
+          {skupine.map((skupina) => (
+            <Dropdown.Item key={skupina.skupinaID} eventKey={skupina.skupinaID}>
+              {skupina.skupinaIme}
             </Dropdown.Item>
           ))}
         </DropdownButton>
