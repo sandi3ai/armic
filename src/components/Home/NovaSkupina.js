@@ -1,3 +1,4 @@
+import Axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
@@ -5,10 +6,30 @@ const NovaSkupina = () => {
   const postUrl =
     "http://localhost/reactProjects/armic/src/rest/novaSkupina.php";
   const [imeSkupine, setImeSkupine] = useState("");
+  const [successTxt, setSuccessTxt] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
     console.log("sumbitForm triggered");
+    console.log(imeSkupine);
+    try {
+      Axios.post(postUrl, {
+        name: imeSkupine,
+      }).then(() => {
+        console.log("submitForm executed");
+        if (imeSkupine !== "") {
+          //prikaže success box, če so vsi podatki izpolnjeni
+          setSuccessTxt(true);
+          setTimeout(() => {
+            setSuccessTxt(false);
+          }, 4000);
+        }
+
+        setImeSkupine("");
+      });
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   return (
@@ -22,9 +43,15 @@ const NovaSkupina = () => {
             onChange={(e) => setImeSkupine(e.target.value)}
             value={imeSkupine}
             type="text"
-            placeholder="Ime in priimek zaposlenega"
+            placeholder="Naziv skupine ..."
           />
         </Form.Group>
+        <div className="successBox">
+          <Button variant="outline-success" type="submit">
+            Ustvari novo skupino
+          </Button>
+          {successTxt && " Nova skupina ustvarjena!"}
+        </div>
       </Form>
     </div>
   );

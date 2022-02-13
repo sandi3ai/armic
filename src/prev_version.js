@@ -1,3 +1,5 @@
+//Prejšnja verzija VnosZaposlenega.js
+
 import React, { useState } from "react";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import Axios from "axios";
@@ -7,8 +9,6 @@ export const VnosZaposlenega = () => {
     "http://localhost/reactProjects/armic/src/rest/novZaposleni.php";
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const getSkupine =
-    "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
 
   const [name, setName] = useState("");
   const [position, setPosition] = useState("");
@@ -103,23 +103,6 @@ export const VnosZaposlenega = () => {
           />
         </Form.Group>
 
-        <Form.Label>Delavcu dodaj vodjo: </Form.Label>
-        <DropdownButton
-          variant="outline-primary"
-          title={leader}
-          onClick={(e) => getZaposleni(e)}
-          onSelect={(e) => setLeader(e)}
-          value={leader}
-          drop="down"
-        >
-          <Dropdown.Item eventKey="NULL">Zaposleni nima vodje</Dropdown.Item>
-          {vodje.map((vodja) => (
-            <Dropdown.Item key={vodja.id} eventKey={vodja.name}>
-              {vodja.name}
-            </Dropdown.Item>
-          ))}
-        </DropdownButton>
-        <br />
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
           variant="outline-primary"
@@ -137,6 +120,7 @@ export const VnosZaposlenega = () => {
           ))}
         </DropdownButton>
         <br />
+
         <div className="successBox">
           <Button variant="outline-success" type="submit">
             Dodaj novega zaposlenega
