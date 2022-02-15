@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import VnosZaposlenega from "./VnosZaposlenega";
-import IzbrisZaposlenega from "./IzbrisZaposlenega";
+import PrikaziZaposlene from "./PrikaziZaposlene";
 import NovaSkupina from "./NovaSkupina";
 
 export const Home = () => {
@@ -45,12 +45,12 @@ export const Home = () => {
           variant="outline-primary"
           onClick={showNovaSkupina}
         >
-          Ustvari novo skupino
+          Uredi skupine
         </Button>
         {novaSkupina ? <NovaSkupina /> : null}
         <hr />
         <h2>Seznam zaposlenih:</h2>
-        <IzbrisZaposlenega />
+        <PrikaziZaposlene />
       </div>
     </div>
   );

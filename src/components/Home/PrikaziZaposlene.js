@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-const IzbrisZaposlenega = () => {
+const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
@@ -54,4 +54,4 @@ const IzbrisZaposlenega = () => {
     </div>
   );
 };
-export default IzbrisZaposlenega;
+export default PrikaziZaposlene;

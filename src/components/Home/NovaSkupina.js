@@ -1,12 +1,14 @@
 import Axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import PrikaziSkupine from "./PrikaziSkupine";
 
 const NovaSkupina = () => {
   const postUrl =
     "http://localhost/reactProjects/armic/src/rest/novaSkupina.php";
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
+  const [showSeznam, setShowSeznam] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
@@ -32,6 +34,14 @@ const NovaSkupina = () => {
     }
   }
 
+  function prikazi() {
+    if (showSeznam === false) {
+      setShowSeznam(true);
+    } else {
+      setShowSeznam(false);
+    }
+  }
+
   return (
     <div>
       <h3>Dodaj novo skupino</h3>
@@ -51,7 +61,13 @@ const NovaSkupina = () => {
             Ustvari novo skupino
           </Button>
           {successTxt && " Nova skupina ustvarjena!"}
+          <br />
+          <br />
+          <Button variant="outline-primary" onClick={prikazi}>
+            Prikaži seznam skupin
+          </Button>
         </div>
+        {showSeznam && <PrikaziSkupine />}
       </Form>
     </div>
   );

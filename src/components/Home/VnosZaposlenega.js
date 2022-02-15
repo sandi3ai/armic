@@ -76,7 +76,6 @@ export const VnosZaposlenega = () => {
           {skupine.map((skupina, i) => (
             <Dropdown.Item key={i} eventKey={skupina.skupinaID}>
               {skupina.skupinaIme}
-              {i}
             </Dropdown.Item>
           ))}
         </DropdownButton>
