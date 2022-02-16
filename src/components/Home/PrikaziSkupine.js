@@ -43,7 +43,7 @@ const PrikaziSkupine = () => {
         {data.map((d) => (
           <div key={d.skupinaID} className="child">
             {d.skupinaIme}
-            <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
+            <OverlayTrigger /* Na mouse-hover napis "izbriši skupino" */
               placement="top"
               overlay={<Tooltip id="button-tooltip-2">Izbriši skupino</Tooltip>}
             >
