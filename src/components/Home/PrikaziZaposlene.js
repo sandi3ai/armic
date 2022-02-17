@@ -11,6 +11,7 @@ const PrikaziZaposlene = () => {
   const deleteUrl =
     "http://localhost/reactProjects/armic/src/rest/deleteZaposleni.php";
   const [openModal, setOpenModal] = useState(false);
+  const [passID, setPassID] = useState(null);
 
   const getZaposleni = () => {
     try {
@@ -35,17 +36,21 @@ const PrikaziZaposlene = () => {
       .catch((error) => console.log(error));
   };
 
-  function updateZaposleni(id) {
-    console.log(id);
-  }
-
   return (
     <div>
+      {openModal && <Modal closeModal={setOpenModal} passID={passID} />}
       <div className="parent">
         {data.map((data) => (
           <div key={data.zaposleniID} className="child">
             {data.zaposleniIme}
-            <Button onClick={() => setOpenModal(true)}>Uredi</Button>
+            <Button
+              onClick={() => {
+                setOpenModal(true);
+                setPassID(data.zaposleniID);
+              }}
+            >
+              Uredi
+            </Button>
             <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
               placement="top"
               overlay={
@@ -60,7 +65,6 @@ const PrikaziZaposlene = () => {
           </div>
         ))}
       </div>
-      {openModal && <Modal closeModal={setOpenModal} />}
     </div>
   );
 };
