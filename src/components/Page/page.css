@@ -56,6 +56,7 @@ body {
   flex-wrap: wrap;
   flex-flow: row wrap;
   column-width: 310px;
+  column-count: 3; /*max vrstic = 3*/
 }
 
 .child {

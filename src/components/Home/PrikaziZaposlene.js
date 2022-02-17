@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import Modal from "./Modal";
 
 const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
@@ -9,6 +10,7 @@ const PrikaziZaposlene = () => {
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
   const deleteUrl =
     "http://localhost/reactProjects/armic/src/rest/deleteZaposleni.php";
+  const [openModal, setOpenModal] = useState(false);
 
   const getZaposleni = () => {
     try {
@@ -38,26 +40,27 @@ const PrikaziZaposlene = () => {
   }
 
   return (
-    <div className="parent">
-      {data.map((data) => (
-        <div key={data.zaposleniID} className="child">
-          {data.zaposleniIme}
-          <Button onClick={() => updateZaposleni(data.zaposleniID)}>
-            Update
-          </Button>
-          <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
-            placement="top"
-            overlay={
-              <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
-            }
-          >
-            <FaRegTrashAlt
-              className="deleteBtn" //trash icon
-              onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
-            />
-          </OverlayTrigger>
-        </div>
-      ))}
+    <div>
+      <div className="parent">
+        {data.map((data) => (
+          <div key={data.zaposleniID} className="child">
+            {data.zaposleniIme}
+            <Button onClick={() => setOpenModal(true)}>Uredi</Button>
+            <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
+              placement="top"
+              overlay={
+                <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
+              }
+            >
+              <FaRegTrashAlt
+                className="deleteBtn" //trash icon
+                onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
+              />
+            </OverlayTrigger>
+          </div>
+        ))}
+      </div>
+      {openModal && <Modal closeModal={setOpenModal} />}
     </div>
   );
 };
