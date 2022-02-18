@@ -88,7 +88,8 @@ img.NavBarLogo {
 h2 {
   color: #740f26;
 }
-.deleteBtn {
+.deleteBtn,
+.editBtn {
   width: fit-content;
   float: right !important;
   justify-content: center;
@@ -98,6 +99,10 @@ h2 {
 .deleteBtn:hover {
   cursor: pointer;
   color: red;
+}
+.editBtn:hover {
+  cursor: pointer;
+  color: rgb(0, 60, 255);
 }
 
 .successBox {

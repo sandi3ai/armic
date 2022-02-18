@@ -20,8 +20,10 @@ const Modal = ({ closeModal, passID }) => {
   };
 
   const getZaposleniIme = (data, passID) => {
-    console.log(data);
-    console.log(passID);
+    const ime = data
+      .filter((data) => data.zaposleniID === passID)
+      .map((filteredData) => filteredData.zaposleniIme);
+    return ime[0];
   };
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Modal = ({ closeModal, passID }) => {
           <button onClick={() => closeModal(false)}>X</button>
         </div>
         <div className="title">
-          <h4>{passID} - posodobi podatke</h4>
+          <h4>{getZaposleniIme(data, passID)} - posodobi podatke</h4>
         </div>
         <div className="body">Ime: Form:</div>
         <div className="footer">

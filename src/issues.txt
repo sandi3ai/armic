@@ -20,6 +20,9 @@ uporaba useEffect da se naložijo podatki, ko se naloži stran?
   }, []);
 )
 
+18.2.2022 kako da je trash ikona (PrikaziZaposlene.js, ln69)
+prej kot edit ikona (PrikaziZaposlene, ln54), če je v kodi napisana kasneje?
+
 
 
 

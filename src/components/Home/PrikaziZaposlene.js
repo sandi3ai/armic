@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
 import Modal from "./Modal";
 
@@ -43,14 +43,22 @@ const PrikaziZaposlene = () => {
         {data.map((data) => (
           <div key={data.zaposleniID} className="child">
             {data.zaposleniIme}
-            <Button
-              onClick={() => {
-                setOpenModal(true);
-                setPassID(data.zaposleniID);
-              }}
+
+            <OverlayTrigger /* Na mouse-hover napis "uredi zaposlenega" */
+              placement="top"
+              overlay={
+                <Tooltip id="button-tooltip-2">Uredi zaposlenega</Tooltip>
+              }
             >
-              Uredi
-            </Button>
+              <FaRegEdit
+                className="editBtn" //edit icon
+                onClick={() => {
+                  setOpenModal(true);
+                  setPassID(data.zaposleniID);
+                }}
+              />
+            </OverlayTrigger>
+
             <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
               placement="top"
               overlay={
