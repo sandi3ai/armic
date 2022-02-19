@@ -18,12 +18,14 @@
   justify-content: space-between;
   color: black;
   z-index: 1;
+  padding: 0.4rem;
 }
 
 .modalContainer .title {
   display: inline-block;
-  text-align: center;
-  margin-top: 10px;
+  text-align: left;
+  margin-bottom: 2rem;
+  margin-left: 1rem;
   width: 100%;
 }
 
@@ -38,7 +40,6 @@
   border-radius: 5px;
   font-size: 22px;
   cursor: pointer;
-  margin: 5px;
   padding: 0px 20px 0px;
   color: white;
 }
@@ -48,14 +49,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.7rem;
+  font-size: 1rem;
   text-align: center;
-}
-
-.modalContainer .footer {
-  flex: 20%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
+  padding-bottom: 0.5rem;
 }
