@@ -7,11 +7,14 @@ export const VnosZaposlenega = () => {
     "http://localhost/reactProjects/armic/src/rest/novZaposleni.php";
   const getUrlSkupine =
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
+  const urlImeSkupine =
+    "http://localhost/reactProjects/armic/src/rest/getNameSkupina.php";
 
   const [name, setName] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [izbranaSkupina, setIzbranaSkupina] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
+  const [imeSkupine, setImeSkupine] = useState("");
 
   function submitForm(e) {
     e.preventDefault();
@@ -46,6 +49,27 @@ export const VnosZaposlenega = () => {
     }
   };
 
+  const idToName = (e) => {
+    console.log(e);
+    try {
+      Axios.post(urlImeSkupine, { dropValue: e }).then((response) => {
+        const res = response.data.skupinaIme;
+        console.log(res);
+        setImeSkupine(res);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  function checkIfName(name) {
+    if (name === "" || name === null) {
+      return "Izberi skupino";
+    } else {
+      return name;
+    }
+  }
+
   return (
     <div>
       <hr />
@@ -67,9 +91,12 @@ export const VnosZaposlenega = () => {
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
           variant="outline-primary"
-          title={izbranaSkupina}
+          title={checkIfName(imeSkupine)}
           onClick={(e) => getSkupine(e)}
-          onSelect={(e) => setIzbranaSkupina(e)}
+          onSelect={(e) => {
+            setIzbranaSkupina(e);
+            idToName(e);
+          }}
           value={izbranaSkupina}
           drop="down"
         >

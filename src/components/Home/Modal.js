@@ -8,10 +8,13 @@ const Modal = ({ closeModal, passID }) => {
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
   const getUrlSkupine =
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
+  const urlImeSkupine =
+    "http://localhost/reactProjects/armic/src/rest/getNameSkupina.php";
   const [data, setData] = useState([]);
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [updatedSkupina, setUpdatedSkupina] = useState("");
+  const [imeSkupine, setImeSkupine] = useState("");
 
   const getZaposleni = () => {
     try {
@@ -45,6 +48,27 @@ const Modal = ({ closeModal, passID }) => {
     }
   };
 
+  const idToName = (e) => {
+    console.log(e);
+    try {
+      Axios.post(urlImeSkupine, { dropValue: e }).then((response) => {
+        const res = response.data.skupinaIme;
+        console.log(res);
+        setImeSkupine(res);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  function checkIfName(name) {
+    if (name === "" || name === null) {
+      return "Izberi skupino";
+    } else {
+      return name;
+    }
+  }
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -70,9 +94,12 @@ const Modal = ({ closeModal, passID }) => {
             <Form.Label>Delavcu spremeni skupino: </Form.Label>
             <DropdownButton
               variant="outline-primary"
-              title={updatedSkupina}
+              title={checkIfName(imeSkupine)}
               onClick={(e) => getSkupine(e)}
-              onSelect={(e) => setUpdatedSkupina(e)}
+              onSelect={(e) => {
+                setUpdatedSkupina(e);
+                idToName(e);
+              }}
               value={updatedSkupina}
               drop="down"
             >
