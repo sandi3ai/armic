@@ -10,6 +10,8 @@ const Modal = ({ closeModal, passID }) => {
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
   const urlImeSkupine =
     "http://localhost/reactProjects/armic/src/rest/getNameSkupina.php";
+  const updateUrl =
+    "http://localhost/reactProjects/armic/src/rest/updateZaposleni.php";
   const [data, setData] = useState([]);
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
@@ -69,6 +71,11 @@ const Modal = ({ closeModal, passID }) => {
     }
   }
 
+  function submitForm(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
   return (
     <div className="modalBackground">
       <div className="modalContainer">
@@ -79,7 +86,7 @@ const Modal = ({ closeModal, passID }) => {
           <h4>{getZaposleniIme(data, passID)} - posodobi podatke</h4>
         </div>
         <div className="body">
-          <Form>
+          <Form onSubmit={(e) => submitForm(e)}>
             <Form.Group className="mb-3">
               <Form.Label>Spremeni ime in priimek zaposlenega: </Form.Label>
               <Form.Control
