@@ -33,6 +33,7 @@ const Modal = ({ closeModal, passID }) => {
     const ime = data
       .filter((data) => data.zaposleniID === passID)
       .map((filteredData) => filteredData.zaposleniIme);
+    console.log(ime[0]);
     return ime[0];
   };
 
@@ -74,6 +75,19 @@ const Modal = ({ closeModal, passID }) => {
   function submitForm(e) {
     e.preventDefault();
     console.log(e);
+    const postData = {
+      passID,
+      updatedName,
+      updatedSkupina,
+    };
+    console.log(postData);
+    Axios.post(updateUrl, {
+      id: postData.passID,
+      updatedName: postData.updatedName,
+      updatedSkupina: postData.updatedSkupina,
+    }).then(() => {
+      console.log("updateZaposleni executed!");
+    });
   }
 
   return (

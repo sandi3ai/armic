@@ -7,10 +7,6 @@ $id = $_POST['id'];
 $name = $_POST['updatedName'];
 $skupina = $_POST['updatedSkupina'];
 
-$id = 55;
-$name = "Updated name";
-$skupina = 77;
-
 $sql = "UPDATE `zaposleni` SET zaposleniIme=?, zaposleniSkupinaID=? WHERE zaposleniID = ?";
 $stmt= $conn->prepare($sql);
 if ($stmt->execute([$name, $skupina, $id])){
