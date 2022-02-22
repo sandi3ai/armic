@@ -22,19 +22,35 @@ const Modal = ({ closeModal, passID }) => {
     try {
       Axios.get(getZaposleniUrl).then((response) => {
         setData(response.data.zaposleni);
-        getZaposleniIme(response.data.zaposleni, passID);
+        setUpdatedName(getZaposleniIme(response.data.zaposleni, passID));
+        const idSkupine = getZaposleniSkupina(response.data.zaposleni, passID);
+        idToName(idSkupine);
+        setUpdatedSkupina(idSkupine);
       });
     } catch (error) {
       alert(error.message);
     }
   };
 
+  const getPassZaposleni = (data, passID) => {
+    const zaposleni = data.find(
+      (zaposleni) => zaposleni.zaposleniID === passID
+    );
+    return zaposleni;
+  };
+
   const getZaposleniIme = (data, passID) => {
-    const ime = data
-      .filter((data) => data.zaposleniID === passID)
-      .map((filteredData) => filteredData.zaposleniIme);
+    const zaposleni = getPassZaposleni(data, passID);
+    return zaposleni ? zaposleni.zaposleniIme : "Ne najdem imena";
+    /*.filter((data) => data.zaposleniID === passID)
+    .map((filteredData) => filteredData.zaposleniIme);
     console.log(ime[0]);
-    return ime[0];
+    return ime[0];*/
+  };
+
+  const getZaposleniSkupina = (data, passID) => {
+    const zaposleni = getPassZaposleni(data, passID);
+    return zaposleni ? zaposleni.zaposleniSkupinaID : null;
   };
 
   useEffect(() => {
@@ -87,8 +103,11 @@ const Modal = ({ closeModal, passID }) => {
       updatedSkupina: postData.updatedSkupina,
     }).then(() => {
       console.log("updateZaposleni executed!");
+      //window.location.reload(); //reloada page
     });
   }
+
+  console.log(data, passID, getZaposleniIme(data, passID));
 
   return (
     <div className="modalBackground">
@@ -106,11 +125,11 @@ const Modal = ({ closeModal, passID }) => {
               <Form.Control
                 name="name"
                 onChange={(e) => setUpdatedName(e.target.value)}
+                value={updatedName}
                 defaultValue={getZaposleniIme(data, passID)}
                 type="text"
               />
             </Form.Group>
-            {updatedName}
 
             <Form.Label>Delavcu spremeni skupino: </Form.Label>
             <DropdownButton

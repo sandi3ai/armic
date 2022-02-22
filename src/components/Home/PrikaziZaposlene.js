@@ -24,7 +24,7 @@ const PrikaziZaposlene = () => {
   };
   useEffect(() => {
     getZaposleni();
-  }, []);
+  }, [openModal]);
 
   const deleteZaposleni = (id, event) => {
     event.preventDefault();
@@ -44,6 +44,17 @@ const PrikaziZaposlene = () => {
           <div key={data.zaposleniID} className="child">
             {data.zaposleniIme}
 
+            <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
+              placement="top"
+              overlay={
+                <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
+              }
+            >
+              <FaRegTrashAlt
+                className="deleteBtn" //trash icon
+                onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
+              />
+            </OverlayTrigger>
             <OverlayTrigger /* Na mouse-hover napis "uredi zaposlenega" */
               placement="top"
               overlay={
@@ -56,18 +67,6 @@ const PrikaziZaposlene = () => {
                   setOpenModal(true);
                   setPassID(data.zaposleniID);
                 }}
-              />
-            </OverlayTrigger>
-
-            <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
-              placement="top"
-              overlay={
-                <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
-              }
-            >
-              <FaRegTrashAlt
-                className="deleteBtn" //trash icon
-                onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
               />
             </OverlayTrigger>
           </div>
