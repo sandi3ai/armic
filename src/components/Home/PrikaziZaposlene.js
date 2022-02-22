@@ -1,8 +1,9 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
-import { OverlayTrigger, Tooltip, Button } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Modal from "./Modal";
+import ModalDelete from "./ModalDelete";
 
 const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
@@ -11,6 +12,7 @@ const PrikaziZaposlene = () => {
   const deleteUrl =
     "http://localhost/reactProjects/armic/src/rest/deleteZaposleni.php";
   const [openModal, setOpenModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
 
   const getZaposleni = () => {
@@ -39,6 +41,7 @@ const PrikaziZaposlene = () => {
   return (
     <div>
       {openModal && <Modal closeModal={setOpenModal} passID={passID} />}
+      {openDeleteModal && <ModalDelete />}
       <div className="parent">
         {data.map((data) => (
           <div key={data.zaposleniID} className="child">
@@ -52,7 +55,10 @@ const PrikaziZaposlene = () => {
             >
               <FaRegTrashAlt
                 className="deleteBtn" //trash icon
-                onClick={(event) => deleteZaposleni(data.zaposleniID, event)}
+                onClick={(event) => {
+                  deleteZaposleni(data.zaposleniID, event);
+                  setOpenDeleteModal(true);
+                }}
               />
             </OverlayTrigger>
             <OverlayTrigger /* Na mouse-hover napis "uredi zaposlenega" */

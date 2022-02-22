@@ -9,7 +9,7 @@ rešeno z await async
 - kako veš katera je child componenta? in kako bi lahko klical getDezurni iz ReadDezurni.js
 v komponenti NovVnos? Zato da se refresha...
 
-- če ni vrstic v SQL tabeli 'dezurstva' vse crasha
+- če ni vrstic v SQL tabeli 'dezurstva' vse crasha !!
 
 -auth.php = adminID nima vrednosti, ne vem kako naj ga prensem, brez da naredim poseben SELECT iz baze
 
@@ -21,7 +21,8 @@ uporaba useEffect da se naložijo podatki, ko se naloži stran?
 )
 
 18.2.2022 kako da je trash ikona (PrikaziZaposlene.js, ln69)
-prej kot edit ikona (PrikaziZaposlene, ln54), če je v kodi napisana kasneje?
+prej kot edit ikona (PrikaziZaposlene), če je v kodi napisana kasneje?
+//ker je float-right
 
 
 

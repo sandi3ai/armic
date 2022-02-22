@@ -16,8 +16,5 @@ a se ti zdi to ok rešitev? outputam seznam dopustov glede na datum,
 da se bolje vidi kdaj je kdo na dopustu
 
 
-VSAK ZAPOSLENI NOVA TABELA ZA DELOVNI ČAS? 
-se ustvari ko se doda delavca .. ?
-zaposleniID, zaposleniDatum, zaposleniStart, zaposleniKonec, zaposleniSkupnoUr
 
 rsuite.js
