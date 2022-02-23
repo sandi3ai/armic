@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import "./Modal.css";
+import checkMark from "../Images/checkMark.gif";
 
 const Modal = ({ closeModal, passID }) => {
   const getZaposleniUrl =
@@ -17,6 +18,7 @@ const Modal = ({ closeModal, passID }) => {
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [updatedSkupina, setUpdatedSkupina] = useState("");
   const [imeSkupine, setImeSkupine] = useState("");
+  const [successTxt, setSuccessTxt] = useState(false);
 
   const getZaposleni = () => {
     try {
@@ -103,11 +105,15 @@ const Modal = ({ closeModal, passID }) => {
       updatedSkupina: postData.updatedSkupina,
     }).then(() => {
       console.log("updateZaposleni executed!");
+      setSuccessTxt(true);
+      setTimeout(() => {
+        setSuccessTxt(false);
+        closeModal(false);
+      }, 1440);
+
       //window.location.reload(); //reloada page
     });
   }
-
-  console.log(data, passID, getZaposleniIme(data, passID));
 
   return (
     <div className="modalBackground">
@@ -155,7 +161,13 @@ const Modal = ({ closeModal, passID }) => {
               <Button variant="outline-success" type="submit">
                 Posodobi
               </Button>
-              {/*successTxt && " Nov zaposleni uspešno dodan!"*/}
+              {successTxt && (
+                <img
+                  className="checkMark"
+                  src={checkMark}
+                  alt="Posodobljeno!"
+                />
+              )}
             </div>
           </Form>
         </div>

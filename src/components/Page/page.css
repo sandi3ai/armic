@@ -72,7 +72,6 @@ body {
   backdrop-filter: blur(4px);
   width: 100%;
   align-items: center;
-
   display: inline-block;
 }
 
@@ -151,4 +150,11 @@ h2 {
 
 .vnosBtn {
   margin: 10px 10px 10px 0px;
+}
+
+.checkMark {
+  height: 4rem;
+  position: absolute;
+  padding-bottom: 1.6rem;
+  margin-left: 0.5rem;
 }
