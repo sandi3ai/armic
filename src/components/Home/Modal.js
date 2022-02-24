@@ -109,7 +109,7 @@ const Modal = ({ closeModal, passID }) => {
       setTimeout(() => {
         setSuccessTxt(false);
         closeModal(false);
-      }, 1440);
+      }, 1400);
 
       //window.location.reload(); //reloada page
     });
