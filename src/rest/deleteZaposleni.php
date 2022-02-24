@@ -8,7 +8,7 @@ $id = $_POST['id'];
 $sql = "DELETE FROM `zaposleni` WHERE `zaposleni`.`zaposleniID` =" . $id;
 $stmt= $conn->prepare($sql);
 if ($stmt->execute()){
-    echo "Dežurni številka " . $id . " je izbrisan.";
+    echo "Zaposleni številka " . $id . " je izbrisan.";
 }
 
 ?>

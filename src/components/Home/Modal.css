@@ -29,6 +29,11 @@
   width: 100%;
 }
 
+.modalContainer .titleDelete {
+  text-align: center;
+  padding: 1rem;
+}
+
 .titleCloseBtn {
   display: flex;
   justify-content: flex-end;
@@ -52,4 +57,9 @@
   font-size: 1rem;
   text-align: center;
   padding-bottom: 0.5rem;
+}
+
+.modalContainer .bodyBtns {
+  margin: 0.5rem;
+  border: 1px solid none;
 }

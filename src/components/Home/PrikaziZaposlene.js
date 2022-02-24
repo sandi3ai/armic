@@ -9,8 +9,6 @@ const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
   const getUrl =
     "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const deleteUrl =
-    "http://localhost/reactProjects/armic/src/rest/deleteZaposleni.php";
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
@@ -26,22 +24,14 @@ const PrikaziZaposlene = () => {
   };
   useEffect(() => {
     getZaposleni();
-  }, [openModal]);
-
-  const deleteZaposleni = (id, event) => {
-    event.preventDefault();
-    Axios.post(deleteUrl, { id: id })
-      .then(() => {
-        console.log(id + " number sent on deleteZaposleni.php");
-        getZaposleni();
-      })
-      .catch((error) => console.log(error));
-  };
+  }, [openModal, openDeleteModal]);
 
   return (
     <div>
       {openModal && <Modal closeModal={setOpenModal} passID={passID} />}
-      {openDeleteModal && <ModalDelete />}
+      {openDeleteModal && (
+        <ModalDelete closeModal={setOpenDeleteModal} passID={passID} />
+      )}
       <div className="parent">
         {data.map((data) => (
           <div key={data.zaposleniID} className="child">
@@ -55,8 +45,9 @@ const PrikaziZaposlene = () => {
             >
               <FaRegTrashAlt
                 className="deleteBtn" //trash icon
-                onClick={(event) => {
-                  deleteZaposleni(data.zaposleniID, event);
+                onClick={() => {
+                  setPassID(data.zaposleniID);
+                  //deleteZaposleni(data.zaposleniID, event);
                   setOpenDeleteModal(true);
                 }}
               />

@@ -34,7 +34,7 @@ const Modal = ({ closeModal, passID }) => {
     }
   };
 
-  const getPassZaposleni = (data, passID) => {
+  const getPassedZaposleni = (data, passID) => {
     const zaposleni = data.find(
       (zaposleni) => zaposleni.zaposleniID === passID
     );
@@ -42,7 +42,7 @@ const Modal = ({ closeModal, passID }) => {
   };
 
   const getZaposleniIme = (data, passID) => {
-    const zaposleni = getPassZaposleni(data, passID);
+    const zaposleni = getPassedZaposleni(data, passID);
     return zaposleni ? zaposleni.zaposleniIme : "Ne najdem imena";
     /*.filter((data) => data.zaposleniID === passID)
     .map((filteredData) => filteredData.zaposleniIme);
@@ -51,7 +51,7 @@ const Modal = ({ closeModal, passID }) => {
   };
 
   const getZaposleniSkupina = (data, passID) => {
-    const zaposleni = getPassZaposleni(data, passID);
+    const zaposleni = getPassedZaposleni(data, passID);
     return zaposleni ? zaposleni.zaposleniSkupinaID : null;
   };
 
@@ -122,7 +122,9 @@ const Modal = ({ closeModal, passID }) => {
           <button onClick={() => closeModal(false)}>X</button>
         </div>
         <div className="title">
-          <h4>{getZaposleniIme(data, passID)} - posodobi podatke</h4>
+          <h4>
+            <strong>{getZaposleniIme(data, passID)}</strong> - posodobi podatke
+          </h4>
         </div>
         <div className="body">
           <Form onSubmit={(e) => submitForm(e)}>
