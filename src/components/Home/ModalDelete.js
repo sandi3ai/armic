@@ -53,14 +53,14 @@ const ModalDelete = ({ closeModal, passID }) => {
 
   return (
     <div className="modalBackground">
-      <div className="modalContainer">
+      <div className="modalContainerDelete">
         <div className="titleCloseBtn">
           <button onClick={() => closeModal(false)}>X</button>
         </div>
         <div className="titleDelete">
-          <h4>
+          <h6>
             <strong>{getZaposleniIme(data, passID)}</strong> - potrdi izbris
-          </h4>
+          </h6>
         </div>
         <div className="body">
           <Button

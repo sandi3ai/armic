@@ -21,6 +21,22 @@
   padding: 0.4rem;
 }
 
+.modalContainerDelete {
+  position: fixed;
+  left: 15%;
+  width: 70%;
+  border-radius: 1em;
+  border: 1px solid white;
+  box-shadow: 2px 5px 5px black;
+  background-color: rgb(235, 235, 235);
+  display: flex-wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  color: black;
+  z-index: 1;
+  padding: 0.4rem;
+}
+
 .modalContainer .title {
   display: inline-block;
   text-align: left;
@@ -29,7 +45,8 @@
   width: 100%;
 }
 
-.modalContainer .titleDelete {
+.modalContainer,
+.modalContainerDelete .titleDelete {
   text-align: center;
   padding: 1rem;
 }
@@ -49,7 +66,7 @@
   color: white;
 }
 
-.modalContainer .body {
+.modalContainerDelete .body {
   flex: 50%;
   display: flex;
   justify-content: center;
@@ -59,7 +76,7 @@
   padding-bottom: 0.5rem;
 }
 
-.modalContainer .bodyBtns {
+.modalContainerDelete .bodyBtns {
   margin: 0.5rem;
   border: 1px solid none;
 }
