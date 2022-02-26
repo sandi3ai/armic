@@ -19,7 +19,6 @@ const Modal = ({ closeModal, passID }) => {
   const [updatedSkupina, setUpdatedSkupina] = useState("");
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
-
   const getZaposleni = () => {
     try {
       Axios.get(getZaposleniUrl).then((response) => {
