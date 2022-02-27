@@ -1,7 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import Modal from "./Modal";
 import ModalDelete from "./ModalDelete";
 
@@ -37,35 +36,22 @@ const PrikaziZaposlene = () => {
           <div key={data.zaposleniID} className="child">
             {data.zaposleniIme}
 
-            <OverlayTrigger /* Na mouse-hover napis "izbriši zaposlenega" */
-              placement="top"
-              overlay={
-                <Tooltip id="button-tooltip-2">Izbriši zaposlenega</Tooltip>
-              }
-            >
-              <FaRegTrashAlt
-                className="deleteBtn" //trash icon
-                onClick={() => {
-                  setPassID(data.zaposleniID);
-                  //deleteZaposleni(data.zaposleniID, event);
-                  setOpenDeleteModal(true);
-                }}
-              />
-            </OverlayTrigger>
-            <OverlayTrigger /* Na mouse-hover napis "uredi zaposlenega" */
-              placement="top"
-              overlay={
-                <Tooltip id="button-tooltip-2">Uredi zaposlenega</Tooltip>
-              }
-            >
-              <FaRegEdit
-                className="editBtn" //edit icon
-                onClick={() => {
-                  setOpenModal(true);
-                  setPassID(data.zaposleniID);
-                }}
-              />
-            </OverlayTrigger>
+            <FaRegTrashAlt
+              className="deleteBtn" //trash icon
+              onClick={() => {
+                setPassID(data.zaposleniID);
+                //deleteZaposleni(data.zaposleniID, event);
+                setOpenDeleteModal(true);
+              }}
+            />
+
+            <FaRegEdit
+              className="editBtn" //edit icon
+              onClick={() => {
+                setOpenModal(true);
+                setPassID(data.zaposleniID);
+              }}
+            />
           </div>
         ))}
       </div>

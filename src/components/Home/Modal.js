@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
-import "./Modal.css";
 import checkMark from "../Images/checkMark.gif";
 
 const Modal = ({ closeModal, passID }) => {
@@ -126,6 +125,7 @@ const Modal = ({ closeModal, passID }) => {
           </h4>
         </div>
         <div className="body">
+          <hr />
           <Form onSubmit={(e) => submitForm(e)}>
             <Form.Group className="mb-3">
               <Form.Label>Spremeni ime in priimek zaposlenega: </Form.Label>
@@ -156,8 +156,7 @@ const Modal = ({ closeModal, passID }) => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
-            <br />
-            <br />
+            <hr />
             <div className="successBox">
               <Button variant="outline-success" type="submit">
                 Posodobi

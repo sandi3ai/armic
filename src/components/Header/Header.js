@@ -1,5 +1,4 @@
 import React from "react";
-import useApi from "../../hooks/useApi.js";
 import NavigationBar from "./NavBar.js";
 
 function Header({ Logout }) {

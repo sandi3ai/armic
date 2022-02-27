@@ -158,3 +158,128 @@ h2 {
   padding-bottom: 1.6rem;
   margin-left: 0.5rem;
 }
+
+#button-tooltip-2 {
+  z-index: 1 !important;
+}
+
+/* =====  ===== MODAL CSS ===== ===== */
+
+.modalBackground {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: (0, 0, 0, 0.5);
+}
+
+.modalContainer {
+  position: fixed;
+  display: block;
+  border-radius: 1em;
+  border: 2px solid white;
+  box-shadow: 2px 5px 5px black;
+  background-color: rgb(241, 241, 241);
+  color: rgb(31, 31, 31);
+  z-index: 100;
+  padding: 0.5rem;
+  max-width: 90%;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+}
+
+.modalContainer .body {
+  padding: 0rem 2rem 1rem;
+}
+
+.modalContainer .title {
+  display: inline-block;
+  text-align: left;
+  padding: 1rem 1rem 0rem;
+  width: 100%;
+}
+
+.modalContainerDelete {
+  position: fixed;
+  display: block;
+  border-radius: 1em;
+  border: 2px solid white;
+  box-shadow: 2px 5px 5px black;
+  background-color: rgb(241, 241, 241);
+  color: rgb(31, 31, 31);
+  z-index: 100;
+  padding: 0.5rem;
+  max-width: 90%;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 300px;
+}
+
+.modalContainerDelete .titleDelete {
+  text-align: center;
+  padding: 5px 15px 5px;
+}
+
+.titleCloseBtn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.titleCloseBtn button {
+  background-color: red;
+  border: none;
+  border-radius: 5px;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0px 20px 0px;
+  color: white;
+}
+
+.modalContainerDelete .body {
+  flex: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+
+.modalContainerDelete .bodyBtns {
+  margin: 0.5rem;
+  border: 1px solid none;
+}
+/* =====  ===== FOR SMALL DEVICES ===== ===== */
+
+@media screen and (max-width: 576px) {
+  .modalContainer {
+    position: fixed;
+    border-radius: 1em;
+    border: 2px solid white;
+    box-shadow: 2px 5px 5px black;
+    background-color: rgb(241, 241, 241);
+    color: rgb(31, 31, 31);
+    z-index: 1;
+    padding: 0.5rem;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .modalContainer .body {
+    padding: 0rem 1rem 0.5rem;
+  }
+
+  .modalContainer .title {
+    display: inline-block;
+    text-align: left;
+    padding: 0.5rem 0.5rem 0rem;
+    width: 100%;
+  }
+}
