@@ -2,33 +2,55 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import Axios from "axios";
 
-const DopustData = (props) => {
-  const getZaposleniUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const [zaposleni, setZaposleni] = useState([
-    { ID: "", ime: "", skupinaID: "" },
+const DopustData = ({ radioValueName, radioValueID }) => {
+  const getDopustnikUrl =
+    "http://localhost/reactProjects/armic/src/rest/getDopustnik.php";
+  const [dopustnik, setDopustnik] = useState([
+    { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "" },
   ]);
 
-  const getZaposleni = () => {
-    try {
-      Axios.get(getZaposleniUrl).then((response) => {
-        console.log(response.data.zaposleni);
-      });
-    } catch (error) {
-      alert(error.message);
+  const giveMeVacay = (radioValueID) => {
+    if (radioValueID !== "") {
+      try {
+        Axios.post(getDopustnikUrl, { radioValue: radioValueID }).then(
+          (response) => {
+            const res = response.data.dopustnik;
+            getDopustnikObject(res);
+          }
+        );
+      } catch (error) {
+        alert(error.message);
+      }
+    } else {
+      console.log("radio value is empty");
     }
   };
 
-  useEffect(() => {
-    getZaposleni();
-  }, []);
+  const getDopustnikObject = (data) => {
+    //prefiltrira samo objekte ki imajo končni in začetni datum(dopusta)
+    let newArray = data.filter((data) => {
+      return data.datumZ !== null && data.datumK !== null;
+    });
+    setDopustnik(
+      newArray.map((data) => {
+        return {
+          dopustnikIme: data.zaposleniIme,
+          dopustnikID: data.zaposleniID,
+          datumZ: data.datumZ,
+          datumK: data.datumK,
+        };
+      })
+    );
+  };
 
-  console.log(zaposleni);
+  useEffect(() => {
+    giveMeVacay(radioValueID);
+  }, [radioValueID]);
 
   return (
     <div className="content">
       <h5>
-        Izbrana skupina: <strong>{props.radioValueName}</strong>
+        Izbrana skupina: <strong>{radioValueName}</strong>
       </h5>
       <hr />
       <Table striped bordered hover size="sm">
@@ -39,7 +61,15 @@ const DopustData = (props) => {
             <th>Končni datum</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          {dopustnik.map((dopustnik, idx) => (
+            <tr key={idx}>
+              <td>{dopustnik.dopustnikIme}</td>
+              <td>{dopustnik.datumZ}</td>
+              <td>{dopustnik.datumK}</td>
+            </tr>
+          ))}
+        </tbody>
         <tfoot className="tableFooter">
           <tr>
             <td></td>
