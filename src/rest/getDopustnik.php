@@ -5,7 +5,7 @@ include_once 'db.php';
 $_POST = json_decode(file_get_contents("php://input"), true);
 $groupID = $_POST['radioValue'];
 
-$sql = "SELECT zaposlen.zaposleniIme, zaposlen.zaposleniID, dopust.datumZ, dopust.datumK FROM zaposlen LEFT JOIN dopust ON dopust.dopustnikID = zaposlen.zaposleniID WHERE zaposlen.zaposleniSkupinaID = '$groupID' ORDER BY dopust.datumZ ASC";
+$sql = "SELECT zaposlen.zaposleniIme, zaposlen.zaposleniID, dopust.datumZ, dopust.datumK FROM zaposlen LEFT JOIN dopust ON dopust.dopustnikID = zaposlen.zaposleniID WHERE zaposlen.zaposleniSkupinaID = '$groupID' ORDER BY dopust.datumZ DESC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 
