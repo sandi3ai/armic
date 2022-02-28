@@ -8,7 +8,7 @@ $group = $_POST['group'];
 
 
 if ($name != null) {
-$sql = "INSERT INTO zaposleni (zaposleniIme, zaposleniSkupinaID) VALUES (:name, :group)";
+$sql = "INSERT INTO zaposlen (zaposleniIme, zaposleniSkupinaID) VALUES (:name, :group)";
 $stmt= $conn->prepare($sql);
 $stmt->execute(['name' => $name, 'group' => $group]);
 }

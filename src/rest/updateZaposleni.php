@@ -7,7 +7,7 @@ $id = $_POST['id'];
 $name = $_POST['updatedName'];
 $skupina = $_POST['updatedSkupina'];
 
-$sql = "UPDATE `zaposleni` SET zaposleniIme=?, zaposleniSkupinaID=? WHERE zaposleniID = ?";
+$sql = "UPDATE `zaposlen` SET zaposleniIme=?, zaposleniSkupinaID=? WHERE zaposleniID = ?";
 $stmt= $conn->prepare($sql);
 if ($stmt->execute([$name, $skupina, $id])){
     echo "Zaposleni številka " . $id . " je posodobljen.";
