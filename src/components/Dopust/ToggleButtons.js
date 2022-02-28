@@ -8,16 +8,26 @@ function ToggleButtonGroup() {
   const getSkupineUrl =
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
   const [radioValue, setRadioValue] = useState("/");
-  const [vodje, setVodje] = useState([{ name: "", value: "", poz: "" }]);
   const [skupine, setSkupine] = useState([{ skupinaID: "", skupinaIme: "" }]);
-
-  //getskupine
+  const [zaposleni, setZaposleni] = useState([
+    { ID: "", ime: "", skupinaID: "" },
+  ]);
 
   const getSkupine = (getSkupinaObject) => {
     try {
       Axios.get(getSkupineUrl).then((response) => {
         getSkupinaObject(response.data.skupine);
         console.log(response.data.skupine);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const getZaposleni = () => {
+    try {
+      Axios.get(getZaposleniUrl).then((response) => {
+        getZaposleniObject(response.data.zaposleni);
       });
     } catch (error) {
       alert(error.message);
@@ -35,46 +45,31 @@ function ToggleButtonGroup() {
     );
   };
 
-  const getZaposleni = (filterOAV) => {
-    try {
-      Axios.get(getZaposleniUrl).then((response) => {
-        filterOAV(response.data.zaposleni);
-        console.log(response.data.zaposleni);
-      });
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
-  const filterOAV = (data) => {
-    setVodje(
-      data
-        .map(function (data) {
-          return {
-            name: data.zaposleniIme,
-            value: data.zaposleniID,
-            poz: data.zaposleniSkupinaID,
-          };
-        })
-        .filter((zaposleni) => zaposleni.poz === "OA-vodja")
+  const getZaposleniObject = (data) => {
+    setZaposleni(
+      data.map((data) => {
+        return {
+          ID: data.zaposleniID,
+          ime: data.zaposleniIme,
+          skupinaID: data.zaposleniSkupinaID,
+        };
+      })
     );
   };
 
-  const checkRadioValue = (radioValue) => {
-    console.log(radioValue);
-  };
-
   const getRadioValueName = (radioValue) => {
-    console.log(radioValue);
-    //tukaj dobiš ime iz IDja skupine ...(funkcija find())
+    const ime = skupine.find(({ skupinaID }) => skupinaID === radioValue);
+    return ime;
   };
 
   useEffect(() => {
-    getZaposleni(filterOAV);
+    getZaposleni();
     getSkupine(getSkupinaObject);
   }, []);
 
-  checkRadioValue(radioValue);
+  console.log(zaposleni);
+
+  //getRadioValueName(radioValue);
 
   return (
     <div>
@@ -94,8 +89,8 @@ function ToggleButtonGroup() {
           </ToggleButton>
         ))}
       </ButtonGroup>
-      <br />
-      Izbrana skupina: <strong>{radioValue} </strong>
+      <hr />
+      Izbrana skupina: <strong>{/*getRadioValueName(radioValue)*/}</strong>
     </div>
   );
 }

@@ -42,10 +42,6 @@ const Modal = ({ closeModal, passID }) => {
   const getZaposleniIme = (data, passID) => {
     const zaposleni = getPassedZaposleni(data, passID);
     return zaposleni ? zaposleni.zaposleniIme : "Ne najdem imena";
-    /*.filter((data) => data.zaposleniID === passID)
-    .map((filteredData) => filteredData.zaposleniIme);
-    console.log(ime[0]);
-    return ime[0];*/
   };
 
   const getZaposleniSkupina = (data, passID) => {
