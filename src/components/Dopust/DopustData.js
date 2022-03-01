@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import Axios from "axios";
+import moment from "moment";
 
 const DopustData = ({ radioValueName, radioValueID }) => {
   const getDopustnikUrl =
@@ -36,8 +37,8 @@ const DopustData = ({ radioValueName, radioValueID }) => {
         return {
           dopustnikIme: data.zaposleniIme,
           dopustnikID: data.zaposleniID,
-          datumZ: data.datumZ,
-          datumK: data.datumK,
+          datumZ: moment(data.datumZ).format("D.M.YYYY"),
+          datumK: moment(data.datumK).format("D.M.YYYY"),
         };
       })
     );
@@ -53,29 +54,33 @@ const DopustData = ({ radioValueName, radioValueID }) => {
         Izbrana skupina: <strong>{radioValueName}</strong>
       </h5>
       <hr />
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th>Dopustnik</th>
-            <th>Začetni datum</th>
-            <th>Končni datum</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dopustnik.map((dopustnik, idx) => (
-            <tr key={idx}>
-              <td>{dopustnik.dopustnikIme}</td>
-              <td>{dopustnik.datumZ}</td>
-              <td>{dopustnik.datumK}</td>
+      {dopustnik.length === 0 ? (
+        "Ni zabeleženih dopustov za izbrano skupino."
+      ) : (
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>Dopustnik</th>
+              <th>Začetni datum</th>
+              <th>Končni datum</th>
             </tr>
-          ))}
-        </tbody>
-        <tfoot className="tableFooter">
-          <tr>
-            <td></td>
-          </tr>
-        </tfoot>
-      </Table>
+          </thead>
+          <tbody>
+            {dopustnik.map((dopustnik, idx) => (
+              <tr key={idx}>
+                <td>{dopustnik.dopustnikIme}</td>
+                <td>{dopustnik.datumZ}</td>
+                <td>{dopustnik.datumK}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="tableFooter">
+            <tr>
+              <td></td>
+            </tr>
+          </tfoot>
+        </Table>
+      )}
     </div>
   );
 };
