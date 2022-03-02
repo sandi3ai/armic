@@ -18,6 +18,7 @@ const Modal = ({ closeModal, passID }) => {
   const [updatedSkupina, setUpdatedSkupina] = useState("");
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
+  const [updatedPass, setUpdatedPass] = useState("");
   const getZaposleni = () => {
     try {
       Axios.get(getZaposleniUrl).then((response) => {
@@ -95,12 +96,14 @@ const Modal = ({ closeModal, passID }) => {
       passID,
       updatedName,
       updatedSkupina,
+      updatedPass,
     };
     console.log(postData);
     Axios.post(updateUrl, {
       id: postData.passID,
       updatedName: postData.updatedName,
       updatedSkupina: postData.updatedSkupina,
+      updatedPass: postData.updatedPass,
     }).then(() => {
       console.log("updateZaposleni executed!");
       setSuccessTxt(true);
@@ -134,6 +137,15 @@ const Modal = ({ closeModal, passID }) => {
                 onChange={(e) => setUpdatedName(e.target.value)}
                 value={updatedName}
                 defaultValue={getZaposleniIme(data, passID)}
+                type="text"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Spremeni geslo zaposlenega: </Form.Label>
+              <Form.Control
+                name="name"
+                onChange={(e) => setUpdatedPass(e.target.value)}
+                value={updatedPass}
                 type="text"
               />
             </Form.Group>
