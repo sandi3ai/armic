@@ -15,28 +15,37 @@ export const VnosZaposlenega = () => {
   const [izbranaSkupina, setIzbranaSkupina] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [imeSkupine, setImeSkupine] = useState("");
+  const [pass, setPass] = useState("");
+  const [emptyTxt, setEmptyTxt] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
     const postData = {
       name,
       izbranaSkupina,
+      pass,
     };
     console.log(postData);
-    Axios.post(postUrl, {
-      name: postData.name,
-      group: postData.izbranaSkupina,
-    }).then(() => {
-      console.log("submitForm executed");
-      setName("");
-      if (name && izbranaSkupina !== "") {
-        //prikaže success box, če so vsi podatki izpolnjeni
+    if (name && izbranaSkupina && pass !== "") {
+      Axios.post(postUrl, {
+        name: postData.name,
+        group: postData.izbranaSkupina,
+        pass: postData.pass,
+      }).then(() => {
+        console.log("submitForm executed");
+        setName("");
+        //prikaže success box
         setSuccessTxt(true);
         setTimeout(() => {
           setSuccessTxt(false);
         }, 4000);
-      }
-    });
+      });
+    } else {
+      setEmptyTxt(true);
+      setTimeout(() => {
+        setEmptyTxt(false);
+      }, 4000);
+    }
   }
 
   const getSkupine = () => {
@@ -70,6 +79,8 @@ export const VnosZaposlenega = () => {
     }
   }
 
+  console.log(pass);
+
   return (
     <div>
       <hr />
@@ -78,13 +89,26 @@ export const VnosZaposlenega = () => {
       <Form onSubmit={(e) => submitForm(e)}>
         <br />
         <Form.Group className="mb-3">
-          <Form.Label>Ime in priimek zaposlenega: </Form.Label>
+          <Form.Label>Ime in priimek zaposlenega:</Form.Label>
           <Form.Control
             name="name"
             onChange={(e) => setName(e.target.value)}
             value={name}
             type="text"
             placeholder="Ime in priimek zaposlenega"
+          />
+          <Form.Text className="text-muted">
+            Ime in priimek sta hkrati tudi uporabiško ime za prijavo uporabnika.
+          </Form.Text>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label>Geslo za prijavo uporabnika: </Form.Label>
+          <Form.Control
+            name="pass"
+            onChange={(e) => setPass(e.target.value)}
+            value={pass}
+            type="text"
+            placeholder="Vpiši geslo"
           />
         </Form.Group>
 
@@ -112,6 +136,7 @@ export const VnosZaposlenega = () => {
             Dodaj novega zaposlenega
           </Button>
           {successTxt && " Nov zaposleni uspešno dodan!"}
+          {emptyTxt && " Vsa polja so obvezna!"}
         </div>
       </Form>
     </div>
