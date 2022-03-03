@@ -254,6 +254,10 @@ h2 {
   margin: 0.5rem;
   border: 1px solid none;
 }
+
+.reddish {
+  color: red !important;
+}
 /* =====  ===== FOR SMALL DEVICES ===== ===== */
 
 @media screen and (max-width: 576px) {

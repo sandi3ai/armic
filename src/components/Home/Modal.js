@@ -19,6 +19,7 @@ const Modal = ({ closeModal, passID }) => {
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [updatedPass, setUpdatedPass] = useState("");
+  const [showPassErr, setShowPassErr] = useState(false);
   const getZaposleni = () => {
     try {
       Axios.get(getZaposleniUrl).then((response) => {
@@ -99,21 +100,28 @@ const Modal = ({ closeModal, passID }) => {
       updatedPass,
     };
     console.log(postData);
-    Axios.post(updateUrl, {
-      id: postData.passID,
-      updatedName: postData.updatedName,
-      updatedSkupina: postData.updatedSkupina,
-      updatedPass: postData.updatedPass,
-    }).then(() => {
-      console.log("updateZaposleni executed!");
-      setSuccessTxt(true);
-      setTimeout(() => {
-        setSuccessTxt(false);
-        closeModal(false);
-      }, 1400);
+    if (postData.updatedPass !== "") {
+      Axios.post(updateUrl, {
+        id: postData.passID,
+        updatedName: postData.updatedName,
+        updatedSkupina: postData.updatedSkupina,
+        updatedPass: postData.updatedPass,
+      }).then(() => {
+        console.log("updateZaposleni executed!");
+        setSuccessTxt(true);
+        setTimeout(() => {
+          setSuccessTxt(false);
+          closeModal(false);
+        }, 1400);
 
-      //window.location.reload(); //reloada page
-    });
+        //window.location.reload(); //reloada page
+      });
+    } else {
+      setShowPassErr(true);
+      setTimeout(() => {
+        setShowPassErr(false);
+      }, 4000);
+    }
   }
 
   return (
@@ -147,7 +155,10 @@ const Modal = ({ closeModal, passID }) => {
                 onChange={(e) => setUpdatedPass(e.target.value)}
                 value={updatedPass}
                 type="text"
-              />
+              />{" "}
+              {showPassErr && (
+                <Form.Text className="reddish">Geslo je obvezno</Form.Text>
+              )}
             </Form.Group>
 
             <Form.Label>Delavcu spremeni skupino: </Form.Label>
