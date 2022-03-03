@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import checkMark from "../Images/checkMark.gif";
+import usePasswordToggle from "../../hooks/usePasswordToggle";
 
 const Modal = ({ closeModal, passID }) => {
   const getZaposleniUrl =
@@ -20,6 +21,8 @@ const Modal = ({ closeModal, passID }) => {
   const [successTxt, setSuccessTxt] = useState(false);
   const [updatedPass, setUpdatedPass] = useState("");
   const [showPassErr, setShowPassErr] = useState(false);
+  const [ToggleIcon, PasswordInputType] = usePasswordToggle();
+
   const getZaposleni = () => {
     try {
       Axios.get(getZaposleniUrl).then((response) => {
@@ -150,12 +153,15 @@ const Modal = ({ closeModal, passID }) => {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Spremeni geslo zaposlenega: </Form.Label>
-              <Form.Control
-                name="name"
-                onChange={(e) => setUpdatedPass(e.target.value)}
-                value={updatedPass}
-                type="text"
-              />{" "}
+              <div className="gesloArea">
+                <Form.Control
+                  name="name"
+                  onChange={(e) => setUpdatedPass(e.target.value)}
+                  value={updatedPass}
+                  type={PasswordInputType}
+                />{" "}
+                <span className="passToggleIcon">{ToggleIcon}</span>
+              </div>{" "}
               {showPassErr && (
                 <Form.Text className="reddish">Geslo je obvezno</Form.Text>
               )}
