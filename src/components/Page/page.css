@@ -151,6 +151,16 @@ h2 {
 .vnosBtn {
   margin: 10px 10px 10px 0px;
 }
+.addNew {
+  border: 1px solid white;
+  border-radius: 1rem;
+  padding: 1rem;
+  width: fit-content;
+  margin-bottom: 2rem;
+}
+.inputForm {
+  width: 15rem;
+}
 
 .checkMark {
   height: 4rem;
@@ -266,11 +276,19 @@ h2 {
 
 .passToggleIcon {
   position: absolute;
-  right: 13%;
-  z-index: 100;
   font-size: 1.35rem;
   border: none;
   cursor: pointer;
+  right: 13%;
+}
+
+.newPassToggleIcon {
+  position: absolute;
+  font-size: 1.35rem;
+  border: none;
+  cursor: pointer;
+  right: 13%;
+  left: 15rem;
 }
 
 /* =====  ===== FOR SMALL DEVICES ===== ===== */

@@ -21,6 +21,7 @@ const Modal = ({ closeModal, passID }) => {
   const [successTxt, setSuccessTxt] = useState(false);
   const [updatedPass, setUpdatedPass] = useState("");
   const [showPassErr, setShowPassErr] = useState(false);
+
   const [ToggleIcon, PasswordInputType] = usePasswordToggle();
 
   const getZaposleni = () => {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import Axios from "axios";
+import usePasswordToggle from "../../hooks/usePasswordToggle";
 
 export const VnosZaposlenega = () => {
   const postUrl =
@@ -17,6 +18,8 @@ export const VnosZaposlenega = () => {
   const [imeSkupine, setImeSkupine] = useState("");
   const [pass, setPass] = useState("");
   const [emptyTxt, setEmptyTxt] = useState(false);
+
+  const [ToggleIcon, PasswordInputType] = usePasswordToggle();
 
   function submitForm(e) {
     e.preventDefault();
@@ -79,38 +82,40 @@ export const VnosZaposlenega = () => {
     }
   }
 
-  console.log(pass);
-
   return (
-    <div>
-      <hr />
-
+    <div className="addNew">
       <h3>Dodaj novega zaposlenega</h3>
       <Form onSubmit={(e) => submitForm(e)}>
         <br />
-        <Form.Group className="mb-3">
-          <Form.Label>Ime in priimek zaposlenega:</Form.Label>
-          <Form.Control
-            name="name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-            type="text"
-            placeholder="Ime in priimek zaposlenega"
-          />
-          <Form.Text className="text-muted">
-            Ime in priimek sta hkrati tudi uporabiško ime za prijavo uporabnika.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Geslo za prijavo uporabnika: </Form.Label>
-          <Form.Control
-            name="pass"
-            onChange={(e) => setPass(e.target.value)}
-            value={pass}
-            type="text"
-            placeholder="Vpiši geslo"
-          />
-        </Form.Group>
+        <div>
+          <Form.Group className="mb-3 inputForm">
+            <Form.Label>Ime in priimek zaposlenega:</Form.Label>
+            <Form.Control
+              name="name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              type="text"
+              placeholder="Ime in priimek"
+            />
+            <Form.Text className="text-muted">
+              Ime in priimek sta hkrati tudi uporabiško ime za prijavo
+              uporabnika.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3 inputForm">
+            <Form.Label>Geslo za prijavo uporabnika: </Form.Label>
+            <div className="gesloArea">
+              <Form.Control
+                name="pass"
+                onChange={(e) => setPass(e.target.value)}
+                value={pass}
+                type={PasswordInputType}
+                placeholder="Vpiši geslo"
+              />
+              <span className="newPassToggleIcon">{ToggleIcon}</span>
+            </div>{" "}
+          </Form.Group>
+        </div>
 
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
@@ -130,6 +135,7 @@ export const VnosZaposlenega = () => {
             </Dropdown.Item>
           ))}
         </DropdownButton>
+
         <br />
         <div className="successBox">
           <Button variant="outline-success" type="submit">

@@ -46,7 +46,7 @@ const NovaSkupina = () => {
     <div>
       <h3>Dodaj novo skupino</h3>
       <Form onSubmit={(e) => submitForm(e)}>
-        <Form.Group className="mb-3">
+        <Form.Group className="mb-3 inputForm">
           <Form.Label>Vpiši ime nove skupine: </Form.Label>
           <Form.Control
             name="name"

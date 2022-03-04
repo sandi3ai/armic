@@ -14,3 +14,5 @@ const usePasswordToggle = () => {
 };
 
 export default usePasswordToggle;
+
+//dodaj še v VnosZaposlenega.js, Login.js ... + the other app
