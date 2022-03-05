@@ -88,21 +88,24 @@ export const VnosZaposlenega = () => {
       <Form onSubmit={(e) => submitForm(e)}>
         <br />
         <div>
-          <Form.Group className="mb-3 inputForm">
+          <Form.Group className="mb-3">
             <Form.Label>Ime in priimek zaposlenega:</Form.Label>
-            <Form.Control
-              name="name"
-              onChange={(e) => setName(e.target.value)}
-              value={name}
-              type="text"
-              placeholder="Ime in priimek"
-            />
+            <div className="inputForm">
+              <Form.Control
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
+                type="text"
+                placeholder="Ime in priimek"
+              />
+            </div>
+
             <Form.Text className="text-muted">
               Ime in priimek sta hkrati tudi uporabiško ime za prijavo
               uporabnika.
             </Form.Text>
           </Form.Group>
-          <Form.Group className="mb-3 inputForm">
+          <Form.Group className="mb-3">
             <Form.Label>Geslo za prijavo uporabnika: </Form.Label>
             <div className="gesloArea">
               <Form.Control
@@ -112,7 +115,7 @@ export const VnosZaposlenega = () => {
                 type={PasswordInputType}
                 placeholder="Vpiši geslo"
               />
-              <span className="newPassToggleIcon">{ToggleIcon}</span>
+              <span className="passToggleIcon">{ToggleIcon}</span>
             </div>{" "}
           </Form.Group>
         </div>

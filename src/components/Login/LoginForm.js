@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Form, Button, Card } from "react-bootstrap";
 import logo from "../Images/armicLogo.png";
+import usePasswordToggle from "../../hooks/usePasswordToggle";
 
 function LoginForm({ Login, error }) {
   const [details, setDetails] = useState({ email: "", password: "" });
+
+  const [ToggleIcon, PasswordInputType] = usePasswordToggle();
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -34,17 +37,22 @@ function LoginForm({ Login, error }) {
 
             <Form.Group>
               <Form.Label>Geslo</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Vpiši geslo"
-                name="password"
-                id="loginInputPassword"
-                autoComplete="on"
-                onChange={(e) =>
-                  setDetails({ ...details, password: e.target.value })
-                }
-                value={details.password}
-              />
+
+              <div className="gesloArea">
+                <Form.Control
+                  type={PasswordInputType}
+                  placeholder="Vpiši geslo"
+                  name="password"
+                  id="loginInputPassword"
+                  autoComplete="on"
+                  onChange={(e) =>
+                    setDetails({ ...details, password: e.target.value })
+                  }
+                  value={details.password}
+                />
+
+                <span className="passToggleIcon">{ToggleIcon}</span>
+              </div>
             </Form.Group>
 
             <Button

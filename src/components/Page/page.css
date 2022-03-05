@@ -158,9 +158,6 @@ h2 {
   width: fit-content;
   margin-bottom: 2rem;
 }
-.inputForm {
-  width: 15rem;
-}
 
 .checkMark {
   height: 4rem;
@@ -270,25 +267,15 @@ h2 {
 }
 .gesloArea {
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 .passToggleIcon {
-  position: absolute;
   font-size: 1.35rem;
   border: none;
   cursor: pointer;
-  right: 13%;
-}
-
-.newPassToggleIcon {
-  position: absolute;
-  font-size: 1.35rem;
-  border: none;
-  cursor: pointer;
-  right: 13%;
-  left: 15rem;
+  float: right;
+  margin-left: 0.5rem;
 }
 
 /* =====  ===== FOR SMALL DEVICES ===== ===== */
