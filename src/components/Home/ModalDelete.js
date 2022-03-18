@@ -12,7 +12,7 @@ const ModalDelete = ({ closeModal, passID }) => {
 
   const getZaposleni = () => {
     try {
-      Axios.get(getZaposleniUrl).then((response) => {
+      Axios.get(getZaposleniUrl, { withCredentials: true }).then((response) => {
         setData(response.data.zaposleni);
         console.log(response.data.zaposleni);
       });
@@ -38,7 +38,7 @@ const ModalDelete = ({ closeModal, passID }) => {
   };
 
   const deleteZaposleni = (id) => {
-    Axios.post(deleteUrl, { id: id })
+    Axios.post(deleteUrl, { id: id }, { withCredentials: true })
       .then(() => {
         console.log(id + " number sent on deleteZaposleni.php");
         closeModal(false);

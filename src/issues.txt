@@ -12,6 +12,7 @@ v komponenti NovVnos? Zato da se refresha...
 - če ni vrstic v SQL tabeli 'dezurstva' vse crasha !!
 
 -auth.php = adminID nima vrednosti, ne vem kako naj ga prensem, brez da naredim poseben SELECT iz baze
+10.3.2022 - še vedno
 
 uporaba useEffect da se naložijo podatki, ko se naloži stran? 
 (PRIMER:
@@ -19,16 +20,6 @@ uporaba useEffect da se naložijo podatki, ko se naloži stran?
     getZaposleni();
   }, []);
 )
-
-18.2.2022 kako da je trash ikona (PrikaziZaposlene.js, ln69)
-prej kot edit ikona (PrikaziZaposlene), če je v kodi napisana kasneje?
-//ker je float-right
-
-
-
-
-
-
 
 
 

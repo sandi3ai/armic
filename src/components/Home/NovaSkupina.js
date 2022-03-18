@@ -15,9 +15,13 @@ const NovaSkupina = () => {
     console.log("sumbitForm triggered");
     console.log(imeSkupine);
     try {
-      Axios.post(postUrl, {
-        name: imeSkupine,
-      }).then(() => {
+      Axios.post(
+        postUrl,
+        {
+          name: imeSkupine,
+        },
+        { withCredentials: true }
+      ).then(() => {
         console.log("submitForm executed");
         if (imeSkupine !== "") {
           //prikaže success box, če so vsi podatki izpolnjeni

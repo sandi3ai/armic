@@ -14,7 +14,7 @@ const PrikaziZaposlene = () => {
 
   const getZaposleni = () => {
     try {
-      Axios.get(getUrl).then((response) => {
+      Axios.get(getUrl, { withCredentials: true }).then((response) => {
         setData(response.data.zaposleni);
       });
     } catch (error) {

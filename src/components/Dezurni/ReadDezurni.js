@@ -11,7 +11,7 @@ function ReadDezurni() {
 
   const getDezurni = () => {
     try {
-      Axios.get(getUrl).then((response) => {
+      Axios.get(getUrl, { withCredentials: true }).then((response) => {
         setData(response.data.dezurstva);
         console.log(response.data.dezurstva);
         setReceived(true);
@@ -28,7 +28,8 @@ function ReadDezurni() {
     event.preventDefault(); // prepreči osveževanje strani
     Axios.post(
       "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php",
-      { id: id }
+      { id: id },
+      { withCredentials: true }
     )
       .then(() => {
         console.log(id + " number sent on deleteDezurni");

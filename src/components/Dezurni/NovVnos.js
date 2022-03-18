@@ -16,10 +16,14 @@ const NovVnos = () => {
       name,
     };
     console.log(postData);
-    Axios.post(postUrl, {
-      date: postData.date, //preveri če je OK!, v bazo sicer vstavi, ampak NULL
-      name: postData.name,
-    }).then(() => {
+    Axios.post(
+      postUrl,
+      {
+        date: postData.date, //preveri če je OK!, v bazo sicer vstavi, ampak NULL
+        name: postData.name,
+      },
+      { withCredentials: true }
+    ).then(() => {
       console.log("submitForm executed");
       setName("");
       if (name || date !== "") {

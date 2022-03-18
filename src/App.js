@@ -23,12 +23,6 @@ function App() {
       ) : (
         <Login setLoggedIn={setLoggedIn} />
       )}
-      {/*
-      <button onClick={doCall}>doCall.js - login.php</button>
-      <button onClick={openAdmins}>Show MyAdmin.js</button>
-      <button onClick={closeAdmins}>Hide MyAdmin.js</button>
-      {adminOpen && <MyAjax />}   
-      */}
     </div>
   );
 }

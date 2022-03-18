@@ -13,12 +13,14 @@ const DopustData = ({ radioValueName, radioValueID }) => {
   const giveMeVacay = (radioValueID) => {
     if (radioValueID !== "") {
       try {
-        Axios.post(getDopustnikUrl, { radioValue: radioValueID }).then(
-          (response) => {
-            const res = response.data.dopustnik;
-            getDopustnikObject(res);
-          }
-        );
+        Axios.post(
+          getDopustnikUrl,
+          { radioValue: radioValueID },
+          { withCredentials: true }
+        ).then((response) => {
+          const res = response.data.dopustnik;
+          getDopustnikObject(res);
+        });
       } catch (error) {
         alert(error.message);
       }

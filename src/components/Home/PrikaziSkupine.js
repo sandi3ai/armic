@@ -11,7 +11,7 @@ const PrikaziSkupine = () => {
 
   const getSkupine = () => {
     try {
-      Axios.get(getUrl).then((response) => {
+      Axios.get(getUrl, { withCredentials: true }).then((response) => {
         setData(response.data.skupine);
         console.log(response.data.skupine);
       });
@@ -27,7 +27,7 @@ const PrikaziSkupine = () => {
     console.log(id);
     console.log(event);
     event.preventDefault();
-    Axios.post(deleteUrl, { id: id })
+    Axios.post(deleteUrl, { id: id }, { withCredentials: true })
       .then(() => {
         console.log(id + " number sent on deleteSkupina.php");
         getSkupine();

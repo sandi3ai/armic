@@ -44,7 +44,7 @@ function LoginForm({ Login, error }) {
                   placeholder="Vpiši geslo"
                   name="password"
                   id="loginInputPassword"
-                  autoComplete="on"
+                  autoComplete="off"
                   onChange={(e) =>
                     setDetails({ ...details, password: e.target.value })
                   }

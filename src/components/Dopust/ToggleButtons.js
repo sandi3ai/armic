@@ -11,7 +11,7 @@ function ToggleButtonGroup() {
 
   const getSkupine = (getSkupinaObject) => {
     try {
-      Axios.get(getSkupineUrl).then((response) => {
+      Axios.get(getSkupineUrl, { withCredentials: true }).then((response) => {
         getSkupinaObject(response.data.skupine);
         console.log(response.data.skupine);
       });

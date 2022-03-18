@@ -30,11 +30,15 @@ export const VnosZaposlenega = () => {
     };
     console.log(postData);
     if (name && izbranaSkupina && pass !== "") {
-      Axios.post(postUrl, {
-        name: postData.name,
-        group: postData.izbranaSkupina,
-        pass: postData.pass,
-      }).then(() => {
+      Axios.post(
+        postUrl,
+        {
+          name: postData.name,
+          group: postData.izbranaSkupina,
+          pass: postData.pass,
+        },
+        { withCredentials: true }
+      ).then(() => {
         console.log("submitForm executed");
         setName("");
         //prikaže success box
@@ -53,7 +57,7 @@ export const VnosZaposlenega = () => {
 
   const getSkupine = () => {
     try {
-      Axios.get(getUrlSkupine).then((response) => {
+      Axios.get(getUrlSkupine, { withCredentials: true }).then((response) => {
         setSkupine(response.data.skupine);
       });
     } catch (error) {
@@ -64,7 +68,11 @@ export const VnosZaposlenega = () => {
   const idToName = (e) => {
     console.log(e);
     try {
-      Axios.post(urlImeSkupine, { dropValue: e }).then((response) => {
+      Axios.post(
+        urlImeSkupine,
+        { dropValue: e },
+        { withCredentials: true }
+      ).then((response) => {
         const res = response.data.skupinaIme;
         console.log(res);
         setImeSkupine(res);

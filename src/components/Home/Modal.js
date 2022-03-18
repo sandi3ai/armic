@@ -26,7 +26,7 @@ const Modal = ({ closeModal, passID }) => {
 
   const getZaposleni = () => {
     try {
-      Axios.get(getZaposleniUrl).then((response) => {
+      Axios.get(getZaposleniUrl, { withCredentials: true }).then((response) => {
         setData(response.data.zaposleni);
         setUpdatedName(getZaposleniIme(response.data.zaposleni, passID));
         const idSkupine = getZaposleniSkupina(response.data.zaposleni, passID);
@@ -65,7 +65,7 @@ const Modal = ({ closeModal, passID }) => {
 
   const getSkupine = () => {
     try {
-      Axios.get(getUrlSkupine).then((response) => {
+      Axios.get(getUrlSkupine, { withCredentials: true }).then((response) => {
         setSkupine(response.data.skupine);
       });
     } catch (error) {
@@ -76,7 +76,11 @@ const Modal = ({ closeModal, passID }) => {
   const idToName = (e) => {
     console.log(e);
     try {
-      Axios.post(urlImeSkupine, { dropValue: e }).then((response) => {
+      Axios.post(
+        urlImeSkupine,
+        { dropValue: e },
+        { withCredentials: true }
+      ).then((response) => {
         const res = response.data.skupinaIme;
         console.log(res);
         setImeSkupine(res);
@@ -105,12 +109,16 @@ const Modal = ({ closeModal, passID }) => {
     };
     console.log(postData);
     if (postData.updatedPass !== "") {
-      Axios.post(updateUrl, {
-        id: postData.passID,
-        updatedName: postData.updatedName,
-        updatedSkupina: postData.updatedSkupina,
-        updatedPass: postData.updatedPass,
-      }).then(() => {
+      Axios.post(
+        updateUrl,
+        {
+          id: postData.passID,
+          updatedName: postData.updatedName,
+          updatedSkupina: postData.updatedSkupina,
+          updatedPass: postData.updatedPass,
+        },
+        { withCredentials: true }
+      ).then(() => {
         console.log("updateZaposleni executed!");
         setSuccessTxt(true);
         setTimeout(() => {

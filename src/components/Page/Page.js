@@ -9,17 +9,6 @@ function Page({ Logout }) {
       <div className="divine">
         Page component
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
       </div>
     </div>
   );
