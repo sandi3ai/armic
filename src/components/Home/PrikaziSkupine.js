@@ -2,6 +2,7 @@ import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { post } from "../../Helper";
 
 const PrikaziSkupine = () => {
   const [data, setData] = useState([]);
@@ -27,7 +28,7 @@ const PrikaziSkupine = () => {
     console.log(id);
     console.log(event);
     event.preventDefault();
-    Axios.post(deleteUrl, { id: id }, { withCredentials: true })
+    post(deleteUrl, { id: id })
       .then(() => {
         console.log(id + " number sent on deleteSkupina.php");
         getSkupine();

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import Axios from "axios";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
+import { post } from "../../Helper";
 
 export const VnosZaposlenega = () => {
   const postUrl =
@@ -30,15 +31,11 @@ export const VnosZaposlenega = () => {
     };
     console.log(postData);
     if (name && izbranaSkupina && pass !== "") {
-      Axios.post(
-        postUrl,
-        {
-          name: postData.name,
-          group: postData.izbranaSkupina,
-          pass: postData.pass,
-        },
-        { withCredentials: true }
-      ).then(() => {
+      post(postUrl, {
+        name: postData.name,
+        group: postData.izbranaSkupina,
+        pass: postData.pass,
+      }).then(() => {
         console.log("submitForm executed");
         setName("");
         //prikaže success box
@@ -68,11 +65,7 @@ export const VnosZaposlenega = () => {
   const idToName = (e) => {
     console.log(e);
     try {
-      Axios.post(
-        urlImeSkupine,
-        { dropValue: e },
-        { withCredentials: true }
-      ).then((response) => {
+      post(urlImeSkupine, { dropValue: e }).then((response) => {
         const res = response.data.skupinaIme;
         console.log(res);
         setImeSkupine(res);

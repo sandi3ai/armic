@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
-import Axios from "axios";
 import moment from "moment";
+import { post } from "../../Helper";
 
 const DopustData = ({ radioValueName, radioValueID }) => {
   const getDopustnikUrl =
@@ -13,11 +13,7 @@ const DopustData = ({ radioValueName, radioValueID }) => {
   const giveMeVacay = (radioValueID) => {
     if (radioValueID !== "") {
       try {
-        Axios.post(
-          getDopustnikUrl,
-          { radioValue: radioValueID },
-          { withCredentials: true }
-        ).then((response) => {
+        post(getDopustnikUrl, { radioValue: radioValueID }).then((response) => {
           const res = response.data.dopustnik;
           getDopustnikObject(res);
         });

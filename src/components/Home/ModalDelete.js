@@ -1,6 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import { post } from "../../Helper";
 
 const ModalDelete = ({ closeModal, passID }) => {
   const getZaposleniUrl =
@@ -38,7 +39,7 @@ const ModalDelete = ({ closeModal, passID }) => {
   };
 
   const deleteZaposleni = (id) => {
-    Axios.post(deleteUrl, { id: id }, { withCredentials: true })
+    post(deleteUrl, { id: id })
       .then(() => {
         console.log(id + " number sent on deleteZaposleni.php");
         closeModal(false);

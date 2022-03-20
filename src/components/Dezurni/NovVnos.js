@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import Axios from "axios";
+import { post } from "../../Helper";
 
 const NovVnos = () => {
   const postUrl =
@@ -16,14 +16,10 @@ const NovVnos = () => {
       name,
     };
     console.log(postData);
-    Axios.post(
-      postUrl,
-      {
-        date: postData.date, //preveri če je OK!, v bazo sicer vstavi, ampak NULL
-        name: postData.name,
-      },
-      { withCredentials: true }
-    ).then(() => {
+    post(postUrl, {
+      date: postData.date,
+      name: postData.name,
+    }).then(() => {
       console.log("submitForm executed");
       setName("");
       if (name || date !== "") {

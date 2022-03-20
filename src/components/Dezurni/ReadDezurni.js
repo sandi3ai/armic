@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { post } from "../../Helper";
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
@@ -26,11 +27,9 @@ function ReadDezurni() {
 
   const deleteDezurni = (id, event) => {
     event.preventDefault(); // prepreči osveževanje strani
-    Axios.post(
-      "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php",
-      { id: id },
-      { withCredentials: true }
-    )
+    post("http://localhost/reactProjects/armic/src/rest/deleteDezurni.php", {
+      id: id,
+    })
       .then(() => {
         console.log(id + " number sent on deleteDezurni");
         getDezurni();

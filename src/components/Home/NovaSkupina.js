@@ -1,6 +1,6 @@
-import Axios from "axios";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
 
 const NovaSkupina = () => {
@@ -15,13 +15,9 @@ const NovaSkupina = () => {
     console.log("sumbitForm triggered");
     console.log(imeSkupine);
     try {
-      Axios.post(
-        postUrl,
-        {
-          name: imeSkupine,
-        },
-        { withCredentials: true }
-      ).then(() => {
+      post(postUrl, {
+        name: imeSkupine,
+      }).then(() => {
         console.log("submitForm executed");
         if (imeSkupine !== "") {
           //prikaže success box, če so vsi podatki izpolnjeni

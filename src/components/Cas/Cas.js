@@ -3,6 +3,7 @@ import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import Axios from "axios";
 import moment from "moment";
 import CasData from "./CasData";
+import { post } from "../../Helper";
 
 export const Cas = () => {
   const getUrl =
@@ -25,11 +26,7 @@ export const Cas = () => {
   function preglejBtn(e) {
     try {
       e.preventDefault();
-      Axios.post(
-        getCasUrl,
-        { startDate, endDate, dropValue },
-        { withCredentials: true }
-      ).then((response) => {
+      post(getCasUrl, { startDate, endDate, dropValue }).then((response) => {
         setCasData(response.data.cas);
         checkForData(response.data.cas);
       });
@@ -61,11 +58,7 @@ export const Cas = () => {
   const idToName = (newValue) => {
     console.log(newValue);
     try {
-      Axios.post(
-        getNameUrl,
-        { dropValue: newValue },
-        { withCredentials: true }
-      ).then((response) => {
+      post(getNameUrl, { dropValue: newValue }).then((response) => {
         const res = response.data.zaposleniIme;
         console.log(res);
         setName(res);

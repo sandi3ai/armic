@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import checkMark from "../Images/checkMark.gif";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
+import { post } from "../../Helper";
 
 const Modal = ({ closeModal, passID }) => {
   const getZaposleniUrl =
@@ -76,11 +77,7 @@ const Modal = ({ closeModal, passID }) => {
   const idToName = (e) => {
     console.log(e);
     try {
-      Axios.post(
-        urlImeSkupine,
-        { dropValue: e },
-        { withCredentials: true }
-      ).then((response) => {
+      post(urlImeSkupine, { dropValue: e }).then((response) => {
         const res = response.data.skupinaIme;
         console.log(res);
         setImeSkupine(res);
