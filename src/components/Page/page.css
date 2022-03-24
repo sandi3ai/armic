@@ -127,6 +127,7 @@ h2 {
 
 .singleButtonGroup {
   max-width: max-content;
+  border-radius: 5px !important;
 }
 
 [type="radio"] {
