@@ -118,13 +118,23 @@ h2 {
 }
 
 .buttonGroup {
+  text-align: center;
   margin: 8px;
   flex-wrap: wrap; /*responsive-
    če zmanjka prostora-
    se pomakne v naslednjo vrsto*/
 }
+
+.singleButtonGroup {
+  max-width: max-content;
+}
+
 [type="radio"] {
   display: none;
+}
+
+.centered {
+  text-align: center;
 }
 
 .dropdown-item {

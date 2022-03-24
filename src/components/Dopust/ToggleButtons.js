@@ -49,22 +49,25 @@ function ToggleButtonGroup() {
     <div>
       <div className="content">
         <h2>Izberi skupino</h2>
-        <ButtonGroup className="buttonGroup">
-          {skupine.map((skupina, idx) => (
-            <ToggleButton
-              key={idx}
-              id={`radio-${idx}`}
-              type="radio"
-              variant={idx % 2 ? "outline-success" : "outline-primary"}
-              name="radio"
-              value={skupina.skupinaID}
-              checked={radioValue === skupina.skupinaID}
-              onChange={(e) => setRadioValue(e.currentTarget.value)}
-            >
-              {skupina.skupinaIme}
-            </ToggleButton>
-          ))}
-        </ButtonGroup>
+        <div className="centered">
+          <ButtonGroup className="buttonGroup">
+            {skupine.map((skupina, idx) => (
+              <ToggleButton
+                className="singleButtonGroup"
+                key={idx}
+                id={`radio-${idx}`}
+                type="radio"
+                variant={idx % 2 ? "outline-success" : "outline-primary"}
+                name="radio"
+                value={skupina.skupinaID}
+                checked={radioValue === skupina.skupinaID}
+                onChange={(e) => setRadioValue(e.currentTarget.value)}
+              >
+                {skupina.skupinaIme}
+              </ToggleButton>
+            ))}
+          </ButtonGroup>
+        </div>
       </div>
       <DopustData
         radioValueName={getRadioValueName(radioValue)}
