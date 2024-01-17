@@ -7,15 +7,12 @@ import { post } from "../../Helper";
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
-  const [received, setReceived] = useState(false);
   const getUrl = "http://localhost/reactProjects/armic/src/rest/getDezurni.php";
 
   const getDezurni = () => {
     try {
       Axios.get(getUrl, { withCredentials: true }).then((response) => {
-        setData(response.data.dezurstva);
-        console.log(response.data.dezurstva);
-        setReceived(true);
+        setData(response.data.dezurstva || []);
       });
     } catch (error) {
       alert(error.message);
@@ -43,11 +40,10 @@ function ReadDezurni() {
         Osveži seznam dežurnih
       </Button>
       <div className="parent">
-        {received &&
-          data.map((data) => (
-            <div key={data.dezurniID} className="child">
-              {moment(data.dezurniDatum).format("D. MMM. YYYY")} -{" "}
-              {data.dezurniIzvajalec}
+        {data.length > 0 && data.map((dezurni) => (
+            <div key={dezurni.dezurniID} className="child">
+              {moment(dezurni.dezurniDatum).format("D. MMM. YYYY")} -{" "}
+              {dezurni.dezurniIzvajalec}
               <OverlayTrigger /* Na mouse-hover napis "izbriši dežurstvo" */
                 placement="top"
                 overlay={
@@ -56,7 +52,7 @@ function ReadDezurni() {
               >
                 <FaRegTrashAlt
                   className="deleteBtn" //trash icon
-                  onClick={(event) => deleteDezurni(data.dezurniID, event)}
+                  onClick={(event) => deleteDezurni(dezurni.dezurniID, event)}
                 />
               </OverlayTrigger>
             </div>

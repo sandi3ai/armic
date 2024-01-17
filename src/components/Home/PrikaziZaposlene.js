@@ -11,35 +11,51 @@ const PrikaziZaposlene = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const getZaposleni = () => {
+  const getZaposleni = async () => {
+    setIsLoading(true);
     try {
-      Axios.get(getUrl, { withCredentials: true }).then((response) => {
-        setData(response.data.zaposleni);
-      });
+      const response = await Axios.get(getUrl, {withCredentials: true});
+      setData(response.data.zaposleni || []);
     } catch (error) {
       alert(error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   useEffect(() => {
     getZaposleni();
   }, [openModal, openDeleteModal]);
 
+  const checkIfContent = () => {
+  if (data && data.length === 0) {
+    return <div>V bazi ni najdenih vnosov.</div>; // Display a message or an empty state layout
+  }
+  return null; // This ensures that the function always returns something, even if it's `null`.
+};
+
   return (
     <div>
+      {isLoading ? (
+        <div> Loading ... </div>
+      ) : (
+      <>
+      {checkIfContent()}
       {openModal && <Modal closeModal={setOpenModal} passID={passID} />}
       {openDeleteModal && (
         <ModalDelete closeModal={setOpenDeleteModal} passID={passID} />
       )}
       <div className="parent">
-        {data.map((data) => (
-          <div key={data.zaposleniID} className="child">
-            {data.zaposleniIme}
+        {data.length > 0 && data.map((zaposlen) => (
+          <div key={zaposlen.zaposleniID} className="child">
+            {zaposlen.zaposleniIme}
 
             <FaRegTrashAlt
               className="deleteBtn" //trash icon
               onClick={() => {
-                setPassID(data.zaposleniID);
+                setPassID(zaposlen.zaposleniID);
                 //deleteZaposleni(data.zaposleniID, event);
                 setOpenDeleteModal(true);
               }}
@@ -49,12 +65,14 @@ const PrikaziZaposlene = () => {
               className="editBtn" //edit icon
               onClick={() => {
                 setOpenModal(true);
-                setPassID(data.zaposleniID);
+                setPassID(zaposlen.zaposleniID);
               }}
             />
           </div>
         ))}
       </div>
+    </>
+      )}
     </div>
   );
 };
