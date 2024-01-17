@@ -5,7 +5,7 @@
     $adminEmail = $_POST["email"];//selecta z login.js
     $adminPass = hash("sha256", $_POST["password"]);//selecta z login.js
 
-    $sql = "SELECT * FROM adminusers WHERE adminUser = ? and adminPass = ?";
+    $sql = "SELECT * FROM admin_users WHERE adminUser = ? and adminPass = ?";
     $stmt = $conn-> prepare($sql); //stmt = statement
     $stmt->execute([$adminEmail, $adminPass]); //pomemben vrstni red - v array fila vprašaje dve vrstici zgoraj
 
