@@ -13,8 +13,6 @@ function ToggleButtonGroup() {
     try {
       Axios.get(getSkupineUrl, { withCredentials: true }).then((response) => {
         getSkupinaObject(response.data.skupine);
-        console.log("Gets skupine is run (try)")
-        console.log(response.data.skupine);
       });
     } catch (error) {
       alert(error.message);
@@ -22,7 +20,6 @@ function ToggleButtonGroup() {
   };
 
   const getSkupinaObject = (data) => {
-    console.log("Data from BE: ", data)
     setSkupine(
       data.map((data) => {
         return {
@@ -39,7 +36,6 @@ function ToggleButtonGroup() {
    * @returns 
    */
   const getRadioValueName = (radioValue) => {
-    console.log("Radio value: ")
     if (radioValue === "") {
       return radioValue;
     }
@@ -48,10 +44,8 @@ function ToggleButtonGroup() {
 
 
     if (foundItem) {
-      console.log("Item found", foundItem)
       return foundItem.skupinaIme
     } else {
-      console.log("Item not found!");
       return "Skupina ni najdena";
     }
   };
