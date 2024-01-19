@@ -13,6 +13,7 @@ function ToggleButtonGroup() {
     try {
       Axios.get(getSkupineUrl, { withCredentials: true }).then((response) => {
         getSkupinaObject(response.data.skupine);
+        console.log("Gets skupine is run (try)")
         console.log(response.data.skupine);
       });
     } catch (error) {
@@ -21,6 +22,7 @@ function ToggleButtonGroup() {
   };
 
   const getSkupinaObject = (data) => {
+    console.log("Data from BE: ", data)
     setSkupine(
       data.map((data) => {
         return {
@@ -31,14 +33,27 @@ function ToggleButtonGroup() {
     );
   };
 
+  /**
+   * Vzame radioValue, preveri če se radioValue ujema s skupinaID in vrne ime te skupine 
+   * @param radioValue = skupinaID
+   * @returns 
+   */
   const getRadioValueName = (radioValue) => {
+    console.log("Radio value: ")
     if (radioValue === "") {
       return radioValue;
     }
-    const ime = skupine.find(
-      ({ skupinaID }) => skupinaID === radioValue
-    ).skupinaIme;
-    return ime;
+    const foundItem = skupine.find(({ skupinaID }) => {
+      return skupinaID === Number(radioValue) })
+
+
+    if (foundItem) {
+      console.log("Item found", foundItem)
+      return foundItem.skupinaIme
+    } else {
+      console.log("Item not found!");
+      return "Skupina ni najdena";
+    }
   };
 
   useEffect(() => {
