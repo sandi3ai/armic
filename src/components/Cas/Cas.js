@@ -84,8 +84,6 @@ export const Cas = () => {
     <div>
       <div className="content">
         <h2>DELOVNI ČAS ZAPOSLENIH:</h2>
-      </div>
-      <div className="content">
         <Form onSubmit={(e) => preglejBtn(e)}>
           <Form.Label>
             Izberi zaposlenega in časovno obdobje za pregled delovnega časa:

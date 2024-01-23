@@ -318,3 +318,7 @@ h2 {
     width: 100%;
   }
 }
+
+.spacer {
+  margin: 1rem;
+}

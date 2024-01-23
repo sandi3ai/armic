@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ButtonGroup, ToggleButton } from "react-bootstrap";
+import { ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
 import DopustData from "./DopustData";
 
@@ -56,8 +56,10 @@ function ToggleButtonGroup() {
 
   return (
     <div>
-      <div className="content">
-        <h2>Izberi skupino</h2>
+      <div className="spacer"></div>
+          <Form.Label>
+            Izberi skupino:
+          </Form.Label>
         <div className="centered">
           <ButtonGroup className="buttonGroup">
             {skupine.map((skupina, idx) => (
@@ -77,7 +79,6 @@ function ToggleButtonGroup() {
             ))}
           </ButtonGroup>
         </div>
-      </div>
       <DopustData
         radioValueName={getRadioValueName(radioValue)}
         radioValueID={radioValue}

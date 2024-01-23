@@ -18,14 +18,12 @@ export const Dezurni = () => {
     <div>
       <div className="content">
         <h2>SEZNAM DEŽURNIH:</h2>
-      </div>
-      <div className="content">
+        <div className="spacer"></div>
         <Button variant="outline-primary" onClick={showNovVnos}>
           Skrij / prikaži nov vnos
         </Button>
         {novVnos ? <NovVnos /> : null}
-      </div>
-      <div className="content">
+        <hr></hr>
         <ReadDezurni />
       </div>
     </div>

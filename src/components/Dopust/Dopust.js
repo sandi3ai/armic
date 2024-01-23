@@ -6,8 +6,9 @@ export const Dopust = () => {
     <div>
       <div className="content">
         <h2>DOPUSTI:</h2>
-      </div>
       <ToggleButtonGroup />
+      </div>
+      
     </div>
   );
 };
