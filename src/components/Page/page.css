@@ -119,7 +119,7 @@ h2 {
 
 .buttonGroup {
   text-align: center;
-  margin: 8px;
+  margin: 5px;
   flex-wrap: wrap; /*responsive-
    če zmanjka prostora-
    se pomakne v naslednjo vrsto*/
@@ -127,7 +127,7 @@ h2 {
 
 .singleButtonGroup {
   max-width: max-content;
-  border-radius: 5px !important;
+  border: 1px solid black !important;
 }
 
 [type="radio"] {
@@ -321,4 +321,14 @@ h2 {
 
 .spacer {
   margin: 1rem;
+}
+
+.dezurni-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.formCheck {
+  flex-grow: 1; /* Ensures the checkbox label takes up the available space */
 }

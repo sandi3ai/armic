@@ -3,13 +3,20 @@ import Axios from "axios";
 import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsRotate, faCheckDouble,  } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowsRotate,
+  faCheckDouble,
+  faFilterCircleXmark,
+  faSquareXmark,
+  faXmark,
+  faXmarkCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import { post } from "../../Helper";
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
-  const [selectedDezurni, setSelectedDezurni] = useState(new Set())
+  const [selectedDezurni, setSelectedDezurni] = useState(new Set());
   const getUrl = "http://localhost/reactProjects/armic/src/rest/getDezurni.php";
 
   const getDezurni = () => {
@@ -25,6 +32,10 @@ function ReadDezurni() {
     getDezurni();
   }, []);
 
+  useEffect(() => {
+    console.log("selectedDezurni updated:", selectedDezurni);
+  }, [selectedDezurni]);
+
   const deleteDezurni = (id, event) => {
     event.preventDefault(); // prepreči osveževanje strani
     post("http://localhost/reactProjects/armic/src/rest/deleteDezurni.php", {
@@ -38,7 +49,7 @@ function ReadDezurni() {
   };
 
   const handleCheckboxChange = (dezurniID) => {
-    setSelectedDezurni(prevSelected => {
+    setSelectedDezurni((prevSelected) => {
       const newSelected = new Set(prevSelected);
       if (newSelected.has(dezurniID)) {
         newSelected.delete(dezurniID);
@@ -49,38 +60,85 @@ function ReadDezurni() {
     });
   };
 
-   return (
+  const selectAll = () => {
+    const newSelected = new Set();
+    data.forEach((dezurni) => newSelected.add(dezurni.dezurniID));
+    setSelectedDezurni(newSelected);
+    console.log(selectedDezurni);
+    console.log("Select triggered: ", newSelected);
+  };
+
+  const deselectAll = () => {
+    setSelectedDezurni(new Set()); //Clears the set, thus unchecking all
+    console.log("Select triggered");
+    console.log(selectedDezurni);
+  };
+
+  return (
     <div>
-      <Button variant="outline-primary" onClick={getDezurni}>
+      <Button
+        className="buttonGroup"
+        variant="outline-primary"
+        onClick={getDezurni}
+      >
         Osveži <FontAwesomeIcon icon={faArrowsRotate} />
       </Button>{" "}
-      <Button variant="outline-primary" onClick={getDezurni}>
+      <Button
+        className="buttonGroup"
+        variant="outline-primary"
+        onClick={selectAll}
+      >
         Izberi vse <FontAwesomeIcon icon={faCheckDouble} />
       </Button>{" "}
-      <Button variant="outline-primary" onClick={getDezurni}>
-        Izbriši izbrane <FaRegTrashAlt className="deleteBtnRed"/>
+      <Button
+        className="buttonGroup"
+        variant="outline-primary"
+        onClick={deselectAll}
+      >
+        Izberi nič <FontAwesomeIcon icon={faXmark} />
+      </Button>{" "}
+      <Button
+        className="buttonGroup"
+        variant="outline-primary"
+        onClick={getDezurni}
+      >
+        Izbriši izbrane <FaRegTrashAlt />
       </Button>
       <div className="spacer"></div>
       <div className="parent">
-        {data.length > 0 && data.map((dezurni) => (
-          <div key={dezurni.dezurniID} className="child">
-            <Form.Check 
-              type="checkbox"
-              checked={selectedDezurni.has(dezurni.dezurniID)}
-              onChange={() => handleCheckboxChange(dezurni.dezurniID)}
-              label={moment(dezurni.dezurniDatum).format("D. MMM. YYYY") + " - " + dezurni.dezurniIzvajalec}
-            />
-            <OverlayTrigger
-              placement="top"
-              overlay={<Tooltip id="button-tooltip-2">Izbriši dežurstvo</Tooltip>}
-            >
-              <FaRegTrashAlt
-                className="deleteBtn"
-                onClick={(event) => deleteDezurni(dezurni.dezurniID, event)}
-              />
-            </OverlayTrigger>
-          </div>
-        ))}
+        {data.length > 0 &&
+          data.map((dezurni) => (
+            <div key={dezurni.dezurniID} className="child">
+              <div className="dezurni-container">
+                <Form.Check
+                  type="checkbox"
+                  className="formCheck"
+                  checked={selectedDezurni.has(dezurni.dezurniID)}
+                  onChange={() => handleCheckboxChange(dezurni.dezurniID)}
+                  label={
+                    <span>
+                      {moment(dezurni.dezurniDatum).format("D. MMM. YYYY") +
+                        " - " +
+                        dezurni.dezurniIzvajalec}
+                    </span>
+                  }
+                />
+                <OverlayTrigger
+                  placement="top"
+                  overlay={
+                    <Tooltip id={`tooltip-delete-${dezurni.dezurniID}`}>
+                      Izbriši dežurstvo
+                    </Tooltip>
+                  }
+                >
+                  <FaRegTrashAlt
+                    className="deleteBtn"
+                    onClick={(event) => deleteDezurni(dezurni.dezurniID, event)}
+                  />
+                </OverlayTrigger>
+              </div>
+            </div>
+          ))}
       </div>
     </div>
   );

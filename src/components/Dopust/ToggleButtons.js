@@ -31,20 +31,20 @@ function ToggleButtonGroup() {
   };
 
   /**
-   * Vzame radioValue, preveri če se radioValue ujema s skupinaID in vrne ime te skupine 
+   * Vzame radioValue, preveri če se radioValue ujema s skupinaID in vrne ime te skupine
    * @param radioValue = skupinaID
-   * @returns 
+   * @returns
    */
   const getRadioValueName = (radioValue) => {
     if (radioValue === "") {
       return radioValue;
     }
     const foundItem = skupine.find(({ skupinaID }) => {
-      return skupinaID === Number(radioValue) })
-
+      return skupinaID === Number(radioValue);
+    });
 
     if (foundItem) {
-      return foundItem.skupinaIme
+      return foundItem.skupinaIme;
     } else {
       return "Skupina ni najdena";
     }
@@ -57,28 +57,26 @@ function ToggleButtonGroup() {
   return (
     <div>
       <div className="spacer"></div>
-          <Form.Label>
-            Izberi skupino:
-          </Form.Label>
-        <div className="centered">
-          <ButtonGroup className="buttonGroup">
-            {skupine.map((skupina, idx) => (
-              <ToggleButton
-                className="singleButtonGroup"
-                key={idx}
-                id={`radio-${idx}`}
-                type="radio"
-                variant={idx % 2 ? "outline-success" : "outline-primary"}
-                name="radio"
-                value={skupina.skupinaID}
-                checked={radioValue === skupina.skupinaID}
-                onChange={(e) => setRadioValue(e.currentTarget.value)}
-              >
-                {skupina.skupinaIme}
-              </ToggleButton>
-            ))}
-          </ButtonGroup>
-        </div>
+      <Form.Label>Izberi skupino:</Form.Label>
+      <div className="centered">
+        <ButtonGroup className="buttonGroup">
+          {skupine.map((skupina, idx) => (
+            <ToggleButton
+              className="singleButtonGroup"
+              key={idx}
+              id={`radio-${idx}`}
+              type="radio"
+              variant="light"
+              name="radio"
+              value={skupina.skupinaID}
+              checked={radioValue === skupina.skupinaID}
+              onChange={(e) => setRadioValue(e.currentTarget.value)}
+            >
+              {skupina.skupinaIme}
+            </ToggleButton>
+          ))}
+        </ButtonGroup>
+      </div>
       <DopustData
         radioValueName={getRadioValueName(radioValue)}
         radioValueID={radioValue}
