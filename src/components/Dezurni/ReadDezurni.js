@@ -1,23 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import DeleteModal from "./DeleteModal";
 import moment from "moment";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faArrowsRotate,
   faCheckDouble,
-  faFilterCircleXmark,
-  faSquareXmark,
   faXmark,
-  faXmarkCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { post } from "../../Helper";
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
   const [selectedDezurni, setSelectedDezurni] = useState(new Set());
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   const getUrl = "http://localhost/reactProjects/armic/src/rest/getDezurni.php";
+  const delUrl =
+    "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php";
 
   const getDezurni = () => {
     try {
@@ -28,9 +30,10 @@ function ReadDezurni() {
       alert(error.message);
     }
   };
+
   useEffect(() => {
     getDezurni();
-  }, []);
+  }, [openDeleteModal]);
 
   useEffect(() => {
     console.log("selectedDezurni updated:", selectedDezurni);
@@ -38,7 +41,7 @@ function ReadDezurni() {
 
   const deleteDezurni = (id, event) => {
     event.preventDefault(); // prepreči osveževanje strani
-    post("http://localhost/reactProjects/armic/src/rest/deleteDezurni.php", {
+    post(delUrl, {
       id: id,
     })
       .then(() => {
@@ -76,6 +79,13 @@ function ReadDezurni() {
 
   return (
     <div>
+      {openDeleteModal && (
+        <DeleteModal
+          selectedDezurni={selectedDezurni}
+          setSelectedDezurni={setSelectedDezurni}
+          setOpenDeleteModal={setOpenDeleteModal}
+        />
+      )}
       <Button
         className="buttonGroup"
         variant="outline-primary"
@@ -99,11 +109,19 @@ function ReadDezurni() {
       </Button>{" "}
       <Button
         className="buttonGroup"
-        variant="outline-primary"
-        onClick={getDezurni}
+        variant={
+          selectedDezurni.size > 0 ? "outline-primary" : "outline-secondary"
+        }
+        onClick={() => setOpenDeleteModal(true)}
+        disabled={selectedDezurni.size === 0} // Disable button when no dezurni is selected
       >
         Izbriši izbrane <FaRegTrashAlt />
-      </Button>
+      </Button>{" "}
+      {selectedDezurni.size >= 1 && (
+        <span className="selection-count">
+          Število izbranih: {selectedDezurni.size}
+        </span>
+      )}
       <div className="spacer"></div>
       <div className="parent">
         {data.length > 0 &&
