@@ -332,3 +332,55 @@ h2 {
 .formCheck {
   flex-grow: 1; /* Ensures the checkbox label takes up the available space */
 }
+
+/* Ensures the dropdown content is fully visible without scrollbars.*/
+.dropdown-menu {
+  max-height: 300px !important;
+  z-index: 10 !important;
+  scrollbar-width: thin !important;
+  scrollbar-color: #888 #f1f1f1 !important;
+  border-radius: 5px !important;
+}
+
+/* Style the scrollbar for Chrome, Safari, and newer versions of Edge */
+.dropdown-menu::-webkit-scrollbar {
+  width: 5px; /* Adjust the width of the scrollbar */
+  height: 1px;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background: white; /* The track (progress bar) of the scrollbar */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background: gray; /* The draggable scrolling handle */
+  border-radius: 30px; /* Optional: round corners for the handle */
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Color of the handle on hover */
+}
+
+.filterElement {
+  background-color: white;
+  max-width: max-content;
+  border-radius: 12px;
+  transition: background-color 0.3s ease; /* Transition for the background color change on hover */
+  padding: 5px 10px;
+  margin-left: 5px;
+}
+
+.filterElement:hover {
+  background-color: #f7f7f7;
+}
+
+.stackHorizontally {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.dropdown-toggle {
+  margin-right: 5px !important;
+}
