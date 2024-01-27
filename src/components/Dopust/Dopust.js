@@ -5,10 +5,9 @@ export const Dopust = () => {
   return (
     <div>
       <div className="content">
-        <h2>DOPUSTI:</h2>
-      <ToggleButtonGroup />
+        <h2>ODSOTNOSTI:</h2>
+        <ToggleButtonGroup />
       </div>
-      
     </div>
   );
 };

@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { ButtonGroup, Form, ToggleButton } from "react-bootstrap";
 import Axios from "axios";
 import DopustData from "./DopustData";
+import OdsotnostFiltri from "./OdsotnostFiltri";
 
 function ToggleButtonGroup() {
   const getSkupineUrl =
     "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
   const [radioValue, setRadioValue] = useState("");
+  const [tip, setTip] = useState("Brez filtra");
+  const [status, setStatus] = useState("Brez filtra");
   const [skupine, setSkupine] = useState([{ skupinaID: "", skupinaIme: "" }]);
 
   const getSkupine = (getSkupinaObject) => {
@@ -32,8 +35,6 @@ function ToggleButtonGroup() {
 
   /**
    * Vzame radioValue, preveri če se radioValue ujema s skupinaID in vrne ime te skupine
-   * @param radioValue = skupinaID
-   * @returns
    */
   const getRadioValueName = (radioValue) => {
     if (radioValue === "") {
@@ -77,9 +78,22 @@ function ToggleButtonGroup() {
           ))}
         </ButtonGroup>
       </div>
+      <Form.Label>Dodatni filtri:</Form.Label>
+      <div>
+        <OdsotnostFiltri
+          setTip={setTip}
+          tip={tip}
+          setStatus={setStatus}
+          status={status}
+        />
+      </div>
+      <div className="spacer"></div>
+      <hr />
       <DopustData
         radioValueName={getRadioValueName(radioValue)}
         radioValueID={radioValue}
+        tip={tip}
+        status={status}
       />
     </div>
   );

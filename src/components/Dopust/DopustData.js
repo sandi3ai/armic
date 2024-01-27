@@ -3,9 +3,9 @@ import { Table } from "react-bootstrap";
 import moment from "moment";
 import { post } from "../../Helper";
 
-const DopustData = ({ radioValueName, radioValueID }) => {
+const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
   const getDopustnikUrl =
-    "http://localhost/reactProjects/armic/src/rest/getDopustnik.php";
+    "http://localhost/reactProjects/armic/src/rest/getOdsotnost.php";
   const [dopustnik, setDopustnik] = useState([
     { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "" },
   ]);
@@ -37,10 +37,19 @@ const DopustData = ({ radioValueName, radioValueID }) => {
           dopustnikID: data.zaposleniID,
           datumZ: moment(data.datumZ).format("D.M.YYYY"),
           datumK: moment(data.datumK).format("D.M.YYYY"),
+          tipOdsotnosti: data.tip,
+          status: data.status,
         };
       })
     );
   };
+
+  const filteredDopustnik = dopustnik.filter((item) => {
+    const matchesTip = tip === "Brez filtra" || item.tipOdsotnosti === tip;
+    const matchesStatus = status === "Brez filtra" || item.status === status;
+
+    return matchesTip && matchesStatus; // An item must match both filters to be included
+  });
 
   useEffect(() => {
     giveMeVacay(radioValueID);
@@ -52,23 +61,27 @@ const DopustData = ({ radioValueName, radioValueID }) => {
         Izbrana skupina: <strong>{radioValueName}</strong>
       </h5>
       <hr />
-      {dopustnik.length === 0 ? (
-        "Ni zabeleženih dopustov za izbrano skupino."
+      {filteredDopustnik.length === 0 ? (
+        "Ni zabeleženih odsotnosti za izbrano skupino."
       ) : (
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th>Dopustnik</th>
+              <th>Odsotna oseba</th>
               <th>Začetni datum</th>
               <th>Končni datum</th>
+              <th>Tip odsotnosti</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
-            {dopustnik.map((dopustnik, idx) => (
+            {filteredDopustnik.map((dopustnik, idx) => (
               <tr key={idx}>
                 <td>{dopustnik.dopustnikIme}</td>
                 <td>{dopustnik.datumZ}</td>
                 <td>{dopustnik.datumK}</td>
+                <td>{dopustnik.tipOdsotnosti}</td>
+                <td>{dopustnik.status}</td>
               </tr>
             ))}
           </tbody>
