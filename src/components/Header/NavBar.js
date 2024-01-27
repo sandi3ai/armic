@@ -28,8 +28,8 @@ function NavigationBar({ Logout }) {
                 <Nav.Link as={Link} to="/dezurni">
                   Dežurstva
                 </Nav.Link>
-                <Nav.Link as={Link} to="/dopust">
-                  Dopust
+                <Nav.Link as={Link} to="/odsotnost">
+                  Odsotnost
                 </Nav.Link>
                 <Button
                   id="odjavaBtn"
@@ -48,7 +48,7 @@ function NavigationBar({ Logout }) {
             <Route path="/" element={<Home />} />
             <Route path="/cas" element={<Cas />} />
             <Route path="/dezurni" element={<Dezurni />} />
-            <Route path="/dopust" element={<Dopust />} />
+            <Route path="/odsotnost" element={<Dopust />} />
           </Routes>
         </div>
       </div>
