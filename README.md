@@ -1,1 +1,7 @@
-### App for a company to display working hours, annual leave and extra duty work on weekends. Its connected to a database, and views above mentioned data that workers upload via their android phones. I will be also making an app for that.
+## App for logging employees and their working hours, annual leave or sick leave, duty work
+
+It communicates with the same DB as armic-user app, this one is meant for admin panel, the later one is used for users (employees).
+
+Used tools:
+PHP
+ReactJS
