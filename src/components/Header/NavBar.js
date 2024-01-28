@@ -6,6 +6,7 @@ import { Home } from "../Home/Home";
 import { Cas } from "../Cas/Cas";
 import { Dezurni } from "../Dezurni/Dezurni";
 import { Dopust } from "../Dopust/Dopust";
+import { Prosnje } from "../Prosnje/Prosnje";
 import logo from "../Images/armicLogo_textOnly.png";
 
 function NavigationBar({ Logout }) {
@@ -31,6 +32,9 @@ function NavigationBar({ Logout }) {
                 <Nav.Link as={Link} to="/odsotnost">
                   Odsotnost
                 </Nav.Link>
+                <Nav.Link as={Link} to="/prosnje">
+                  Prošnje
+                </Nav.Link>
                 <Button
                   id="odjavaBtn"
                   variant="outline-danger"
@@ -49,6 +53,7 @@ function NavigationBar({ Logout }) {
             <Route path="/cas" element={<Cas />} />
             <Route path="/dezurni" element={<Dezurni />} />
             <Route path="/odsotnost" element={<Dopust />} />
+            <Route path="/prosnje" element={<Prosnje />} />
           </Routes>
         </div>
       </div>
