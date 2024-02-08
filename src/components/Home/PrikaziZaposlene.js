@@ -6,12 +6,13 @@ import ModalDelete from "./ModalDelete";
 
 const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
-  const getUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const getUrl =
+    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
 
   const getZaposleni = async () => {
     setIsLoading(true);
