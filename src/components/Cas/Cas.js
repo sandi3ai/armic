@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
 import Axios from "axios";
+import ErrorBoundary from "../../hooks/errorBoundaries";
 import moment from "moment";
 import CasData from "./CasData";
 import { post } from "../../Helper";
@@ -138,7 +139,9 @@ export const Cas = () => {
         </Form>
       </div>
       {thereIsData ? (
-        <CasData data={casData} />
+        <ErrorBoundary>
+          <CasData data={casData} />
+        </ErrorBoundary>
       ) : (
         <div className="divine">
           Za izbran vnos ni informacij o delovnem času

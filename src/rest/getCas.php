@@ -8,7 +8,7 @@ $userID = $_POST['dropValue'];
 $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
 
-$sql = "SELECT * FROM `cas` WHERE userID='$userID' AND datum >=  '$startDate' AND datum <= '$endDate' ORDER BY `datum` ASC";
+$sql = "SELECT * FROM `cas` WHERE userID='$userID' AND casZacetek >=  '$startDate' AND casKonec <= '$endDate' ORDER BY `casZacetek` ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

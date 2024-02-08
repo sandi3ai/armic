@@ -1,11 +1,24 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import moment from "moment";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+import ErrorBoundary from "../../hooks/errorBoundaries";
 
-const CasData = (data) => {
+dayjs.extend(duration);
+
+const CasData = ({ data }) => {
   function subtractTime(start, finish) {
-    const razlika = subtractTimeDiff(start, finish);
-    const ure = moment.utc(razlika).format("HH:mm");
+    const startDayjs = dayjs(start);
+    const finishDayjs = dayjs(finish);
+    const razlika = finishDayjs.diff(startDayjs);
+    // Use dayjs duration to format the difference
+    const dur = dayjs.duration(razlika);
+    const ure = `${dur.hours().toString().padStart(2, "0")}:${dur
+      .minutes()
+      .toString()
+      .padStart(2, "0")}`;
+
     return ure;
   }
 
@@ -13,35 +26,51 @@ const CasData = (data) => {
     const zacetek = moment(start, "HH:mm:ss");
     const konec = moment(finish, "HH:mm:ss");
     const razlika = konec.diff(zacetek);
+
     return razlika;
   }
 
-  function getTotalTime() {
-    const totalTimeMiliseconds = data.data.reduce((sum, data) => {
-      return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
-    }, 0);
-    const tempTime = moment.duration(totalTimeMiliseconds);
-    const ure = Math.floor(tempTime.asHours()); //prikaže seštevek ur, zaokrožen na dol
-    const minute = tempTime.asMinutes() % 60; //modul 60, da prikaže le ostanek minute od ur
-    //return moment.utc(totalTimeMiliseconds).format("HH:mm"); - v tem primeru je 25 ur prikazalo kot eno uro
-    return ure + ":" + minute;
-  }
+  function getTotalTime(timeIntervals) {
+    let totalMinutes = 0;
 
-  function getAverageTime() {
-    const avgTimeMiliseconds = data.data.reduce((sum, data) => {
-      return sum + subtractTimeDiff(data.casZacetek, data.casKonec);
-    }, 0);
-    return moment.utc(avgTimeMiliseconds / data.data.length).format("HH:mm");
-  }
-
-  /*function getAverageStart() {
-    const avgStart = data.data.reduce((sum, data) => {
-      console.log(data.casZacetek);
-      console.log(moment.utc(data.casZacetek).valueOf());
-      return sum + data.casZacetek;
+    timeIntervals.forEach(({ casZacetek, casKonec }) => {
+      const durationString = subtractTime(casZacetek, casKonec);
+      const [hours, minutes] = durationString.split(":").map(Number);
+      totalMinutes += hours * 60 + minutes;
     });
-    return avgStart;
-  }*/
+
+    // Convert total minutes back into "HH:mm"
+    const totalHours = Math.floor(totalMinutes / 60);
+    const remainingMinutes = totalMinutes % 60;
+    const formattedTotalDuration = `${totalHours
+      .toString()
+      .padStart(2, "0")}:${remainingMinutes.toString().padStart(2, "0")}`;
+
+    return formattedTotalDuration;
+  }
+
+  function getAverageTime(data) {
+    // Convert all durations to minutes, sum them up, and then calculate the average
+    let totalMinutes = 0;
+
+    data.forEach(({ casZacetek, casKonec }) => {
+      const start = dayjs(casZacetek);
+      const end = dayjs(casKonec);
+      const diff = end.diff(start, "minute"); // Get the difference in minutes directly
+      totalMinutes += diff;
+    });
+
+    const averageMinutes = totalMinutes / data.length;
+
+    // Convert the average minutes back to hours and minutes
+    const averageHours = Math.floor(averageMinutes / 60);
+    const remainingMinutes = Math.round(averageMinutes % 60); // Use Math.round to round to the nearest whole number
+    const formattedAverage = `${averageHours
+      .toString()
+      .padStart(2, "0")}:${remainingMinutes.toString().padStart(2, "0")}`;
+
+    return formattedAverage;
+  }
 
   return (
     <div className="content">
@@ -49,32 +78,34 @@ const CasData = (data) => {
         <thead>
           <tr>
             <th></th>
-            <th>Datum</th>
             <th>Čas začetka</th>
             <th>Čas zaključka</th>
             <th>Število ur</th>
           </tr>
         </thead>
-        <tbody>
-          {data.data.map((data, idx) => (
-            <tr key={idx}>
-              <td>{idx + 1}.</td>
-              <td>{moment(data.datum).format("D.M.YYYY")}</td>
-              <td>{data.casZacetek}</td>
-              <td>{data.casKonec}</td>
-              <td>{subtractTime(data.casZacetek, data.casKonec)}</td>
-            </tr>
-          ))}
-        </tbody>
-        <tfoot className="tableFooter">
-          <tr>
-            <td colSpan={3} className="tdFooter">
-              Povprečen čas - {getAverageTime()}
-            </td>
+        <ErrorBoundary>
+          <tbody>
+            {data.map((data, idx) => (
+              <tr key={idx}>
+                <td>{idx + 1}.</td>
+                <td>{data.casZacetek}</td>
+                <td>{data.casKonec}</td>
+                <td>{subtractTime(data.casZacetek, data.casKonec)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <tfoot className="tableFooter">
+            <tr>
+              <td colSpan={3} className="tdFooter">
+                Povprečen čas - {getAverageTime(data)}
+              </td>
 
-            <td colSpan={2}>Skupno število ur - {getTotalTime()}</td>
-          </tr>
-        </tfoot>
+              <td colSpan={2}>Skupno število ur - {getTotalTime(data)}</td>
+            </tr>
+          </tfoot>
+        </ErrorBoundary>
       </Table>
     </div>
   );
