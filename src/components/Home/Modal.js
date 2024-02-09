@@ -7,13 +7,13 @@ import { post } from "../../Helper";
 
 const Modal = ({ closeModal, passID }) => {
   const getZaposleniUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
+     `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
   const getUrlSkupine =
-    "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
+     `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
   const urlImeSkupine =
-    "http://localhost/reactProjects/armic/src/rest/getNameSkupina.php";
+     `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
   const updateUrl =
-    "http://localhost/reactProjects/armic/src/rest/updateZaposleni.php";
+     `${process.env.REACT_APP_BASE_URL}/src/rest/updateZaposleni.php`;
   const [data, setData] = useState([]);
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);

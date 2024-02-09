@@ -17,9 +17,8 @@ function ReadDezurni() {
   const [selectedDezurni, setSelectedDezurni] = useState(new Set());
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
-  const getUrl = "http://localhost/reactProjects/armic/src/rest/getDezurni.php";
-  const delUrl =
-    "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php";
+  const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getDezurni.php`;
+  const delUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteDezurni.php`;
 
   const getDezurni = () => {
     try {

@@ -4,10 +4,8 @@ import { Button } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const ModalDelete = ({ closeModal, passID }) => {
-  const getZaposleniUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const deleteUrl =
-    "http://localhost/reactProjects/armic/src/rest/deleteZaposleni.php";
+  const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
+  const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteZaposleni.php`;
 
   const [data, setData] = useState([]);
 

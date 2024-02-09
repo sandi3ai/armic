@@ -5,7 +5,7 @@ function MyAjax() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost/reactProjects/armic/src/rest/login.php")
+    fetch(`${process.env.REACT_APP_BASE_URL}/src/rest/login.php`)
       .then((res) => res.json())
       .then(
         (result) => {

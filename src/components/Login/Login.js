@@ -6,10 +6,10 @@ import useApi from "../../hooks/useApi";
 function Login({ setLoggedIn }) {
   const [error, setError] = useState("");
   const doLogin = useLazyApi(
-    "http://localhost/reactProjects/armic/src/rest/login.php"
+    `${process.env.REACT_APP_BASE_URL}/src/rest/login.php`
   );
   const checkLogin = useApi(
-    "http://localhost/reactProjects/armic/src/rest/check_login.php"
+    `${process.env.REACT_APP_BASE_URL}/src/rest/check_login.php`
   );
   function login(details) {
     doLogin(details).then((result) => {

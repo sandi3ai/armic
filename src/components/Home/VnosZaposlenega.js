@@ -5,12 +5,9 @@ import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
 
 export const VnosZaposlenega = () => {
-  const postUrl =
-    "http://localhost/reactProjects/armic/src/rest/novZaposleni.php";
-  const getUrlSkupine =
-    "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
-  const urlImeSkupine =
-    "http://localhost/reactProjects/armic/src/rest/getNameSkupina.php";
+  const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
+  const getUrlSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
+  const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
   const [name, setName] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);

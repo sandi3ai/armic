@@ -3,8 +3,7 @@ import { Button, Form } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const NovVnos = () => {
-  const postUrl =
-    "http://localhost/reactProjects/armic/src/rest/novDezurni.php";
+  const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novDezurni.php`;
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);

@@ -1,6 +1,5 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import moment from "moment";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ErrorBoundary from "../../hooks/errorBoundaries";
@@ -20,14 +19,6 @@ const CasData = ({ data }) => {
       .padStart(2, "0")}`;
 
     return ure;
-  }
-
-  function subtractTimeDiff(start, finish) {
-    const zacetek = moment(start, "HH:mm:ss");
-    const konec = moment(finish, "HH:mm:ss");
-    const razlika = konec.diff(zacetek);
-
-    return razlika;
   }
 
   function getTotalTime(timeIntervals) {

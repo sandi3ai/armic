@@ -7,8 +7,7 @@ const DeleteModal = ({
   setSelectedDezurni,
   setOpenDeleteModal,
 }) => {
-  const delUrl =
-    "http://localhost/reactProjects/armic/src/rest/deleteDezurni.php";
+  const delUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteDezurni.php`;
 
   const deleteSelectedDezurni = () => {
     selectedDezurni.forEach((dezurniID) => {

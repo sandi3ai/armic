@@ -8,7 +8,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const callLogout = useLazyApi(
-    "http://localhost/reactProjects/armic/src/rest/logout.php"
+    `${process.env.REACT_APP_BASE_URL}/src/rest/logout.php`
   );
 
   async function Logout() {

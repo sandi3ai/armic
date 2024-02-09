@@ -6,9 +6,8 @@ import { post } from "../../Helper";
 
 const PrikaziSkupine = () => {
   const [data, setData] = useState([]);
-  const getUrl = "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
-  const deleteUrl =
-    "http://localhost/reactProjects/armic/src/rest/deleteSkupina.php";
+  const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
+  const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteSkupina.php`;
 
   const getSkupine = () => {
     try {

@@ -4,8 +4,7 @@ import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
 
 const NovaSkupina = () => {
-  const postUrl =
-    "http://localhost/reactProjects/armic/src/rest/novaSkupina.php";
+  const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novaSkupina.php`;
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [showSeznam, setShowSeznam] = useState(false);

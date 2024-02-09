@@ -5,8 +5,7 @@ import DopustData from "./DopustData";
 import OdsotnostFiltri from "./OdsotnostFiltri";
 
 function ToggleButtonGroup() {
-  const getSkupineUrl =
-    "http://localhost/reactProjects/armic/src/rest/getSkupine.php";
+  const getSkupineUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
   const [radioValue, setRadioValue] = useState("");
   const [tip, setTip] = useState("Brez filtra");
   const [status, setStatus] = useState("Brez filtra");

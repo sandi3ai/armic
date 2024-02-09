@@ -7,11 +7,9 @@ import CasData from "./CasData";
 import { post } from "../../Helper";
 
 export const Cas = () => {
-  const getUrl =
-    "http://localhost/reactProjects/armic/src/rest/getZaposleni.php";
-  const getCasUrl = "http://localhost/reactProjects/armic/src/rest/getCas.php";
-  const getNameUrl =
-    "http://localhost/reactProjects/armic/src/rest/getName.php";
+  const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
+  const getCasUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getCas.php`;
+  const getNameUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getName.php`;
   const [data, setData] = useState([]);
   const [dropValue, setDropValue] = useState("");
   const [startDate, setStartDate] = useState(

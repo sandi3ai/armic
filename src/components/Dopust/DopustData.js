@@ -4,8 +4,7 @@ import moment from "moment";
 import { post } from "../../Helper";
 
 const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
-  const getDopustnikUrl =
-    "http://localhost/reactProjects/armic/src/rest/getOdsotnost.php";
+  const getDopustnikUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getOdsotnost.php`;
   const [dopustnik, setDopustnik] = useState([
     { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "" },
   ]);

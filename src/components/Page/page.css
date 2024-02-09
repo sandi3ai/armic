@@ -384,3 +384,40 @@ h2 {
 .dropdown-toggle {
   margin-right: 5px !important;
 }
+
+.accordion-custom {
+  background-color: #d3d3d3;
+  border: 1px solid #c0c0c0;
+  border-radius: 1rem;
+  padding: 0.3rem;
+}
+
+.accordion-button {
+  background-color: #f7f7f7;
+  border: 1px solid #ffffff;
+  border-radius: 1rem;
+  margin: 0.5rem;
+  color: #740f26;
+}
+
+.icon-spacing {
+  margin-right: 1rem; /* Adjust the spacing as needed */
+}
+
+.narrow-column {
+  width: 3rem; /* Or whatever width you desire */
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  justify-content: start; /* Align items to the start of the container */
+}
+
+.status-img {
+  max-width: 1.2rem;
+  max-height: 1.2 rem;
+  object-fit: contain; /* or 'cover', based on your preference */
+  display: block; /* to remove any extra space below the image */
+  margin-right: 10px; /* to center the image in its container if it's smaller */
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
