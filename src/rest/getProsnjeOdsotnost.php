@@ -8,7 +8,8 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 $sql = "SELECT odsotnost.*, zaposlen.zaposleniIme
         FROM odsotnost
         JOIN zaposlen ON odsotnost.odsotenUserID = zaposlen.zaposleniID
-        WHERE odsotnost.status = :status";
+        WHERE odsotnost.status = :status
+        AND odsotnost.deleted = 0";
 
 $stmt = $conn->prepare($sql);
 
