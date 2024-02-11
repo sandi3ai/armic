@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Accordion, OverlayTrigger, Table, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import Axios from "axios";
 import Cancel from "../Images/cancel.png";
 import Check from "../Images/check.png";
@@ -7,16 +7,18 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
+import ConfirmModal from "./ConfirmModal";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
 
 export const Nadure = () => {
   const [nadureData, setNadureData] = useState([]);
-  const [odsotnostData, setOdsotnostData] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+  const [clickedButtonData, setClickedButtonData] = useState(null);
 
   const getProsnjeNadureUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getProsnjeNadure.php`;
-  const getProsnjeOdsotnostUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getProsnjeOdsotnost.php`;
 
   /**
    * NADURE functions
@@ -52,24 +54,6 @@ export const Nadure = () => {
   function formatOutputDate(timestamp) {
     return dayjs(timestamp, "YYYY-MM-DD HH:mm:ss").format("D MMM YYYY - HH:mm");
   }
-
-  /**
-   * ODSOTNOST functions
-   */
-
-  const getProsnjeOdsotnost = () => {
-    try {
-      Axios.get(getProsnjeOdsotnostUrl, { withCredentials: true }).then(
-        (response) => {
-          // Map over the response data to format the duration
-          setOdsotnostData(response.data);
-          console.log("RESPONSE.DATA: ", response.data);
-        }
-      );
-    } catch (error) {
-      alert(error.message);
-    }
-  };
 
   useEffect(() => {
     getProsnjeNadure();
@@ -108,7 +92,19 @@ export const Nadure = () => {
                         </Tooltip>
                       }
                     >
-                      <img className="status-img" src={Check} alt="Odobreno" />
+                      <img
+                        className="status-img"
+                        src={Check}
+                        alt="Odobreno"
+                        onClick={() => {
+                          setModalShow(true);
+                          setClickedItem(data);
+                          setClickedButtonData({
+                            action: "approve",
+                            id: data.casID,
+                          });
+                        }}
+                      />
                     </OverlayTrigger>{" "}
                     <OverlayTrigger
                       placement="top"
@@ -118,7 +114,19 @@ export const Nadure = () => {
                         </Tooltip>
                       }
                     >
-                      <img className="status-img" src={Cancel} alt="zavrni" />
+                      <img
+                        className="status-img"
+                        src={Cancel}
+                        alt="zavrni"
+                        onClick={() => {
+                          setModalShow(true);
+                          setClickedItem(data);
+                          setClickedButtonData({
+                            action: "reject",
+                            id: data.casID,
+                          });
+                        }}
+                      />
                     </OverlayTrigger>
                   </td>
                 </tr>
@@ -130,6 +138,17 @@ export const Nadure = () => {
               </tr>
             </tfoot>
           </Table>
+          <ConfirmModal
+            show={modalShow}
+            onHide={() => {
+              setModalShow(false);
+              setClickedItem(null);
+              setClickedButtonData(null);
+            }}
+            type="nadure"
+            clickedItem={clickedItem}
+            buttonData={clickedButtonData}
+          />
         </ErrorBoundary>
       )}
     </div>
