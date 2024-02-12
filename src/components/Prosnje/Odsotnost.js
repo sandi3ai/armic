@@ -3,6 +3,7 @@ import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import Axios from "axios";
 import Cancel from "../Images/cancel.png";
 import Check from "../Images/check.png";
+import ConfirmModal from "./ConfirmModal";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
@@ -13,6 +14,9 @@ dayjs.locale("sl");
 
 export const Odsotnost = () => {
   const [odsotnostData, setOdsotnostData] = useState([]);
+  const [modalShow, setModalShow] = useState(false);
+  const [clickedItem, setClickedItem] = useState(null);
+  const [clickedButtonData, setClickedButtonData] = useState(null);
 
   const getProsnjeOdsotnostUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getProsnjeOdsotnost.php`;
 
@@ -43,7 +47,7 @@ export const Odsotnost = () => {
   }, []);
 
   return (
-    <div className="content">
+    <div>
       <hr />
       {odsotnostData.length === 0 ? (
         "Ni novih prošenj za odobritev odsotnosti."
@@ -75,7 +79,19 @@ export const Odsotnost = () => {
                         </Tooltip>
                       }
                     >
-                      <img className="status-img" src={Check} alt="Odobreno" />
+                      <img
+                        className="status-img"
+                        src={Check}
+                        alt="Odobreno"
+                        onClick={() => {
+                          setModalShow(true);
+                          setClickedItem(data);
+                          setClickedButtonData({
+                            action: "approve",
+                            id: data.dopustID,
+                          });
+                        }}
+                      />
                     </OverlayTrigger>{" "}
                     <OverlayTrigger
                       placement="top"
@@ -85,7 +101,19 @@ export const Odsotnost = () => {
                         </Tooltip>
                       }
                     >
-                      <img className="status-img" src={Cancel} alt="zavrni" />
+                      <img
+                        className="status-img"
+                        src={Cancel}
+                        alt="zavrni"
+                        onClick={() => {
+                          setModalShow(true);
+                          setClickedItem(data);
+                          setClickedButtonData({
+                            action: "reject",
+                            id: data.dopustID,
+                          });
+                        }}
+                      />
                     </OverlayTrigger>
                   </td>
                 </tr>
@@ -97,6 +125,17 @@ export const Odsotnost = () => {
               </tr>
             </tfoot>
           </Table>
+          <ConfirmModal
+            show={modalShow}
+            onHide={() => {
+              setModalShow(false);
+              setClickedItem(null);
+              setClickedButtonData(null);
+            }}
+            type="odsotnost"
+            clickedItem={clickedItem}
+            buttonData={clickedButtonData}
+          />
         </ErrorBoundary>
       )}
     </div>

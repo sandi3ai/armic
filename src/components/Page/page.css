@@ -26,9 +26,9 @@ body {
 }
 
 .content {
-  border-radius: 1rem !important;
+  border-radius: 0.7rem !important;
   padding: 1rem;
-  margin: 0.5rem;
+  margin: 0.4rem;
   background: linear-gradient(
     to top right,
     rgba(255, 255, 255, 0.7),
@@ -420,4 +420,18 @@ h2 {
   cursor: pointer;
   align-items: center;
   justify-content: center;
+}
+
+.modal-green-header {
+  background-color: #6bd884;
+  color: white;
+}
+
+.modal-red-header {
+  background-color: #df5865;
+  color: white;
+}
+
+.custom-modal .modal-header .modal-content {
+  border-radius: 100px;
 }

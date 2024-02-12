@@ -3,11 +3,11 @@ import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import Axios from "axios";
 import Cancel from "../Images/cancel.png";
 import Check from "../Images/check.png";
+import ConfirmModal from "./ConfirmModal";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
-import ConfirmModal from "./ConfirmModal";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -60,7 +60,7 @@ export const Nadure = () => {
   }, []);
 
   return (
-    <div className="content">
+    <div>
       <hr />
       {nadureData.length === 0 ? (
         "Ni novih prošenj za odobritev nadur."
@@ -140,14 +140,14 @@ export const Nadure = () => {
           </Table>
           <ConfirmModal
             show={modalShow}
+            type="nadure"
+            clickedItem={clickedItem}
+            buttonData={clickedButtonData}
             onHide={() => {
               setModalShow(false);
               setClickedItem(null);
               setClickedButtonData(null);
             }}
-            type="nadure"
-            clickedItem={clickedItem}
-            buttonData={clickedButtonData}
           />
         </ErrorBoundary>
       )}

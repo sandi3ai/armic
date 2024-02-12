@@ -7,10 +7,18 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      animation={false}
       show={show}
       onHide={onHide}
+      className="custom-modal"
     >
-      <Modal.Header>
+      <Modal.Header
+        className={
+          buttonData?.action === "approve"
+            ? "modal-green-header"
+            : "modal-red-header"
+        }
+      >
         <Modal.Title id="contained-modal-title-vcenter">
           {clickedItem?.zaposleniIme} -{" "}
           {buttonData?.action === "approve" ? "Odobritev" : "Zavrnitev"}{" "}
@@ -25,11 +33,22 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
             <strong>{clickedItem?.durationHHMM}</strong>
           </p>
         ) : (
-          <div>odsotnost</div>
+          <p>
+            <strong>{clickedItem?.tip}:</strong>{" "}
+            {clickedItem?.formattedCasZacetek} -{" "}
+            {clickedItem?.formattedCasKonec}
+          </p>
         )}
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="outline-success" onClick={onHide}>
+        <Button
+          variant={
+            buttonData?.action === "approve"
+              ? "outline-success"
+              : "outline-danger"
+          }
+          onClick={onHide}
+        >
           Potrdi
         </Button>
         <Button variant="outline-dark" onClick={onHide}>
