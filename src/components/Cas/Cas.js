@@ -106,7 +106,7 @@ export const Cas = () => {
           </DropdownButton>
           <br />
 
-          <Col md="3">
+          <Col lg="3" md="4" sm="5">
             <Form.Label>Obdobje od: </Form.Label>
             <Form.Control
               name="date"
@@ -120,7 +120,7 @@ export const Cas = () => {
             </Form.Text>
           </Col>
 
-          <Col md="3">
+          <Col lg="3" md="4" sm="5">
             <Form.Label>Obdobje do: </Form.Label>
             <Form.Control
               name="date"
