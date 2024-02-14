@@ -148,10 +148,12 @@ function ReadDezurni() {
                     </Tooltip>
                   }
                 >
-                  <FaRegTrashAlt
+                  <div
                     className="deleteBtn"
                     onClick={(event) => deleteDezurni(dezurni.dezurniID, event)}
-                  />
+                  >
+                    <FaRegTrashAlt />
+                  </div>
                 </OverlayTrigger>
               </div>
             </div>

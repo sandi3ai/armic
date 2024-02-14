@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const DeleteModal = ({
@@ -16,45 +16,33 @@ const DeleteModal = ({
       })
         .then(() => {
           console.log(`${dezurniID} deleted successfully`);
-          setOpenDeleteModal(false);
-          setSelectedDezurni(new Set());
         })
         .catch((err) => console.log(err));
     });
+    setOpenDeleteModal(false);
+    setSelectedDezurni(new Set());
   };
 
   return (
-    <div className="modalBackground">
-      <div className="modalContainerDelete">
-        <div className="titleCloseBtn">
-          <button onClick={() => setOpenDeleteModal(false)}>X</button>
-        </div>
-        <div className="titleDelete">
-          <h6>
-            Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
-          </h6>
-          Nadaljujem?
-        </div>
-        <div className="body">
-          <Button
-            variant="outline-danger"
-            className="bodyBtns"
-            onClick={() => {
-              deleteSelectedDezurni();
-            }}
-          >
-            Dokončno izbriši
-          </Button>
-          <Button
-            variant="outline-primary"
-            className="bodyBtns"
-            onClick={() => setOpenDeleteModal(false)}
-          >
-            Prekliči
-          </Button>
-        </div>
-      </div>
-    </div>
+    <Modal show={true} onHide={() => setOpenDeleteModal(false)} centered>
+      <Modal.Header>
+        <Modal.Title>
+          Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>Nadaljujem?</Modal.Body>
+      <Modal.Footer>
+        <Button variant="outline-danger" onClick={deleteSelectedDezurni}>
+          Dokončno izbriši
+        </Button>
+        <Button
+          variant="outline-primary"
+          onClick={() => setOpenDeleteModal(false)}
+        >
+          Prekliči
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 

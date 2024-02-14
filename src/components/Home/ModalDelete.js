@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const ModalDelete = ({ closeModal, passID }) => {
@@ -30,10 +30,6 @@ const ModalDelete = ({ closeModal, passID }) => {
   const getZaposleniIme = (data, passID) => {
     const zaposleni = getPassedZaposleni(data, passID);
     return zaposleni ? zaposleni.zaposleniIme : "Ne najdem imena";
-    /*.filter((data) => data.zaposleniID === passID)
-    .map((filteredData) => filteredData.zaposleniIme);
-    console.log(ime[0]);
-    return ime[0];*/
   };
 
   const deleteZaposleni = (id) => {
@@ -50,36 +46,27 @@ const ModalDelete = ({ closeModal, passID }) => {
   }, []);
 
   return (
-    <div className="modalBackground">
-      <div className="modalContainerDelete">
-        <div className="titleCloseBtn">
-          <button onClick={() => closeModal(false)}>X</button>
-        </div>
-        <div className="titleDelete">
-          <h6>
-            <strong>{getZaposleniIme(data, passID)}</strong> - potrdi izbris
-          </h6>
-        </div>
-        <div className="body">
-          <Button
-            onClick={() => {
-              deleteZaposleni(passID);
-            }}
-            variant="outline-danger"
-            className="bodyBtns"
-          >
-            Dokončno izbriši
-          </Button>
-          <Button
-            onClick={() => closeModal(false)}
-            variant="outline-primary"
-            className="bodyBtns"
-          >
-            Prekliči
-          </Button>
-        </div>
-      </div>
-    </div>
+    <Modal show={true} onHide={() => closeModal()} centered>
+      <Modal.Header>
+        <Modal.Title>
+          <strong>{getZaposleniIme(data, passID)}</strong> - potrdi izbris
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        Ali res želite dokončno izbrisati izbranega zaposlenega?
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="outline-danger"
+          onClick={() => deleteZaposleni(passID)}
+        >
+          Dokončno izbriši
+        </Button>
+        <Button variant="outline-primary" onClick={() => closeModal()}>
+          Prekliči
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
