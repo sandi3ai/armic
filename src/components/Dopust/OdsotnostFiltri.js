@@ -1,5 +1,5 @@
 import React from "react";
-import { Alert, CloseButton, DropdownButton, Dropdown } from "react-bootstrap";
+import { Alert, Button, DropdownButton, Dropdown } from "react-bootstrap";
 
 const OdsotnostFiltri = ({ setTip, tip, setStatus, status }) => {
   return (
@@ -40,13 +40,23 @@ const OdsotnostFiltri = ({ setTip, tip, setStatus, status }) => {
               {tip !== "Brez filtra" && (
                 <div className="filterElement">
                   Tip odsotnosti: {tip}
-                  <CloseButton onClick={() => setTip("Brez filtra")} />
+                  <Button
+                    className="close-btn"
+                    onClick={() => setTip("Brez filtra")}
+                  >
+                    X
+                  </Button>
                 </div>
               )}
               {status !== "Brez filtra" && (
                 <div className="filterElement">
                   Status odsotnosti: {status}
-                  <CloseButton onClick={() => setStatus("Brez filtra")} />
+                  <Button
+                    className="close-btn"
+                    onClick={() => setStatus("Brez filtra")}
+                  >
+                    X
+                  </Button>
                 </div>
               )}
             </div>

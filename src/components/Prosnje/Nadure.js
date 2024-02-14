@@ -28,14 +28,19 @@ export const Nadure = () => {
     try {
       Axios.get(getProsnjeNadureUrl, { withCredentials: true }).then(
         (response) => {
-          const formattedData = response.data.map((item) => ({
-            ...item, // Spread to copy all existing properties from the item
-            formattedCasZacetek: formatOutputDate(item.casZacetek), // Add a new property for the formatted start time
-            formattedCasKonec: formatOutputDate(item.casKonec), // Add a new property for the formatted end time
-            durationHHMM: formatDuration(item.durationMinutes), // Add a new property for the formatted duration
-          }));
-          setNadureData(formattedData);
-          console.log("FORMATED DATA: ", formattedData);
+          if (Array.isArray(response.data) && response.data.length > 0) {
+            const formattedData = response.data.map((item) => ({
+              ...item, // Spread to copy all existing properties from the item
+              formattedCasZacetek: formatOutputDate(item.casZacetek), // Add a new property for the formatted start time
+              formattedCasKonec: formatOutputDate(item.casKonec), // Add a new property for the formatted end time
+              durationHHMM: formatDuration(item.durationMinutes), // Add a new property for the formatted duration
+            }));
+            setNadureData(formattedData);
+          } else {
+            // Handle the case where there are no items or response.data is not an array
+            console.log("Ni novih prošenj za odobritev nadur.");
+            setNadureData([]);
+          }
         }
       );
     } catch (error) {
@@ -144,6 +149,7 @@ export const Nadure = () => {
             clickedItem={clickedItem}
             buttonData={clickedButtonData}
             onHide={() => {
+              getProsnjeNadure();
               setModalShow(false);
               setClickedItem(null);
               setClickedButtonData(null);

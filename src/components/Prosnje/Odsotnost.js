@@ -24,13 +24,18 @@ export const Odsotnost = () => {
     try {
       Axios.get(getProsnjeOdsotnostUrl, { withCredentials: true }).then(
         (response) => {
-          const formattedData = response.data.map((item) => ({
-            ...item, // Spread to copy all existing properties from the item
-            formattedCasZacetek: formatOutputDate(item.datumZ), // Add a new property for the formatted start time
-            formattedCasKonec: formatOutputDate(item.datumK), // Add a new property for the formatted end time
-          }));
-          setOdsotnostData(formattedData);
-          console.log("RESPONSE.DATA: ", formattedData);
+          if (Array.isArray(response.data) && response.data.length > 0) {
+            const formattedData = response.data.map((item) => ({
+              ...item, // Spread to copy all existing properties from the item
+              formattedCasZacetek: formatOutputDate(item.datumZ), // Add a new property for the formatted start time
+              formattedCasKonec: formatOutputDate(item.datumK), // Add a new property for the formatted end time
+            }));
+            setOdsotnostData(formattedData);
+          } else {
+            // Handle the case where there are no items or response.data is not an array
+            console.log("Ni novih prošenj za odobritev odsotnosti.");
+            setOdsotnostData([]);
+          }
         }
       );
     } catch (error) {
@@ -128,6 +133,7 @@ export const Odsotnost = () => {
           <ConfirmModal
             show={modalShow}
             onHide={() => {
+              getProsnjeOdsotnost();
               setModalShow(false);
               setClickedItem(null);
               setClickedButtonData(null);

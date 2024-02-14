@@ -54,7 +54,7 @@ function LoginForm({ Login, error }) {
                 <span className="passToggleIcon">{ToggleIcon}</span>
               </div>
             </Form.Group>
-
+            <div className="spacer"></div>
             <Button
               className="PrijavaBtn"
               type="submit"

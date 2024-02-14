@@ -435,3 +435,15 @@ h2 {
 .custom-modal .modal-header .modal-content {
   border-radius: 100px;
 }
+
+.close-btn {
+  background-color: transparent !important;
+  color: grey !important;
+  padding: 0rem 0.5rem !important;
+  border: none !important;
+}
+
+.close-btn:hover {
+  color: #df5865 !important;
+  font-weight: 700;
+}
