@@ -51,8 +51,8 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
       <Modal.Header
         className={
           buttonData?.action === "approve"
-            ? "modal-green-header"
-            : "modal-red-header"
+            ? "green-modal-header"
+            : "red-modal-header"
         }
       >
         <Modal.Title id="contained-modal-title-vcenter">

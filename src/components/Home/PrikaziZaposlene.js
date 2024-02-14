@@ -1,7 +1,7 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
-import Modal from "./Modal";
+import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
 
 const PrikaziZaposlene = () => {
@@ -43,7 +43,7 @@ const PrikaziZaposlene = () => {
       ) : (
         <>
           {checkIfContent()}
-          {openModal && <Modal closeModal={setOpenModal} passID={passID} />}
+          {openModal && <ModalEdit closeModal={setOpenModal} passID={passID} />}
           {openDeleteModal && (
             <ModalDelete closeModal={setOpenDeleteModal} passID={passID} />
           )}

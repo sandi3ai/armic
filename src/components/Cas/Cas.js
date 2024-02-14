@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+import { Button, Col, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import Axios from "axios";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import moment from "moment";
@@ -105,29 +105,35 @@ export const Cas = () => {
             ))}
           </DropdownButton>
           <br />
-          <Form.Label>Obdobje od: </Form.Label>
-          <Form.Control
-            name="date"
-            onChange={(e) => setStartDate(e.target.value)}
-            value={startDate}
-            type="date"
-            placeholder="dan/mesec/leto"
-          />
-          <Form.Text className="text-muted">
-            Ob kliku na ikono koledarja se odpre koledar
-          </Form.Text>
-          <Form.Label>Obdobje do: </Form.Label>
-          <Form.Control
-            name="date"
-            onChange={(e) => setEndDate(e.target.value)}
-            value={endDate}
-            type="date"
-            placeholder="dan/mesec/leto"
-          />
-          <Form.Text className="text-muted">
-            Ob kliku na ikono koledarja se odpre koledar
-          </Form.Text>
 
+          <Col md="3">
+            <Form.Label>Obdobje od: </Form.Label>
+            <Form.Control
+              name="date"
+              onChange={(e) => setStartDate(e.target.value)}
+              value={startDate}
+              type="date"
+              placeholder="dan/mesec/leto"
+            />
+            <Form.Text className="text-muted">
+              Za lažje izbiranje klikni koledar
+            </Form.Text>
+          </Col>
+
+          <Col md="3">
+            <Form.Label>Obdobje do: </Form.Label>
+            <Form.Control
+              name="date"
+              onChange={(e) => setEndDate(e.target.value)}
+              value={endDate}
+              type="date"
+              placeholder="dan/mesec/leto"
+            />
+            <Form.Text className="text-muted">
+              Za lažje izbiranje klikni koledar
+            </Form.Text>
+          </Col>
+          <div className="spacer"></div>
           <div className="successBox">
             <br />
             <Button variant="outline-success" type="submit">
@@ -136,6 +142,7 @@ export const Cas = () => {
           </div>
         </Form>
       </div>
+
       {thereIsData ? (
         <ErrorBoundary>
           <CasData data={casData} />

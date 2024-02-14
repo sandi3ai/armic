@@ -25,7 +25,7 @@ const DeleteModal = ({
 
   return (
     <Modal show={true} onHide={() => setOpenDeleteModal(false)} centered>
-      <Modal.Header>
+      <Modal.Header className="red-modal-header">
         <Modal.Title>
           Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
         </Modal.Title>

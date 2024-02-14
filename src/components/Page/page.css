@@ -172,10 +172,7 @@ h2 {
 }
 
 .checkMark {
-  height: 4rem;
-  position: absolute;
-  padding-bottom: 1.6rem;
-  margin-left: 0.5rem;
+  height: 2.5rem;
 }
 
 #button-tooltip-2 {
@@ -190,6 +187,24 @@ h2 {
   top: 0;
   left: 0;
   background-color: (0, 0, 0, 0.5);
+}
+
+.blue-modal-header {
+  background: linear-gradient(to right, #007bff, #ffffff);
+  color: #fff; /* Adjust the text color as needed */
+  border-bottom: 1px solid #007bff !important; /* Optional: adds a border line similar to default Bootstrap modals */
+}
+
+.red-modal-header {
+  background: linear-gradient(to right, #e54151, #ffffff);
+  color: #fff; /* Adjust the text color as needed */
+  border-bottom: 1px solid #e54151 !important; /* Optional: adds a border line similar to default Bootstrap modals */
+}
+
+.green-modal-header {
+  background: linear-gradient(to right, #2cb94d, #ffffff);
+  color: #fff; /* Adjust the text color as needed */
+  border-bottom: 1px solid #2cb94d !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .modalContainer {
@@ -290,6 +305,10 @@ h2 {
   margin-left: 0.5rem;
 }
 
+.text-muted {
+  float: right;
+}
+
 /* =====  ===== FOR SMALL DEVICES ===== ===== */
 
 @media screen and (max-width: 576px) {
@@ -336,11 +355,13 @@ h2 {
 
 /* Ensures the dropdown content is fully visible without scrollbars.*/
 .dropdown-menu {
-  max-height: 300px !important;
+  max-height: 350px !important;
   z-index: 10 !important;
   scrollbar-width: thin !important;
   scrollbar-color: #888 #f1f1f1 !important;
   border-radius: 5px !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
 }
 
 /* Style the scrollbar for Chrome, Safari, and newer versions of Edge */
@@ -421,16 +442,6 @@ h2 {
   cursor: pointer;
   align-items: center;
   justify-content: center;
-}
-
-.modal-green-header {
-  background-color: #6bd884;
-  color: white;
-}
-
-.modal-red-header {
-  background-color: #df5865;
-  color: white;
 }
 
 .custom-modal .modal-header .modal-content {

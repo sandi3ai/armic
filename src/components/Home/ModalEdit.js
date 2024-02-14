@@ -1,19 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+import { Button, Form, Modal, DropdownButton, Dropdown } from "react-bootstrap";
 import checkMark from "../Images/checkMark.gif";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
 
-const Modal = ({ closeModal, passID }) => {
-  const getZaposleniUrl =
-     `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
-  const getUrlSkupine =
-     `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
-  const urlImeSkupine =
-     `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
-  const updateUrl =
-     `${process.env.REACT_APP_BASE_URL}/src/rest/updateZaposleni.php`;
+const ModalEdit = ({ closeModal, passID }) => {
+  const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
+  const getUrlSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
+  const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
+  const updateUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/updateZaposleni.php`;
   const [data, setData] = useState([]);
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
@@ -67,6 +63,7 @@ const Modal = ({ closeModal, passID }) => {
   const getSkupine = () => {
     try {
       Axios.get(getUrlSkupine, { withCredentials: true }).then((response) => {
+        console.log("Response skupine:", response.data.skupine);
         setSkupine(response.data.skupine);
       });
     } catch (error) {
@@ -76,15 +73,18 @@ const Modal = ({ closeModal, passID }) => {
 
   const idToName = (e) => {
     console.log(e);
-    try {
-      post(urlImeSkupine, { dropValue: e }).then((response) => {
-        const res = response.data.skupinaIme;
-        console.log(res);
-        setImeSkupine(res);
+    post(urlImeSkupine, { dropValue: e })
+      .then((response) => {
+        if (response.data && response.data.skupinaIme) {
+          setImeSkupine(response.data.skupinaIme);
+          console.log("Response skupinaIme:", response.data.skupinaIme);
+        } else {
+          console.log("No skupinaIme in response:", response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching skupinaIme:", error);
       });
-    } catch (error) {
-      alert(error.message);
-    }
   };
 
   function checkIfName(name) {
@@ -134,46 +134,42 @@ const Modal = ({ closeModal, passID }) => {
   }
 
   return (
-    <div className="modalBackground">
-      <div className="modalContainer">
-        <div className="titleCloseBtn">
-          <button onClick={() => closeModal(false)}>X</button>
-        </div>
-        <div className="title">
-          <h4>
-            <strong>{getZaposleniIme(data, passID)}</strong> - posodobi podatke
-          </h4>
-        </div>
-        <div className="body">
-          <hr />
-          <Form onSubmit={(e) => submitForm(e)}>
-            <Form.Group className="mb-3">
-              <Form.Label>Spremeni ime in priimek zaposlenega: </Form.Label>
+    <Modal show={true} onHide={() => closeModal()} centered>
+      <Modal.Header className="blue-modal-header">
+        <Modal.Title>
+          <strong>{getZaposleniIme(data, passID)}</strong>
+          <br />
+          Posodobi podatke
+        </Modal.Title>
+      </Modal.Header>
+      <Form onSubmit={(e) => submitForm(e)}>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Spremeni ime in priimek zaposlenega:</Form.Label>
+            <Form.Control
+              name="name"
+              onChange={(e) => setUpdatedName(e.target.value)}
+              value={updatedName}
+              type="text"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Spremeni geslo zaposlenega:</Form.Label>
+            <div className="gesloArea">
               <Form.Control
-                name="name"
-                onChange={(e) => setUpdatedName(e.target.value)}
-                value={updatedName}
-                defaultValue={getZaposleniIme(data, passID)}
-                type="text"
+                name="password"
+                onChange={(e) => setUpdatedPass(e.target.value)}
+                value={updatedPass}
+                type={PasswordInputType}
               />
-            </Form.Group>
-            <Form.Group className="mb-3">
-              <Form.Label>Spremeni geslo zaposlenega: </Form.Label>
-              <div className="gesloArea">
-                <Form.Control
-                  name="name"
-                  onChange={(e) => setUpdatedPass(e.target.value)}
-                  value={updatedPass}
-                  type={PasswordInputType}
-                />{" "}
-                <span className="passToggleIcon">{ToggleIcon}</span>
-              </div>{" "}
-              {showPassErr && (
-                <Form.Text className="reddish">Geslo je obvezno</Form.Text>
-              )}
-            </Form.Group>
-
-            <Form.Label>Delavcu spremeni skupino: </Form.Label>
+              <span className="passToggleIcon">{ToggleIcon}</span>
+            </div>
+            {showPassErr && (
+              <Form.Text className="reddish">Geslo je obvezno</Form.Text>
+            )}
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Delavcu spremeni skupino:</Form.Label>
             <DropdownButton
               variant="outline-primary"
               title={checkIfName(imeSkupine)}
@@ -191,24 +187,22 @@ const Modal = ({ closeModal, passID }) => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
-            <hr />
-            <div className="successBox">
-              <Button variant="outline-success" type="submit">
-                Posodobi
-              </Button>
-              {successTxt && (
-                <img
-                  className="checkMark"
-                  src={checkMark}
-                  alt="Posodobljeno!"
-                />
-              )}
-            </div>
-          </Form>
-        </div>
-      </div>
-    </div>
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          {successTxt && (
+            <img className="checkMark" src={checkMark} alt="Posodobljeno!" />
+          )}
+          <Button variant="outline-success" type="submit">
+            Posodobi
+          </Button>
+          <Button variant="outline-primary" onClick={() => closeModal()}>
+            Prekliči
+          </Button>
+        </Modal.Footer>
+      </Form>
+    </Modal>
   );
 };
 
-export default Modal;
+export default ModalEdit;

@@ -47,9 +47,11 @@ const ModalDelete = ({ closeModal, passID }) => {
 
   return (
     <Modal show={true} onHide={() => closeModal()} centered>
-      <Modal.Header>
+      <Modal.Header className="red-modal-header">
         <Modal.Title>
-          <strong>{getZaposleniIme(data, passID)}</strong> - potrdi izbris
+          <strong>{getZaposleniIme(data, passID)}</strong>
+          <br />
+          Potrdi izbris
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
