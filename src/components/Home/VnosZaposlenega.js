@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form, DropdownButton, Dropdown } from "react-bootstrap";
+import { Button, Col, DropdownButton, Dropdown, Form } from "react-bootstrap";
 import Axios from "axios";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
@@ -12,6 +12,8 @@ export const VnosZaposlenega = () => {
   const [name, setName] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [izbranaSkupina, setIzbranaSkupina] = useState("");
+  const [dniDopusta, setDniDopusta] = useState("");
+  const [casZacetka, setCasZacetka] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [imeSkupine, setImeSkupine] = useState("");
   const [pass, setPass] = useState("");
@@ -25,13 +27,17 @@ export const VnosZaposlenega = () => {
       name,
       izbranaSkupina,
       pass,
+      dniDopusta,
+      casZacetka,
     };
     console.log(postData);
-    if (name && izbranaSkupina && pass !== "") {
+    if (name && izbranaSkupina && pass && dniDopusta && casZacetka !== "") {
       post(postUrl, {
         name: postData.name,
         group: postData.izbranaSkupina,
         pass: postData.pass,
+        preostanekDopusta: postData.dniDopusta,
+        predvidenZacetek: postData.casZacetka,
       }).then(() => {
         console.log("submitForm executed");
         setName("");
@@ -136,7 +142,36 @@ export const VnosZaposlenega = () => {
             </Dropdown.Item>
           ))}
         </DropdownButton>
-
+        <div className="spacer"></div>
+        <Form.Group className="mb-3">
+          <div className="inputForm">
+            <Form.Label>Število dni dopusta:</Form.Label>
+            <Col lg="4" md="5" sm="6">
+              <Form.Control
+                name="dniDopusta"
+                onChange={(e) => setDniDopusta(e.target.value)}
+                value={dniDopusta}
+                type="number"
+                placeholder="Dopust"
+              />
+            </Col>
+          </div>
+        </Form.Group>
+        <div className="spacer"></div>
+        <Form.Group className="mb-3">
+          <div className="inputForm">
+            <Form.Label>Predviden čas začetka:</Form.Label>
+            <Col lg="4" md="5" sm="6">
+              <Form.Control
+                name="casZacetka"
+                onChange={(e) => setCasZacetka(e.target.value)}
+                value={casZacetka}
+                type="time"
+                placeholder="Vnesi predviden čas začetka z delom"
+              />
+            </Col>
+          </div>
+        </Form.Group>
         <br />
         <div className="successBox">
           <Button variant="outline-success" type="submit">

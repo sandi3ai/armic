@@ -1,28 +1,50 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
+import dayjs from "dayjs"; // Import dayjs
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
+import { OverlayTrigger, Popover, Button } from "react-bootstrap";
+import { post } from "../../Helper";
 
 const PrikaziZaposlene = () => {
   const [data, setData] = useState([]);
+  const [imeSkupine, setImeSkupine] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
+  const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
   const getZaposleni = async () => {
     setIsLoading(true);
     try {
       const response = await Axios.get(getUrl, { withCredentials: true });
+      console.log("ZASOSLENI: ", response.data.zaposleni);
       setData(response.data.zaposleni || []);
     } catch (error) {
       alert(error.message);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const idToName = (e) => {
+    console.log(e);
+    post(urlImeSkupine, { dropValue: e })
+      .then((response) => {
+        if (response.data && response.data.skupinaIme) {
+          setImeSkupine(response.data.skupinaIme);
+          console.log("Response skupinaIme:", response.data.skupinaIme);
+        } else {
+          console.log("No skupinaIme in response:", response.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching skupinaIme:", error);
+      });
   };
 
   useEffect(() => {
@@ -35,6 +57,33 @@ const PrikaziZaposlene = () => {
     }
     return null; // This ensures that the function always returns something, even if it's `null`.
   };
+
+  const renderPopover = (zaposlen) => (
+    <Popover id={`popover-${zaposlen.zaposleniID}`}>
+      <Popover.Header as="h1" className="blue-modal-header">
+        {zaposlen.zaposleniIme}
+      </Popover.Header>
+      <Popover.Body>
+        Skupina: <strong>{imeSkupine}</strong>
+        <br />
+        Preostanek dopusta:{" "}
+        <strong>
+          {zaposlen.preostanekDopusta}{" "}
+          {zaposlen.preostanekDopusta === 1 ? "dan" : "dni"}
+        </strong>
+        <br />
+        <span>
+          Predviden začetek:{" "}
+          <strong>
+            {zaposlen.predvidenZacetek
+              ? zaposlen.predvidenZacetek.substring(0, 5)
+              : ""}
+          </strong>
+        </span>
+        <br />
+      </Popover.Body>
+    </Popover>
+  );
 
   return (
     <div>
@@ -51,8 +100,19 @@ const PrikaziZaposlene = () => {
             {data.length > 0 &&
               data.map((zaposlen) => (
                 <div key={zaposlen.zaposleniID} className="child">
-                  {zaposlen.zaposleniIme}
-
+                  <OverlayTrigger
+                    trigger="click"
+                    placement="auto"
+                    rootClose="true"
+                    onEnter={() => idToName(zaposlen.zaposleniSkupinaID)}
+                    overlay={renderPopover(zaposlen)}
+                    onExit={() => setImeSkupine("")}
+                  >
+                    <span className="zaposleni-hover">
+                      {zaposlen.zaposleniIme}
+                      {zaposlen.zaposleniZacetek}
+                    </span>
+                  </OverlayTrigger>
                   <FaRegTrashAlt
                     className="deleteBtn" //trash icon
                     onClick={() => {
