@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
-import { Button, Form, Modal, DropdownButton, Dropdown } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Form,
+  Modal,
+  DropdownButton,
+  Dropdown,
+} from "react-bootstrap";
 import checkMark from "../Images/checkMark.gif";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { post } from "../../Helper";
+import Divider from "@mui/material/Divider";
+import Switch from "@mui/material/Switch";
 
 const ModalEdit = ({ closeModal, passID }) => {
   const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
@@ -14,46 +24,54 @@ const ModalEdit = ({ closeModal, passID }) => {
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [updatedSkupina, setUpdatedSkupina] = useState("");
+  const [updatedDopust, setUpdatedDopust] = useState("");
+  const [updatedCasZacetka, setUpdatedCasZacetka] = useState("");
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [updatedPass, setUpdatedPass] = useState("");
   const [showPassErr, setShowPassErr] = useState(false);
+  const [switchChecked, setSwitchChecked] = useState(false);
 
   const [ToggleIcon, PasswordInputType] = usePasswordToggle();
 
   const getZaposleni = () => {
     try {
       Axios.get(getZaposleniUrl, { withCredentials: true }).then((response) => {
+        console.log("Response zaposleni:", response.data.zaposleni);
         setData(response.data.zaposleni);
-        setUpdatedName(getZaposleniIme(response.data.zaposleni, passID));
-        const idSkupine = getZaposleniSkupina(response.data.zaposleni, passID);
-        idToName(idSkupine);
-        setUpdatedSkupina(idSkupine);
+        const zaposleniData = getZaposleniData(
+          response.data.zaposleni,
+          passID,
+          idToName
+        );
+        setUpdatedName(zaposleniData.ime);
+        setUpdatedSkupina(zaposleniData.skupina);
+        setUpdatedDopust(zaposleniData.dopust);
+        setUpdatedCasZacetka(zaposleniData.casZacetka);
       });
     } catch (error) {
       alert(error.message);
     }
   };
 
-  const getPassedZaposleni = (data, passID) => {
-    const zaposleni = data.find(
-      (zaposleni) => zaposleni.zaposleniID === passID
-    );
-    return zaposleni;
-  };
+  const getZaposleniData = (data, passID, idToNameFn) => {
+    const zaposleni = data.find((item) => item.zaposleniID === passID);
 
-  const getZaposleniIme = (data, passID) => {
-    const zaposleni = getPassedZaposleni(data, passID);
-    return zaposleni ? zaposleni.zaposleniIme : "Ne najdem imena";
-    /*.filter((data) => data.zaposleniID === passID)
-    .map((filteredData) => filteredData.zaposleniIme);
-    console.log(ime[0]);
-    return ime[0];*/
-  };
+    if (!zaposleni) {
+      return {
+        ime: "Ni podatka o imenu",
+        skupina: "Ni podatka o skupini",
+        dopust: "Ni podatka o dopustu",
+        casZacetka: "Ni podatka o času začetka",
+      };
+    }
 
-  const getZaposleniSkupina = (data, passID) => {
-    const zaposleni = getPassedZaposleni(data, passID);
-    return zaposleni ? zaposleni.zaposleniSkupinaID : null;
+    return {
+      ime: zaposleni.zaposleniIme,
+      skupina: idToNameFn(zaposleni.zaposleniSkupinaID),
+      dopust: zaposleni.preostanekDopusta,
+      casZacetka: zaposleni.predvidenZacetek,
+    };
   };
 
   useEffect(() => {
@@ -95,6 +113,10 @@ const ModalEdit = ({ closeModal, passID }) => {
     }
   }
 
+  const handleSwitchChange = (event) => {
+    setSwitchChecked(event.target.checked);
+  };
+
   function submitForm(e) {
     e.preventDefault();
     console.log(e);
@@ -103,9 +125,11 @@ const ModalEdit = ({ closeModal, passID }) => {
       updatedName,
       updatedSkupina,
       updatedPass,
+      updatedDopust,
+      updatedCasZacetka,
     };
     console.log(postData);
-    if (postData.updatedPass !== "") {
+    if (postData.updatedPass !== "" || !switchChecked) {
       Axios.post(
         updateUrl,
         {
@@ -113,6 +137,8 @@ const ModalEdit = ({ closeModal, passID }) => {
           updatedName: postData.updatedName,
           updatedSkupina: postData.updatedSkupina,
           updatedPass: postData.updatedPass,
+          updatedDopust: postData.updatedDopust,
+          updatedCasZacetka: postData.updatedCasZacetka,
         },
         { withCredentials: true }
       ).then(() => {
@@ -137,7 +163,7 @@ const ModalEdit = ({ closeModal, passID }) => {
     <Modal show={true} onHide={() => closeModal()} centered>
       <Modal.Header className="blue-modal-header">
         <Modal.Title>
-          <strong>{getZaposleniIme(data, passID)}</strong>
+          <strong>{updatedName}</strong>
           <br />
           Posodobi podatke
         </Modal.Title>
@@ -153,21 +179,27 @@ const ModalEdit = ({ closeModal, passID }) => {
               type="text"
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Spremeni geslo zaposlenega:</Form.Label>
-            <div className="gesloArea">
-              <Form.Control
-                name="password"
-                onChange={(e) => setUpdatedPass(e.target.value)}
-                value={updatedPass}
-                type={PasswordInputType}
-              />
-              <span className="passToggleIcon">{ToggleIcon}</span>
-            </div>
-            {showPassErr && (
-              <Form.Text className="reddish">Geslo je obvezno</Form.Text>
-            )}
-          </Form.Group>
+          <label>
+            <Switch checked={switchChecked} onChange={handleSwitchChange} />
+            Uredi tudi geslo
+          </label>
+          {switchChecked && (
+            <Form.Group className="mb-3">
+              <Form.Label>Spremeni geslo zaposlenega:</Form.Label>
+              <div className="gesloArea">
+                <Form.Control
+                  name="password"
+                  onChange={(e) => setUpdatedPass(e.target.value)}
+                  value={updatedPass}
+                  type={PasswordInputType}
+                />
+                <span className="passToggleIcon">{ToggleIcon}</span>
+              </div>
+              {showPassErr && (
+                <Form.Text className="reddish">Geslo je obvezno</Form.Text>
+              )}
+            </Form.Group>
+          )}
           <Form.Group className="mb-3">
             <Form.Label>Delavcu spremeni skupino:</Form.Label>
             <DropdownButton
@@ -187,6 +219,36 @@ const ModalEdit = ({ closeModal, passID }) => {
                 </Dropdown.Item>
               ))}
             </DropdownButton>
+          </Form.Group>
+          <Divider />
+          <Form.Group className="mb-3">
+            <div className="inputForm">
+              <Form.Label>Spremeni število dni dopusta:</Form.Label>
+              <Col lg="4" md="5" sm="6">
+                <Form.Control
+                  name="dniDopusta"
+                  onChange={(e) => setUpdatedDopust(e.target.value)}
+                  value={updatedDopust}
+                  type="number"
+                  placeholder="Dopust"
+                />
+              </Col>
+            </div>
+          </Form.Group>
+          <div className="spacer"></div>
+          <Form.Group className="mb-3">
+            <div className="inputForm">
+              <Form.Label>Spremeni predviden čas začetka:</Form.Label>
+              <Col lg="4" md="5" sm="6">
+                <Form.Control
+                  name="casZacetka"
+                  onChange={(e) => setUpdatedCasZacetka(e.target.value)}
+                  value={updatedCasZacetka}
+                  type="time"
+                  placeholder="Vnesi predviden čas začetka z delom"
+                />
+              </Col>
+            </div>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>
