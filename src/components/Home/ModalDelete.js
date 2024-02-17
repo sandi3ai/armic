@@ -1,3 +1,5 @@
+import Alert from "@mui/material/Alert";
+import AlertTitle from "@mui/material/AlertTitle";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
@@ -56,6 +58,12 @@ const ModalDelete = ({ closeModal, passID }) => {
       </Modal.Header>
       <Modal.Body>
         Ali res želite dokončno izbrisati izbranega zaposlenega?
+        <Alert severity="error">
+          <AlertTitle>Previdno ... </AlertTitle>
+          S tem bodo dokončno izbrisani vsi podatki
+          <br />
+          (delovni čas, odsotnosti, ...).
+        </Alert>
       </Modal.Body>
       <Modal.Footer>
         <Button
