@@ -8,7 +8,12 @@ $userID = $_POST['dropValue'];
 $startDate = $_POST['startDate'];
 $endDate = $_POST['endDate'];
 
-$sql = "SELECT * FROM `cas` WHERE userID='$userID' AND casZacetek >=  '$startDate' AND casKonec <= '$endDate' ORDER BY `casZacetek` ASC";
+// I needed to add one day to $endDate to include the whole day
+$sql = "SELECT * FROM `cas` WHERE userID='$userID'
+AND casZacetek >= '$startDate' AND (casKonec < DATE_ADD('$endDate', INTERVAL 1 DAY)
+OR (casKonec IS NULL AND casZacetek < DATE_ADD('$endDate', INTERVAL 1 DAY)))
+ORDER BY `casZacetek` ASC";
+
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

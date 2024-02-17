@@ -466,6 +466,29 @@ h2 {
   font-weight: 700;
 }
 
+.color-green {
+  color: rgb(0, 127, 0);
+}
+
+.color-red {
+  color: rgb(181, 0, 0);
+}
+
+.color-blue {
+  color: rgb(0, 0, 189);
+}
+
+.color-orange {
+  color: rgb(189, 109, 34);
+}
+
+.switch-label {
+  font-size: 1rem;
+  color: black;
+  font-weight: normal;
+  font-style: normal;
+}
+
 .col,
 .col-1,
 .col-10,

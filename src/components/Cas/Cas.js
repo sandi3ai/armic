@@ -3,8 +3,11 @@ import { Button, Col, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import Axios from "axios";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import moment from "moment";
+import dayjs from "dayjs";
+import "dayjs/locale/sl"; // Import the Slovenian locale
 import CasData from "./CasData";
 import { post } from "../../Helper";
+import Switch from "@mui/material/Switch";
 
 export const Cas = () => {
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
@@ -21,13 +24,21 @@ export const Cas = () => {
   const [casData, setCasData] = useState([]);
   const [thereIsData, setThereIsData] = useState(false);
   const [name, setName] = useState("");
+  const [showDenied, setShowDenied] = useState(true);
+  const [vTeku, setVTeku] = useState(false);
 
   function preglejBtn(e) {
     try {
       e.preventDefault();
       post(getCasUrl, { startDate, endDate, dropValue }).then((response) => {
-        setCasData(response.data.cas);
         checkForData(response.data.cas);
+        const formattedData = createFormattedTwins(response.data.cas);
+        console.log("Prikaži zavrnjene: ", showDenied);
+        const finalData = showDenied
+          ? formattedData
+          : excludeZavrnjenCas(formattedData);
+        checkIfVTeku(finalData);
+        setCasData(finalData);
       });
     } catch (error) {
       alert(error.message);
@@ -73,6 +84,33 @@ export const Cas = () => {
     } else {
       return name;
     }
+  }
+
+  function excludeZavrnjenCas(data) {
+    // Filter the data to exclude items with status "Zavrnjeno"
+    return data.filter((item) => item.status !== "Zavrnjeno");
+  }
+
+  function createFormattedTwins(data) {
+    dayjs.locale("sl");
+
+    data.forEach((item) => {
+      item.formattedCasKonec = dayjs(item.casKonec).format(
+        "D. MMMM YYYY HH:mm"
+      );
+      item.formattedCasZacetek = dayjs(item.casZacetek).format(
+        "D. MMMM YYYY HH:mm"
+      );
+    });
+    console.log("FORMATED TWINS: ", data);
+
+    return data;
+  }
+
+  function checkIfVTeku(data) {
+    //Check if any of the items in the data array have the status "V teku"
+    const vTeku = data.some((item) => item.status === "V teku");
+    setVTeku(vTeku);
   }
 
   useEffect(() => {
@@ -136,6 +174,15 @@ export const Cas = () => {
           <div className="spacer"></div>
           <div className="successBox">
             <br />
+            <span className="switch-label">Skrij zavrnjene</span>
+            <Switch
+              checked={showDenied}
+              onChange={(e) => {
+                setShowDenied(e.target.checked);
+              }}
+            />
+            <span className="switch-label">Prikaži zavrnjene</span>
+            <br />
             <Button variant="outline-success" type="submit">
               Preglej
             </Button>
@@ -145,7 +192,7 @@ export const Cas = () => {
 
       {thereIsData ? (
         <ErrorBoundary>
-          <CasData data={casData} />
+          <CasData data={casData} vTeku={vTeku} />
         </ErrorBoundary>
       ) : (
         <div className="divine">

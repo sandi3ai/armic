@@ -9,7 +9,8 @@ $sql = "SELECT odsotnost.*, zaposlen.zaposleniIme
         FROM odsotnost
         JOIN zaposlen ON odsotnost.odsotenUserID = zaposlen.zaposleniID
         WHERE odsotnost.status = :status
-        AND odsotnost.deleted = 0";
+        AND odsotnost.deleted = 0
+        ORDER BY odsotnost.datumZ DESC";
 
 $stmt = $conn->prepare($sql);
 

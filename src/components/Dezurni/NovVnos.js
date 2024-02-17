@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const NovVnos = () => {
@@ -34,38 +34,40 @@ const NovVnos = () => {
   return (
     <div>
       <br />
-      <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
-        <Form.Group className="mb-3">
-          <Form.Label>Datum dežurstva: </Form.Label>
-          <Form.Control
-            name="date"
-            onChange={(e) => setDate(e.target.value)}
-            value={date}
-            type="date"
-            placeholder="dan/mesec/leto"
-          />
-          <Form.Text className="text-muted">
-            Ob kliku na ikono koledarja se odpre koledar
-          </Form.Text>
-        </Form.Group>
-        <Form.Group className="mb-3">
-          <Form.Label>Izvajalec dežurstva: </Form.Label>
-          <Form.Control
-            name="name"
-            onChange={(e) => setName(e.target.value)}
-            value={name}
-            type="text"
-            placeholder="Ime in priimek izvajalca"
-          />
-        </Form.Group>
+      <Col xxl="1" xl="2" lg="4" md="5" sm="6">
+        <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
+          <Form.Group className="mb-3">
+            <Form.Label>Datum dežurstva: </Form.Label>
+            <Form.Control
+              name="date"
+              onChange={(e) => setDate(e.target.value)}
+              value={date}
+              type="date"
+              placeholder="dan/mesec/leto"
+            />
+            <Form.Text className="text-muted">
+              Ob kliku na ikono koledarja se odpre koledar
+            </Form.Text>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Izvajalec dežurstva: </Form.Label>
+            <Form.Control
+              name="name"
+              onChange={(e) => setName(e.target.value)}
+              value={name}
+              type="text"
+              placeholder="Ime in priimek izvajalca"
+            />
+          </Form.Group>
 
-        <div className="successBox">
-          <Button variant="outline-success" type="submit">
-            Dodaj
-          </Button>
-          {successTxt && "  Novo dežurstvo uspešno dodano!"}
-        </div>
-      </Form>
+          <div className="successBox">
+            <Button variant="outline-success" type="submit">
+              Dodaj
+            </Button>
+            {successTxt && "  Novo dežurstvo uspešno dodano!"}
+          </div>
+        </Form>
+      </Col>
     </div>
   );
 };

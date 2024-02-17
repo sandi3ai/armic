@@ -1,4 +1,5 @@
-import React from "react";
+import Alert from "@mui/material/Alert";
+import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
@@ -6,7 +7,7 @@ import ErrorBoundary from "../../hooks/errorBoundaries";
 
 dayjs.extend(duration);
 
-const CasData = ({ data }) => {
+const CasData = ({ data, vTeku }) => {
   function subtractTime(start, finish) {
     const startDayjs = dayjs(start);
     const finishDayjs = dayjs(finish);
@@ -24,11 +25,13 @@ const CasData = ({ data }) => {
   function getTotalTime(timeIntervals) {
     let totalMinutes = 0;
 
-    timeIntervals.forEach(({ casZacetek, casKonec }) => {
-      const durationString = subtractTime(casZacetek, casKonec);
-      const [hours, minutes] = durationString.split(":").map(Number);
-      totalMinutes += hours * 60 + minutes;
-    });
+    timeIntervals
+      .filter(({ casKonec }) => casKonec !== null)
+      .forEach(({ casZacetek, casKonec }) => {
+        const durationString = subtractTime(casZacetek, casKonec);
+        const [hours, minutes] = durationString.split(":").map(Number);
+        totalMinutes += hours * 60 + minutes;
+      });
 
     // Convert total minutes back into "HH:mm"
     const totalHours = Math.floor(totalMinutes / 60);
@@ -44,12 +47,14 @@ const CasData = ({ data }) => {
     // Convert all durations to minutes, sum them up, and then calculate the average
     let totalMinutes = 0;
 
-    data.forEach(({ casZacetek, casKonec }) => {
-      const start = dayjs(casZacetek);
-      const end = dayjs(casKonec);
-      const diff = end.diff(start, "minute"); // Get the difference in minutes directly
-      totalMinutes += diff;
-    });
+    data
+      .filter(({ casKonec }) => casKonec !== null)
+      .forEach(({ casZacetek, casKonec }) => {
+        const start = dayjs(casZacetek);
+        const end = dayjs(casKonec);
+        const diff = end.diff(start, "minute"); // Get the difference in minutes directly
+        totalMinutes += diff;
+      });
 
     const averageMinutes = totalMinutes / data.length;
 
@@ -72,16 +77,35 @@ const CasData = ({ data }) => {
             <th>Čas začetka</th>
             <th>Čas zaključka</th>
             <th>Število ur</th>
+            <th>Status</th>
           </tr>
         </thead>
         <ErrorBoundary>
           <tbody>
             {data.map((data, idx) => (
-              <tr key={idx}>
+              <tr
+                key={idx}
+                className={
+                  data.status === "Odobreno"
+                    ? "color-green"
+                    : data.status === "Pregled"
+                    ? "color-orange"
+                    : data.status === "Zavrnjeno"
+                    ? "color-red"
+                    : data.status === "V teku"
+                    ? "color-blue"
+                    : ""
+                }
+              >
                 <td>{idx + 1}.</td>
-                <td>{data.casZacetek}</td>
-                <td>{data.casKonec}</td>
+                <td>{data.formattedCasZacetek}</td>
+                <td>
+                  {data.formattedCasKonec !== "Invalid Date"
+                    ? data.formattedCasKonec
+                    : "Še ni zaključeno"}
+                </td>
                 <td>{subtractTime(data.casZacetek, data.casKonec)}</td>
+                <td>{data.status}</td>
               </tr>
             ))}
           </tbody>
@@ -98,6 +122,12 @@ const CasData = ({ data }) => {
           </tfoot>
         </ErrorBoundary>
       </Table>
+      {vTeku && (
+        <Alert severity="info">
+          Če ima delovni čas status "V teku" je izključen iz povprečnega časa in
+          skupnega števila ur
+        </Alert>
+      )}
     </div>
   );
 };
