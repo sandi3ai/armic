@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Button, Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 import DeleteModal from "./DeleteModal";
-import moment from "moment";
+import dayjs from "dayjs";
+import "dayjs/locale/sl"; // Import the Slovenian locale
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,6 +12,8 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { post } from "../../Helper";
+
+dayjs.locale("sl");
 
 function ReadDezurni() {
   const [data, setData] = useState([]);
@@ -134,7 +137,7 @@ function ReadDezurni() {
                   onChange={() => handleCheckboxChange(dezurni.dezurniID)}
                   label={
                     <span>
-                      {moment(dezurni.dezurniDatum).format("D. MMM. YYYY") +
+                      {dayjs(dezurni.dezurniDatum).format("D. MMM YY") +
                         " - " +
                         dezurni.dezurniIzvajalec}
                     </span>

@@ -113,6 +113,13 @@ h2 {
   color: rgb(0, 60, 255);
 }
 
+.css-tzssek-MuiSvgIcon-root {
+  height: 1rem;
+  margin: 0rem !important;
+  padding: 0rem !important;
+  font-size: 3rem !important;
+}
+
 .successBox {
   font-style: italic;
   font-weight: bold;
@@ -134,7 +141,10 @@ h2 {
 
 .singleButtonGroup {
   max-width: max-content;
-  border: 1px solid black !important;
+  border: none !important;
+  margin: 1px !important;
+  border-radius: 0% !important;
+  background: linear-gradient(to right, #ededed, #ffffff);
 }
 
 [type="radio"] {
@@ -182,7 +192,7 @@ h2 {
 }
 
 #button-tooltip-2 {
-  z-index: 1 !important;
+  z-index: 10 !important;
 }
 
 /* =====  ===== MODAL CSS ===== ===== */
@@ -196,9 +206,9 @@ h2 {
 }
 
 .blue-modal-header {
-  background: linear-gradient(to right, #007bff, #ffffff);
+  background: linear-gradient(to right, #8bbfff, #ffffff);
   color: #fff; /* Adjust the text color as needed */
-  border-bottom: 1px solid #007bff !important; /* Optional: adds a border line similar to default Bootstrap modals */
+  border-bottom: 1px solid #8bbfff !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .red-modal-header {

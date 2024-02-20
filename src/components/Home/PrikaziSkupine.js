@@ -1,13 +1,15 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { FaRegTrashAlt } from "react-icons/fa";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { post } from "../../Helper";
+import { FaRegTrashAlt } from "react-icons/fa";
+import ModalDeleteSkupina from "./ModalDeleteSkupina";
 
 const PrikaziSkupine = () => {
   const [data, setData] = useState([]);
+  const [passedSkupinaData, setPassedSkupinaData] = useState({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
-  const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteSkupina.php`;
 
   const getSkupine = () => {
     try {
@@ -23,35 +25,40 @@ const PrikaziSkupine = () => {
     getSkupine();
   }, []);
 
-  const deleteSkupina = (id, event) => {
-    console.log(id);
-    console.log(event);
-    event.preventDefault();
-    post(deleteUrl, { id: id })
-      .then(() => {
-        console.log(id + " number sent on deleteSkupina.php");
-        getSkupine();
-      })
-      .catch((error) => alert(error));
-  };
-
   return (
     <div>
       <hr />
       <h3>Skupine:</h3>
+
       <div className="parent">
         {data.map((d) => (
           <div key={d.skupinaID} className="child">
             {d.skupinaIme}
-            <OverlayTrigger /* Na mouse-hover napis "izbriši skupino" */
+            <OverlayTrigger
               placement="top"
-              overlay={<Tooltip id="button-tooltip-2">Izbriši skupino</Tooltip>}
+              overlay={
+                <Tooltip id={`tooltip-delete-${d.skupinaID}`}>
+                  Izbriši skupino
+                </Tooltip>
+              }
             >
-              <FaRegTrashAlt
+              <div
                 className="deleteBtn" //trash icon
-                onClick={(event) => deleteSkupina(d.skupinaID, event)}
-              />
+                onClick={() => {
+                  setOpenDeleteModal(true);
+                  setPassedSkupinaData(d);
+                }}
+              >
+                <FaRegTrashAlt />
+              </div>
             </OverlayTrigger>
+            {openDeleteModal && (
+              <ModalDeleteSkupina
+                closeModal={setOpenDeleteModal}
+                skupinaData={passedSkupinaData}
+                refreshSkupine={getSkupine}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -60,3 +67,4 @@ const PrikaziSkupine = () => {
 };
 
 export default PrikaziSkupine;
+//onClick={(event) => deleteSkupina(d.skupinaID, event)}

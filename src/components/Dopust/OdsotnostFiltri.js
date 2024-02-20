@@ -28,6 +28,7 @@ const OdsotnostFiltri = ({ setTip, tip, setStatus, status }) => {
         >
           <Dropdown.Item eventKey="Pregled">Pregled</Dropdown.Item>
           <Dropdown.Item eventKey="Odobreno">Odobreno</Dropdown.Item>
+          <Dropdown.Item eventKey="Zavrnjeno">Zavrnjeno</Dropdown.Item>
         </DropdownButton>
       </div>
 

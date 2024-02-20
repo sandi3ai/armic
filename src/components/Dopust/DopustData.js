@@ -59,8 +59,7 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
       <h5>
         Izbrana skupina: <strong>{radioValueName}</strong>
       </h5>
-      <hr />
-      {filteredDopustnik.length === 0 ? (
+      {filteredDopustnik.length === 0 || radioValueID === "" ? (
         "Ni zabeleženih odsotnosti za izbrano skupino."
       ) : (
         <Table striped bordered hover size="sm">
@@ -84,11 +83,6 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
               </tr>
             ))}
           </tbody>
-          <tfoot className="tableFooter">
-            <tr>
-              <td></td>
-            </tr>
-          </tfoot>
         </Table>
       )}
     </div>

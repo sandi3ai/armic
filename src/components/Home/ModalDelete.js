@@ -59,7 +59,7 @@ const ModalDelete = ({ closeModal, passID }) => {
       <Modal.Body>
         Ali res želite dokončno izbrisati izbranega zaposlenega?
         <Alert severity="error">
-          <AlertTitle>Previdno ... </AlertTitle>
+          <AlertTitle>Previdno</AlertTitle>
           S tem bodo dokončno izbrisani vsi podatki
           <br />
           (delovni čas, odsotnosti, ...).

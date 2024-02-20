@@ -7,6 +7,7 @@ const NovVnos = () => {
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
+  const [errorTxt, setErrorTxt] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
@@ -21,12 +22,19 @@ const NovVnos = () => {
     }).then(() => {
       console.log("submitForm executed");
       setName("");
-      if (name || date !== "") {
+      if (name !== "" && date !== "") {
         //prikaže success box, le če sta oba podatka izpolnjena
+        console.log("Name: ", name, "Date: ", date);
         setSuccessTxt(true);
         setTimeout(() => {
           setSuccessTxt(false);
         }, 4000);
+      } else {
+        //prikaže error box, če oba podatka nista izpolnjena
+        setErrorTxt(true);
+        setTimeout(() => {
+          setErrorTxt(false);
+        }, 2000);
       }
     });
   }
@@ -64,6 +72,7 @@ const NovVnos = () => {
             <Button variant="outline-success" type="submit">
               Dodaj
             </Button>
+            {errorTxt && "  Izpolniti morate vsa polja!"}
             {successTxt && "  Novo dežurstvo uspešno dodano!"}
           </div>
         </Form>

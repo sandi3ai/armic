@@ -4,7 +4,7 @@ import dayjs from "dayjs"; // Import dayjs
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
-import { OverlayTrigger, Popover, Button } from "react-bootstrap";
+import { OverlayTrigger, Popover, Button, Tooltip } from "react-bootstrap";
 import { post } from "../../Helper";
 
 const PrikaziZaposlene = () => {
@@ -101,7 +101,7 @@ const PrikaziZaposlene = () => {
               data.map((zaposlen) => (
                 <div key={zaposlen.zaposleniID} className="child">
                   <OverlayTrigger
-                    trigger="click"
+                    trigger={["hover", "focus"]}
                     placement="auto"
                     rootClose="true"
                     onEnter={() => idToName(zaposlen.zaposleniSkupinaID)}
@@ -113,22 +113,41 @@ const PrikaziZaposlene = () => {
                       {zaposlen.zaposleniZacetek}
                     </span>
                   </OverlayTrigger>
-                  <FaRegTrashAlt
-                    className="deleteBtn" //trash icon
-                    onClick={() => {
-                      setPassID(zaposlen.zaposleniID);
-                      //deleteZaposleni(data.zaposleniID, event);
-                      setOpenDeleteModal(true);
-                    }}
-                  />
-
-                  <FaRegEdit
-                    className="editBtn" //edit icon
-                    onClick={() => {
-                      setOpenModal(true);
-                      setPassID(zaposlen.zaposleniID);
-                    }}
-                  />
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id={`tooltip-delete`}>
+                        Izbriši zaposlenega
+                      </Tooltip>
+                    }
+                  >
+                    <div
+                      className="deleteBtn" //trash icon
+                      onClick={() => {
+                        setPassID(zaposlen.zaposleniID);
+                        //deleteZaposleni(data.zaposleniID, event);
+                        setOpenDeleteModal(true);
+                      }}
+                    >
+                      <FaRegTrashAlt />
+                    </div>
+                  </OverlayTrigger>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={
+                      <Tooltip id={`tooltip-edit`}>Uredi zaposlenega</Tooltip>
+                    }
+                  >
+                    <div
+                      className="editBtn" //edit icon
+                      onClick={() => {
+                        setOpenModal(true);
+                        setPassID(zaposlen.zaposleniID);
+                      }}
+                    >
+                      <FaRegEdit />
+                    </div>
+                  </OverlayTrigger>
                 </div>
               ))}
           </div>
