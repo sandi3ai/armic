@@ -1,13 +1,15 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalDeleteSkupina from "./ModalDeleteSkupina";
+import ModalEditSkupina from "./ModalEditSkupina";
 
 const PrikaziSkupine = () => {
   const [data, setData] = useState([]);
   const [passedSkupinaData, setPassedSkupinaData] = useState({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
 
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
 
@@ -34,6 +36,7 @@ const PrikaziSkupine = () => {
         {data.map((d) => (
           <div key={d.skupinaID} className="child">
             {d.skupinaIme}
+
             <OverlayTrigger
               placement="top"
               overlay={
@@ -52,9 +55,31 @@ const PrikaziSkupine = () => {
                 <FaRegTrashAlt />
               </div>
             </OverlayTrigger>
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip id={`tooltip-edit`}>Preimenuj</Tooltip>}
+            >
+              <div
+                className="editBtn" //edit icon
+                onClick={() => {
+                  setOpenEditModal(true);
+                  setPassedSkupinaData(d);
+                }}
+              >
+                <FaRegEdit />
+              </div>
+            </OverlayTrigger>
+
             {openDeleteModal && (
               <ModalDeleteSkupina
                 closeModal={setOpenDeleteModal}
+                skupinaData={passedSkupinaData}
+                refreshSkupine={getSkupine}
+              />
+            )}
+            {openEditModal && (
+              <ModalEditSkupina
+                closeModal={setOpenEditModal}
                 skupinaData={passedSkupinaData}
                 refreshSkupine={getSkupine}
               />

@@ -41,11 +41,7 @@ function NavigationBar({ Logout }) {
                 <Nav.Link as={Link} to="/prosnje">
                   Prošnje
                 </Nav.Link>
-                <Button
-                  id="odjavaBtn"
-                  variant="outline-danger"
-                  onClick={Logout}
-                >
+                <Button variant="outline-danger" onClick={Logout}>
                   Odjava
                 </Button>
               </Nav>

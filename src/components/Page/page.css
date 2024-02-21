@@ -82,11 +82,6 @@ body {
   margin: 0.1rem 5rem 0rem 0rem;
 }
 
-#odjavaBtn {
-  margin: 3px;
-  margin-left: auto;
-}
-
 .nav-link {
   white-space: nowrap;
 }
@@ -211,21 +206,21 @@ h2 {
 }
 
 .blue-modal-header {
-  background: linear-gradient(to right, #8bbfff, #ffffff);
+  background: linear-gradient(to right, #5ca5ff, #ffffff);
   color: #fff; /* Adjust the text color as needed */
-  border-bottom: 1px solid #8bbfff !important; /* Optional: adds a border line similar to default Bootstrap modals */
+  border-bottom: 3px solid #5ca5ff !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .red-modal-header {
   background: linear-gradient(to right, #e54151, #ffffff);
   color: #fff; /* Adjust the text color as needed */
-  border-bottom: 1px solid #e54151 !important; /* Optional: adds a border line similar to default Bootstrap modals */
+  border-bottom: 3px solid #e54151 !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .green-modal-header {
   background: linear-gradient(to right, #2cb94d, #ffffff);
   color: #fff; /* Adjust the text color as needed */
-  border-bottom: 1px solid #2cb94d !important; /* Optional: adds a border line similar to default Bootstrap modals */
+  border-bottom: 3px solid #2cb94d !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .modalContainer {

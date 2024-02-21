@@ -74,7 +74,18 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
           </thead>
           <tbody>
             {filteredDopustnik.map((dopustnik, idx) => (
-              <tr key={idx}>
+              <tr
+                key={idx}
+                className={
+                  dopustnik.status === "Odobreno"
+                    ? "color-green"
+                    : dopustnik.status === "Pregled"
+                    ? "color-orange"
+                    : dopustnik.status === "Zavrnjeno"
+                    ? "color-red"
+                    : ""
+                }
+              >
                 <td>{dopustnik.dopustnikIme}</td>
                 <td>{dopustnik.datumZ}</td>
                 <td>{dopustnik.datumK}</td>
