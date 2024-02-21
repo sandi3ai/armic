@@ -10,19 +10,19 @@ export const Prosnje = () => {
       <ErrorBoundary>
         <div className="content">
           <h2>PROŠNJE:</h2>
-          <Accordion
-            defaultActiveKey="0"
-            alwaysOpen
-            className="accordion-custom"
-          >
+          <Accordion defaultActiveKey="0" alwaysOpen>
             <Accordion.Item eventKey="0">
-              <Accordion.Header>Nadure</Accordion.Header>
+              <Accordion.Header className="accordion-header">
+                <h5>Nadure</h5>
+              </Accordion.Header>
               <Accordion.Body>
                 <Nadure />
               </Accordion.Body>
             </Accordion.Item>
             <Accordion.Item eventKey="1">
-              <Accordion.Header>Odsotnosti</Accordion.Header>
+              <Accordion.Header>
+                <h5>Odsotnosti</h5>
+              </Accordion.Header>
               <Accordion.Body>
                 <Odsotnost />
               </Accordion.Body>

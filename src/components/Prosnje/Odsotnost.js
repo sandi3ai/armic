@@ -8,6 +8,8 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -44,7 +46,7 @@ export const Odsotnost = () => {
   };
 
   function formatOutputDate(date) {
-    return dayjs(date, "YYYY-MM-DD").format("D MMM YYYY");
+    return dayjs(date, "YYYY-MM-DD").format("D. MMM YYYY");
   }
 
   useEffect(() => {
@@ -58,14 +60,14 @@ export const Odsotnost = () => {
         "Ni novih prošenj za odobritev odsotnosti."
       ) : (
         <ErrorBoundary>
-          <Table striped bordered hover size="sm">
+          <Table striped borderless hover size="sm" responsive>
             <thead>
               <tr>
                 <th>Ime</th>
                 <th>Začetek</th>
                 <th>Konec</th>
                 <th>Tip</th>
-                <th className="narrow-column">Potrdi</th>
+                <th>Potrdi</th>
               </tr>
             </thead>
             <tbody>
@@ -85,7 +87,7 @@ export const Odsotnost = () => {
                       }
                     >
                       <img
-                        className="status-img"
+                        className="confirm-deny-icon"
                         src={Check}
                         alt="Odobreno"
                         onClick={() => {
@@ -107,7 +109,7 @@ export const Odsotnost = () => {
                       }
                     >
                       <img
-                        className="status-img"
+                        className="confirm-deny-icon"
                         src={Cancel}
                         alt="zavrni"
                         onClick={() => {

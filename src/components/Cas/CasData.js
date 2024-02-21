@@ -70,7 +70,7 @@ const CasData = ({ data, vTeku }) => {
 
   return (
     <div className="content">
-      <Table striped bordered hover size="sm">
+      <Table borderless striped hover size="sm" responsive>
         <thead>
           <tr>
             <th></th>

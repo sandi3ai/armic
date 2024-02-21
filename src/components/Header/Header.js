@@ -5,7 +5,7 @@ function Header({ Logout }) {
   //const { data, loading } = useApi("https://localhost/armic_api/time.php");
 
   return (
-    <div className="Header">
+    <div>
       <NavigationBar Logout={Logout} />
     </div>
   );

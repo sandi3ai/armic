@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Col, Form } from "react-bootstrap";
 import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
 
@@ -47,13 +47,15 @@ const NovaSkupina = () => {
       <Form onSubmit={(e) => submitForm(e)}>
         <Form.Group className="mb-3 inputForm">
           <Form.Label>Vpiši ime nove skupine: </Form.Label>
-          <Form.Control
-            name="name"
-            onChange={(e) => setImeSkupine(e.target.value)}
-            value={imeSkupine}
-            type="text"
-            placeholder="Naziv skupine ..."
-          />
+          <Col xl="3" lg="5" md="6" sm="7">
+            <Form.Control
+              name="name"
+              onChange={(e) => setImeSkupine(e.target.value)}
+              value={imeSkupine}
+              type="text"
+              placeholder="Naziv skupine ..."
+            />
+          </Col>
         </Form.Group>
         <div className="successBox">
           <Button variant="outline-success" type="submit">

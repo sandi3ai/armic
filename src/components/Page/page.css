@@ -14,16 +14,6 @@ body {
   bottom: 0px;
   left: 0px;
 }
-.theNavBar {
-  justify-content: right;
-}
-.navBarLogo {
-  height: 2.5rem;
-}
-
-#odjavaBtn {
-  margin: 3px;
-}
 
 .content {
   border-radius: 0.7rem !important;
@@ -80,12 +70,27 @@ body {
   font-size: 1.3rem;
   padding: 0rem 1rem !important;
 }
-.nav {
-  float: left;
+
+.theNavBar {
+  background-color: rgb(44, 1, 1) !important;
+  font-size: 1.3rem;
+  padding: 0rem 1rem !important;
 }
-img.NavBarLogo {
-  max-width: 75px;
+
+.navBarLogo {
+  height: 2.5rem;
+  margin: 0.1rem 5rem 0rem 0rem;
 }
+
+#odjavaBtn {
+  margin: 3px;
+  margin-left: auto;
+}
+
+.nav-link {
+  white-space: nowrap;
+}
+
 h2 {
   color: #740f26;
 }
@@ -423,11 +428,9 @@ h2 {
   margin-right: 5px !important;
 }
 
-.accordion-custom {
-  background-color: #d3d3d3;
-  border: 1px solid #c0c0c0;
-  border-radius: 1rem;
+.accordion-header {
   padding: 0.3rem;
+  margin-right: 1rem;
 }
 
 .accordion-button {
@@ -443,21 +446,18 @@ h2 {
 }
 
 .narrow-column {
-  width: 3rem; /* Or whatever width you desire */
-  display: flex;
-  align-items: center; /* Align items vertically in the center */
-  justify-content: start; /* Align items to the start of the container */
+  width: 3.5rem; /* Or whatever width you desire */
+  justify-content: space-between;
+  align-items: center !important;
+  position: relative;
+  text-align: left; /* Align the first icon to the left */
+  white-space: nowrap;
 }
 
-.status-img {
-  max-width: 1.2rem;
-  max-height: 1.2 rem;
-  object-fit: contain; /* or 'cover', based on your preference */
-  display: block; /* to remove any extra space below the image */
-  margin-right: 10px; /* to center the image in its container if it's smaller */
+.confirm-deny-icon {
+  height: 22px; /* to maintain the aspect ratio */
+  width: 22px; /* to maintain the aspect ratio */
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
 }
 
 .custom-modal .modal-header .modal-content {
@@ -477,19 +477,27 @@ h2 {
 }
 
 .color-green {
-  color: rgb(0, 127, 0);
+  color: rgb(0, 127, 0) !important;
+  border-left: 2px solid limegreen !important;
+  border-right: 2px solid limegreen !important;
 }
 
 .color-red {
-  color: rgb(181, 0, 0);
+  color: rgb(181, 0, 0) !important;
+  border-left: 2px solid red !important;
+  border-right: 2px solid red !important;
 }
 
 .color-blue {
-  color: rgb(0, 0, 189);
+  color: rgb(0, 0, 189) !important;
+  border-left: 2px solid blue !important;
+  border-right: 2px solid blue !important;
 }
 
 .color-orange {
-  color: rgb(189, 109, 34);
+  color: rgb(189, 109, 34) !important;
+  border-left: 2px solid orange !important;
+  border-right: 2px solid orange !important;
 }
 
 .switch-label {

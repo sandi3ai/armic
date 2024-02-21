@@ -62,7 +62,7 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
       {filteredDopustnik.length === 0 || radioValueID === "" ? (
         "Ni zabeleženih odsotnosti za izbrano skupino."
       ) : (
-        <Table striped bordered hover size="sm">
+        <Table striped borderless hover size="sm" responsive>
           <thead>
             <tr>
               <th>Odsotna oseba</th>

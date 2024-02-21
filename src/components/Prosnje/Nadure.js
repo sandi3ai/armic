@@ -8,6 +8,8 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
+import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -57,7 +59,9 @@ export const Nadure = () => {
   }
 
   function formatOutputDate(timestamp) {
-    return dayjs(timestamp, "YYYY-MM-DD HH:mm:ss").format("D MMM YYYY - HH:mm");
+    return dayjs(timestamp, "YYYY-MM-DD HH:mm:ss").format(
+      "D. MMM YYYY - HH:mm"
+    );
   }
 
   useEffect(() => {
@@ -71,7 +75,7 @@ export const Nadure = () => {
         "Ni novih prošenj za odobritev nadur."
       ) : (
         <ErrorBoundary>
-          <Table striped bordered hover size="sm">
+          <Table striped borderless hover size="sm" responsive>
             <thead>
               <tr>
                 <th>Ime</th>
@@ -98,7 +102,7 @@ export const Nadure = () => {
                       }
                     >
                       <img
-                        className="status-img"
+                        className="confirm-deny-icon"
                         src={Check}
                         alt="Odobreno"
                         onClick={() => {
@@ -120,7 +124,7 @@ export const Nadure = () => {
                       }
                     >
                       <img
-                        className="status-img"
+                        className="confirm-deny-icon"
                         src={Cancel}
                         alt="zavrni"
                         onClick={() => {

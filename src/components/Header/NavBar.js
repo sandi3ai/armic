@@ -13,16 +13,22 @@ function NavigationBar({ Logout }) {
   return (
     <BrowserRouter>
       <div>
-        <Navbar collapseOnSelect expand="md" variant="dark">
+        <Navbar
+          collapseOnSelect
+          expand="lg"
+          variant="dark"
+          className="justify-content-end"
+        >
           <Container>
             <Navbar.Brand>
-              <Nav.Link as={Link} to="/">
-                <img className="navBarLogo" src={logo} alt="Avtomati Armič" />
-              </Nav.Link>
+              <img className="navBarLogo" src={logo} alt="Avtomati Armič" />
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse className="theNavBar" id="responsive-navbar-nav">
+            <Navbar.Toggle />
+            <Navbar.Collapse className="theNavBar">
               <Nav className="me-auto">
+                <Nav.Link as={Link} to="/">
+                  Zaposleni
+                </Nav.Link>
                 <Nav.Link as={Link} to="/cas">
                   Delovni čas
                 </Nav.Link>
@@ -58,34 +64,6 @@ function NavigationBar({ Logout }) {
         </div>
       </div>
     </BrowserRouter>
-
-    /*<BrowserRouter>
-      <Routes>
-        <Navbar collapseOnSelect expand="md" bg="dark" variant="dark">
-          <Container>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav>
-                <Nav.Link as={Link} to="/">
-                  Delovni čas
-                </Nav.Link>
-                <Nav.Link as={Link} to="/dezurni">
-                  Dežurstva
-                </Nav.Link>
-                <Nav.Link as={Link} to="/dopust">
-                  Dopust
-                </Nav.Link>
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </Routes>
-      <Routes>
-        <Route path="/cas" element={<Cas />} />
-        <Route path="/dezurni" element={<Dezurni />} />
-        <Route path="/dopust" element={<Dopust />} />
-      </Routes>
-    </BrowserRouter>*/
   );
 }
 export default NavigationBar;
