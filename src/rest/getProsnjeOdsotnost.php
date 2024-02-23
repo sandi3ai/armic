@@ -5,7 +5,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 // Prepare a SELECT statement with JOIN to include zaposleniIme
 // Select * from odsotnost and join with zaposlen to get zaposleniIme
-$sql = "SELECT odsotnost.*, zaposlen.zaposleniIme
+$sql = "SELECT odsotnost.*, zaposlen.zaposleniIme, zaposlen.preostanekDopusta
         FROM odsotnost
         JOIN zaposlen ON odsotnost.odsotenUserID = zaposlen.zaposleniID
         WHERE odsotnost.status = :status

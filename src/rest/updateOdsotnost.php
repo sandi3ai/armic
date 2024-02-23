@@ -4,7 +4,10 @@ include_once 'auth.php';
 $_POST = json_decode(file_get_contents("php://input"), true);
 
 $dopustID = $_POST['passedID'] ?? null; // Using null coalescing operator
-$status = $_POST['status'] ?? null; 
+$status = $_POST['status'] ?? null;
+// If we're updating vacation days (not sick leaves) we need to get the new value and update the user's vacation totals
+$newVacationValue = $_POST['newVacationValue'] ?? null;
+$odsotenUserID = $_POST['odsotenUserID'] ?? null;
 
 if (!$dopustID) {
     http_response_code(400);
@@ -27,6 +30,26 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 
+    // Check if there's a need to update the zaposlen table
+    if ($newVacationValue !== null && $odsotenUserID !== null) {
+        // Fetch the tip of odsotnost to determine if it's "Dopust"
+        $tipSql = "SELECT tip FROM odsotnost WHERE dopustID=:dopustID";
+        $tipStmt = $conn->prepare($tipSql);
+        $tipStmt->execute(['dopustID' => $dopustID]);
+        $tipResult = $tipStmt->fetch(PDO::FETCH_ASSOC);
+
+        // If the odsotnost is of type "Dopust", update the zaposlen table
+        if ($tipResult['tip'] === 'Dopust') {
+            $updateZaposlenSql = "UPDATE `zaposlen` SET preostanekDopusta=:newVacationValue WHERE zaposleniID=:odsotenUserID";
+            $updateZaposlenStmt = $conn->prepare($updateZaposlenSql);
+            $updateZaposlenStmt->execute([
+                'newVacationValue' => $newVacationValue,
+                'odsotenUserID' => $odsotenUserID
+            ]);
+            echo " and preostanekDopusta updated for zaposleniID " . $odsotenUserID;
+        }
+    }
+
     if ($stmt->rowCount() > 0) {
         echo "Odsotnost številka " . $dopustID . " je spremenil status na " . $status;
     } else {
@@ -38,5 +61,6 @@ try {
 }
 
 $stmt = null;
+$tipStmt = null;
+$updateZaposlenStmt = null;
 $conn = null;
-?>

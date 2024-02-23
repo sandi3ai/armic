@@ -8,8 +8,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
-import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import InfoTooltip from "../Elements/InfoTooltip";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -49,6 +48,32 @@ export const Odsotnost = () => {
     return dayjs(date, "YYYY-MM-DD").format("D. MMM YYYY");
   }
 
+  const renderCaluculationOfVacationRemaining = (data) => {
+    if (data.tip !== "Dopust") {
+      return (
+        <td>
+          <i className="grayish">Ni dopust</i>
+        </td>
+      );
+    }
+
+    const remainingDays = data.preostanekDopusta - data.trajanje;
+    let className = "";
+
+    if (remainingDays < 0) {
+      className = "reddish";
+    } else if (remainingDays < 5) {
+      className = "orangish";
+    }
+
+    return (
+      <td>
+        {data.preostanekDopusta} ( - {data.trajanje} ={" "}
+        <span className={className}>{remainingDays}</span> )
+      </td>
+    );
+  };
+
   useEffect(() => {
     getProsnjeOdsotnost();
   }, []);
@@ -64,8 +89,22 @@ export const Odsotnost = () => {
             <thead>
               <tr>
                 <th>Ime</th>
+                <th>
+                  <InfoTooltip
+                    placement="top"
+                    sourceTitle="Dni dopusta"
+                    content={
+                      <>
+                        Število dni dopusta, ki jih ima zaposlen.
+                        <br />V oklepaju je izračun preostanka dopusta v primeru
+                        odobritve.
+                      </>
+                    }
+                  />
+                </th>
                 <th>Začetek</th>
                 <th>Konec</th>
+                <th>Trajanje</th>
                 <th>Tip</th>
                 <th>Potrdi</th>
               </tr>
@@ -74,8 +113,10 @@ export const Odsotnost = () => {
               {odsotnostData.map((data, idx) => (
                 <tr key={idx}>
                   <td>{data.zaposleniIme}</td>
+                  {renderCaluculationOfVacationRemaining(data)}
                   <td>{data.formattedCasZacetek}</td>
                   <td>{data.formattedCasKonec}</td>
+                  <td>{data.trajanje}</td>
                   <td>{data.tip}</td>
                   <td className="narrow-column">
                     <OverlayTrigger

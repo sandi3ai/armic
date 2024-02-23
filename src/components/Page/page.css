@@ -18,7 +18,7 @@ body {
 .content {
   border-radius: 0.7rem !important;
   padding: 1rem;
-  margin: 0.4rem;
+  margin: 0.8rem;
   background: linear-gradient(
     to top right,
     rgba(255, 255, 255, 0.7),
@@ -27,6 +27,14 @@ body {
   z-index: 1;
   backdrop-filter: blur(10px);
 }
+
+@media (max-width: 600px) {
+  .content {
+    padding: 0.3rem; /* Reduced padding for smaller screens */
+    margin: 0.2rem;
+  }
+}
+
 .divine {
   margin: 1rem;
   padding: 1rem;
@@ -68,7 +76,7 @@ body {
 .navbar {
   background-color: rgb(44, 1, 1) !important;
   font-size: 1.3rem;
-  padding: 0rem 1rem !important;
+  padding: 0.2rem 1rem !important;
 }
 
 .theNavBar {
@@ -78,7 +86,7 @@ body {
 }
 
 .navBarLogo {
-  height: 2.5rem;
+  height: 2.8rem;
   margin: 0.1rem 5rem 0rem 0rem;
 }
 
@@ -132,7 +140,7 @@ h2 {
 }
 
 .buttonGroup {
-  text-align: center;
+  text-align: center !important;
   margin: 5px;
   flex-wrap: wrap; /*responsive-
    če zmanjka prostora-
@@ -140,11 +148,20 @@ h2 {
 }
 
 .singleButtonGroup {
-  max-width: max-content;
   border: none !important;
   margin: 1px !important;
-  border-radius: 0% !important;
-  background: linear-gradient(to right, #ededed, #ffffff);
+  border-radius: 7px !important;
+  background: linear-gradient(to right, #ededed8b, #ffffff);
+  transition: box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.singleButtonGroup:active {
+  opacity: 1;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.6); /* Increase the shadow to give a pulsing effect */
+  transform: translateY(
+    4px
+  ); /* Moves the button up slightly to give a bounce effect */
 }
 
 [type="radio"] {
@@ -308,6 +325,19 @@ h2 {
 .reddish {
   color: red !important;
 }
+
+.greenish {
+  color: green !important;
+}
+
+.grayish {
+  color: rgb(161, 161, 161) !important;
+}
+
+.orangish {
+  color: orange !important;
+}
+
 .gesloArea {
   display: flex;
   align-items: center;
@@ -502,6 +532,15 @@ h2 {
   font-style: normal;
 }
 
+.info-icon {
+  margin-left: 2px;
+  font-size: 1rem !important;
+  color: #848484;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  cursor: pointer;
+}
+
 .col,
 .col-1,
 .col-10,
@@ -573,4 +612,23 @@ h2 {
 .col-xl-9,
 .col-xl-auto {
   padding-left: 0px !important;
+}
+
+/** SCROLLBAR STYLING **/
+/* Style for WebKit-based browsers */
+::-webkit-scrollbar {
+  width: 8px; /* Scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+  background: #3d3d3d; /* Track color */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888; /* Thumb color */
+  border-radius: 4px; /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Thumb color on hover */
 }

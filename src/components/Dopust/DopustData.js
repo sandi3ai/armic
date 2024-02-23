@@ -2,11 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import moment from "moment";
 import { post } from "../../Helper";
+import InfoTooltip from "../Elements/InfoTooltip";
 
-const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
+const DopustData = ({
+  radioValueName,
+  radioValueID,
+  tip,
+  status,
+  holidays,
+}) => {
   const getDopustnikUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getOdsotnost.php`;
   const [dopustnik, setDopustnik] = useState([
-    { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "" },
+    { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "", dni: "" },
   ]);
 
   const giveMeVacay = (radioValueID) => {
@@ -36,6 +43,7 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
           dopustnikID: data.zaposleniID,
           datumZ: moment(data.datumZ).format("D.M.YYYY"),
           datumK: moment(data.datumK).format("D.M.YYYY"),
+          trajanje: data.trajanje,
           tipOdsotnosti: data.tip,
           status: data.status,
         };
@@ -68,7 +76,14 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
               <th>Odsotna oseba</th>
               <th>Začetni datum</th>
               <th>Končni datum</th>
-              <th>Tip odsotnosti</th>
+              <th>Trajanje</th>
+              <th>
+                <InfoTooltip
+                  placement="top"
+                  sourceTitle="Trajanje"
+                  content="Število odsotnih dni od katerega so odšteti morebitni prazniki in vikendi"
+                />
+              </th>
               <th>Status</th>
             </tr>
           </thead>
@@ -90,6 +105,7 @@ const DopustData = ({ radioValueName, radioValueID, tip, status }) => {
                 <td>{dopustnik.datumZ}</td>
                 <td>{dopustnik.datumK}</td>
                 <td>{dopustnik.tipOdsotnosti}</td>
+                <td>{dopustnik.trajanje}</td>
                 <td>{dopustnik.status}</td>
               </tr>
             ))}

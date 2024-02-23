@@ -4,7 +4,7 @@ import Axios from "axios";
 import DopustData from "./DopustData";
 import OdsotnostFiltri from "./OdsotnostFiltri";
 
-function ToggleButtonGroup() {
+function ToggleButtonGroup({ holidays }) {
   const getSkupineUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
   const [radioValue, setRadioValue] = useState("");
   const [tip, setTip] = useState("Brez filtra");
@@ -93,6 +93,7 @@ function ToggleButtonGroup() {
         radioValueID={radioValue}
         tip={tip}
         status={status}
+        holidays={holidays}
       />
     </div>
   );

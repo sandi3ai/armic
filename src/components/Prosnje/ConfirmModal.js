@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { post } from "../../Helper";
 
@@ -10,6 +10,8 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
     let url = "";
     let passedID = "";
     let status = "";
+    let newVacationValue = null;
+    let odsotenUserID = null;
 
     buttonData?.action === "approve"
       ? (status = "Odobreno")
@@ -21,8 +23,17 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
     } else if (type === "odsotnost") {
       url = updateOdsotnostUrl;
       passedID = clickedItem?.dopustID;
+      if (clickedItem?.tip === "Dopust") {
+        console.log("CLICKED ITEM JE DOPUST");
+        newVacationValue =
+          clickedItem?.preostanekDopusta - clickedItem?.trajanje;
+        console.log("newVacationValue: ", newVacationValue);
+        odsotenUserID = clickedItem?.odsotenUserID;
+        console.log("odsotenUserID: ", odsotenUserID);
+      }
     }
-    post(url, { passedID, status })
+
+    post(url, { passedID, status, newVacationValue, odsotenUserID })
       .then((response) => {
         console.log("RESPONSE: ", response);
       })
@@ -73,6 +84,21 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
             <strong>{clickedItem?.tip}:</strong>{" "}
             {clickedItem?.formattedCasZacetek} -{" "}
             {clickedItem?.formattedCasKonec}
+            <br />
+            {clickedItem?.tip === "Bolniška" ? (
+              <>Trajanje: {clickedItem?.trajanje} dni</>
+            ) : (
+              <>
+                {clickedItem?.zaposleniIme} ima na voljo{" "}
+                {clickedItem?.preostanekDopusta} dni dopusta
+                <br />
+                Trajanje tega dopusta je {clickedItem?.trajanje} dni
+                <br />
+                Ostane: {clickedItem?.preostanekDopusta -
+                  clickedItem?.trajanje}{" "}
+                dni
+              </>
+            )}
           </p>
         )}
       </Modal.Body>
