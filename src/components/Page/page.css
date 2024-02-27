@@ -472,10 +472,10 @@ h2 {
 
 .narrow-column {
   width: 3.5rem; /* Or whatever width you desire */
-  justify-content: space-between;
+  justify-content: center !important;
   align-items: center !important;
   position: relative;
-  text-align: left; /* Align the first icon to the left */
+  text-align: center; /* Align the first icon to the left */
   white-space: nowrap;
 }
 
@@ -483,6 +483,7 @@ h2 {
   height: 22px; /* to maintain the aspect ratio */
   width: 22px; /* to maintain the aspect ratio */
   cursor: pointer;
+  border-radius: 50%;
 }
 
 .custom-modal .modal-header .modal-content {

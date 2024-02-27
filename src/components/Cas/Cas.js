@@ -24,7 +24,7 @@ export const Cas = () => {
   const [casData, setCasData] = useState([]);
   const [thereIsData, setThereIsData] = useState(false);
   const [name, setName] = useState("");
-  const [showDenied, setShowDenied] = useState(true);
+  const [showDenied, setShowDenied] = useState(false);
   const [vTeku, setVTeku] = useState(false);
 
   function preglejBtn(e) {

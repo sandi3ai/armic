@@ -45,8 +45,8 @@ const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
           <AlertTitle>Informacija</AlertTitle>Pripadajoči delavci ostanejo
           nespremenjeni, preimenuje se le skupina.
           <br />
-          Dodelitev zaposlenih v skupine se izvaja v razdelku za upravljanje z
-          zaposlenimi.
+          Dodelitev zaposlenih v skupine se izvaja v razdelku "Seznam
+          zaposlenih"
         </Alert>
       </Modal.Body>
       <Modal.Footer>

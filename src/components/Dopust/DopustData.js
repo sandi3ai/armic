@@ -76,7 +76,7 @@ const DopustData = ({
               <th>Odsotna oseba</th>
               <th>Začetni datum</th>
               <th>Končni datum</th>
-              <th>Trajanje</th>
+              <th>Tip</th>
               <th>
                 <InfoTooltip
                   placement="top"

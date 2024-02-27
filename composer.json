@@ -1,0 +1,10 @@
+{
+    "name": "sandi/armic",
+    "description": "Timer tracker, working hours log",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    }
+}

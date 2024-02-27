@@ -3,12 +3,15 @@ import { OverlayTrigger, Table, Tooltip } from "react-bootstrap";
 import Axios from "axios";
 import Cancel from "../Images/cancel.png";
 import Check from "../Images/check.png";
+import Trash from "../Images/trash.png";
 import ConfirmModal from "./ConfirmModal";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
+import DeleteModal from "./DeleteModal";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import InfoTooltip from "../Elements/InfoTooltip";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -16,6 +19,7 @@ dayjs.locale("sl");
 export const Odsotnost = () => {
   const [odsotnostData, setOdsotnostData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
+  const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
   const [clickedButtonData, setClickedButtonData] = useState(null);
 
@@ -31,6 +35,7 @@ export const Odsotnost = () => {
               formattedCasZacetek: formatOutputDate(item.datumZ), // Add a new property for the formatted start time
               formattedCasKonec: formatOutputDate(item.datumK), // Add a new property for the formatted end time
             }));
+            console.log("Formatted data: ", formattedData);
             setOdsotnostData(formattedData);
           } else {
             // Handle the case where there are no items or response.data is not an array
@@ -106,7 +111,21 @@ export const Odsotnost = () => {
                 <th>Konec</th>
                 <th>Trajanje</th>
                 <th>Tip</th>
-                <th>Potrdi</th>
+                <th>
+                  <InfoTooltip
+                    placement="top"
+                    sourceTitle="Potrdi"
+                    content={
+                      <>
+                        Če je status odsotnosti "Pregled", lahko odsotnost
+                        potrdite ali zavrnete.
+                        <br />
+                        Če je status odsotnosti "Zavrnjeno", lahko odsotnost
+                        izbrišete
+                      </>
+                    }
+                  />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -118,52 +137,78 @@ export const Odsotnost = () => {
                   <td>{data.formattedCasKonec}</td>
                   <td>{data.trajanje}</td>
                   <td>{data.tip}</td>
-                  <td className="narrow-column">
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`tooltip-delete-${data.dopustID}`}>
-                          Odobritev odsotnosti
-                        </Tooltip>
-                      }
-                    >
-                      <img
-                        className="confirm-deny-icon"
-                        src={Check}
-                        alt="Odobreno"
-                        onClick={() => {
-                          setModalShow(true);
-                          setClickedItem(data);
-                          setClickedButtonData({
-                            action: "approve",
-                            id: data.dopustID,
-                          });
-                        }}
-                      />
-                    </OverlayTrigger>{" "}
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={
-                        <Tooltip id={`tooltip-delete-${data.dopustID}`}>
-                          Zavrnitev odsotnosti
-                        </Tooltip>
-                      }
-                    >
-                      <img
-                        className="confirm-deny-icon"
-                        src={Cancel}
-                        alt="zavrni"
-                        onClick={() => {
-                          setModalShow(true);
-                          setClickedItem(data);
-                          setClickedButtonData({
-                            action: "reject",
-                            id: data.dopustID,
-                          });
-                        }}
-                      />
-                    </OverlayTrigger>
-                  </td>
+                  {data.status === "Pregled" ? (
+                    <td className="narrow-column">
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-delete-${data.dopustID}`}>
+                            Odobritev odsotnosti
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          className="confirm-deny-icon"
+                          src={Check}
+                          alt="Odobreno"
+                          onClick={() => {
+                            setModalShow(true);
+                            setClickedItem(data);
+                            setClickedButtonData({
+                              action: "approve",
+                              id: data.dopustID,
+                            });
+                          }}
+                        />
+                      </OverlayTrigger>{" "}
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-delete-${data.dopustID}`}>
+                            Zavrnitev odsotnosti
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          className="confirm-deny-icon"
+                          src={Cancel}
+                          alt="zavrni"
+                          onClick={() => {
+                            setModalShow(true);
+                            setClickedItem(data);
+                            setClickedButtonData({
+                              action: "reject",
+                              id: data.dopustID,
+                            });
+                          }}
+                        />
+                      </OverlayTrigger>
+                    </td>
+                  ) : (
+                    <td className="narrow-column">
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={
+                          <Tooltip id={`tooltip-delete-${data.dopustID}`}>
+                            Izbris odsotnosti
+                          </Tooltip>
+                        }
+                      >
+                        <img
+                          className="confirm-deny-icon"
+                          src={Trash}
+                          alt="izbriši"
+                          onClick={() => {
+                            setModalDeleteShow(true);
+                            setClickedItem(data);
+                            setClickedButtonData({
+                              id: data.dopustID,
+                            });
+                          }}
+                        />
+                      </OverlayTrigger>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -184,6 +229,15 @@ export const Odsotnost = () => {
             type="odsotnost"
             clickedItem={clickedItem}
             buttonData={clickedButtonData}
+          />
+          <DeleteModal
+            show={modalDeleteShow}
+            onHide={() => {
+              getProsnjeOdsotnost();
+              setModalDeleteShow(false);
+              setClickedItem(null);
+            }}
+            clickedItem={clickedItem}
           />
         </ErrorBoundary>
       )}

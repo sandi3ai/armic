@@ -30,7 +30,7 @@ const PrikaziSkupine = () => {
   return (
     <div>
       <hr />
-      <h3>Skupine:</h3>
+      <h2>Skupine:</h2>
 
       <div className="parent">
         {data.map((d) => (
