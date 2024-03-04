@@ -7,7 +7,6 @@ import dayjs from "dayjs";
 import "dayjs/locale/sl"; // Import the Slovenian locale
 import CasData from "./CasData";
 import { post } from "../../Helper";
-import Switch from "@mui/material/Switch";
 
 export const Cas = () => {
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
@@ -24,7 +23,6 @@ export const Cas = () => {
   const [casData, setCasData] = useState([]);
   const [thereIsData, setThereIsData] = useState(false);
   const [name, setName] = useState("");
-  const [showDenied, setShowDenied] = useState(false);
   const [vTeku, setVTeku] = useState(false);
 
   function preglejBtn(e) {
@@ -33,10 +31,7 @@ export const Cas = () => {
       post(getCasUrl, { startDate, endDate, dropValue }).then((response) => {
         checkForData(response.data.cas);
         const formattedData = createFormattedTwins(response.data.cas);
-        console.log("Prikaži zavrnjene: ", showDenied);
-        const finalData = showDenied
-          ? formattedData
-          : excludeZavrnjenCas(formattedData);
+        const finalData = formattedData;
         checkIfVTeku(finalData);
         setCasData(finalData);
       });
@@ -84,11 +79,6 @@ export const Cas = () => {
     } else {
       return name;
     }
-  }
-
-  function excludeZavrnjenCas(data) {
-    // Filter the data to exclude items with status "Zavrnjeno"
-    return data.filter((item) => item.status !== "Zavrnjeno");
   }
 
   function createFormattedTwins(data) {
@@ -173,15 +163,6 @@ export const Cas = () => {
           </Col>
           <div className="spacer"></div>
           <div className="successBox">
-            <br />
-            <span className="switch-label">Skrij zavrnjene</span>
-            <Switch
-              checked={showDenied}
-              onChange={(e) => {
-                setShowDenied(e.target.checked);
-              }}
-            />
-            <span className="switch-label">Prikaži zavrnjene</span>
             <br />
             <Button variant="outline-success" type="submit">
               Preglej

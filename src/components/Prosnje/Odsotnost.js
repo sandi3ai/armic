@@ -11,7 +11,6 @@ import "dayjs/locale/sl";
 import DeleteModal from "./DeleteModal";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import InfoTooltip from "../Elements/InfoTooltip";
-import { FaRegTrashAlt } from "react-icons/fa";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
