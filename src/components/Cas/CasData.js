@@ -21,7 +21,7 @@ const CasData = ({ data, vTeku }) => {
   const filteredData = data.filter((item) => {
     if (checkboxStates.approved && item.status === "Odobreno") return true;
     if (checkboxStates.review && item.status === "Pregled") return true;
-    if (checkboxStates.denied && item.status === "Zavrnjeni") return true;
+    if (checkboxStates.denied && item.status === "Zavrnjeno") return true;
     if (checkboxStates.inProgress && item.status === "V teku") return true;
     if (checkboxStates.inLunch && item.status === "Malica") return true;
     return false;
