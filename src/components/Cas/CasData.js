@@ -9,7 +9,6 @@ import ErrorBoundary from "../../hooks/errorBoundaries";
 dayjs.extend(duration);
 
 const CasData = ({ data, vTeku }) => {
-  const [status, setStatus] = useState("Brez filtra");
   const [checkboxStates, setCheckboxStates] = useState({
     approved: true,
     review: false,
@@ -18,6 +17,7 @@ const CasData = ({ data, vTeku }) => {
     inLunch: false,
   });
 
+  //Filter the data based on the checkbox states in CasFiltri.js.
   const filteredData = data.filter((item) => {
     if (checkboxStates.approved && item.status === "Odobreno") return true;
     if (checkboxStates.review && item.status === "Pregled") return true;
