@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -9,11 +9,10 @@ import { brown } from "@mui/material/colors";
 const CasFiltri = ({ checkboxStates, onCheckboxChange }) => {
   return (
     <div>
-      <FormGroup row="true">
+      <FormGroup row={true}>
         <FormControlLabel
           control={
             <Checkbox
-              defaultChecked
               color="success"
               checked={checkboxStates.approved}
               onChange={onCheckboxChange}

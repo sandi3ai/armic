@@ -8,7 +8,7 @@ import ErrorBoundary from "../../hooks/errorBoundaries";
 
 dayjs.extend(duration);
 
-const CasData = ({ data, vTeku }) => {
+const CasData = ({ data }) => {
   const [checkboxStates, setCheckboxStates] = useState({
     approved: true,
     review: false,
@@ -17,8 +17,56 @@ const CasData = ({ data, vTeku }) => {
     inLunch: false,
   });
 
+  const statusToClassNameMap = {
+    Odobreno: "greenish",
+    Pregled: "orangish",
+    Zavrnjeno: "reddish",
+    "V teku": "blueish",
+    Malica: "grayish",
+  };
+
+  // Prepare data by merging cas and malice entries
+  const prepareDataWithMalice = () => {
+    const allEntries = [];
+
+    data.forEach((item) => {
+      const formattedCasKonec = item.casKonec
+        ? dayjs(item.casKonec).format("D. MMMM YYYY HH:mm")
+        : null;
+      const formattedCasZacetek = dayjs(item.casZacetek).format(
+        "D. MMMM YYYY HH:mm"
+      );
+      allEntries.push({
+        ...item,
+        type: "cas", // Mark original data as 'cas'
+      });
+
+      // If malica exists for this item, add it separately
+      if (item.malicaZacetek && item.malicaKonec) {
+        // Format malice times
+        const formattedMalicaZacetek = dayjs(item.malicaZacetek).format(
+          "D. MMMM YYYY HH:mm"
+        );
+        const formattedMalicaKonec = dayjs(item.malicaKonec).format(
+          "D. MMMM YYYY HH:mm"
+        );
+        allEntries.push({
+          ...item, //Keep common data
+          casZacetek: item.malicaZacetek,
+          casKonec: item.malicaKonec,
+          formattedCasZacetek: formattedMalicaZacetek, // Use same keys for uniform access
+          formattedCasKonec: formattedMalicaKonec,
+          status: "Malica", // Mark this entry as 'Malica'
+          type: "malice", // Differentiate malice entries from cas entries
+        });
+      }
+    });
+
+    return allEntries;
+  };
+
   //Filter the data based on the checkbox states in CasFiltri.js.
-  const filteredData = data.filter((item) => {
+  const filteredData = prepareDataWithMalice().filter((item) => {
     if (checkboxStates.approved && item.status === "Odobreno") return true;
     if (checkboxStates.review && item.status === "Pregled") return true;
     if (checkboxStates.denied && item.status === "Zavrnjeno") return true;
@@ -27,29 +75,42 @@ const CasData = ({ data, vTeku }) => {
     return false;
   });
 
+  const hasInProgress = filteredData.some((item) => item.status !== "Odobreno");
+
   function subtractTime(start, finish) {
+    //Handle time subtraction for logs "V teku"
+    if (!finish || finish === "Še ni zaključeno") {
+      return "/";
+    }
     const startDayjs = dayjs(start);
     const finishDayjs = dayjs(finish);
     const razlika = finishDayjs.diff(startDayjs);
-    // Use dayjs duration to format the difference
-    const dur = dayjs.duration(razlika);
-    const ure = `${dur.hours().toString().padStart(2, "0")}:${dur
-      .minutes()
-      .toString()
-      .padStart(2, "0")}`;
+    // Calculate total hours and minutes manually to avoid mistakes when duration is 24h+
+    const totalHours = Math.floor(razlika / (1000 * 60 * 60)); // Total milliseconds divided by milliseconds in an hour
+    const totalMinutes = Math.floor((razlika % (1000 * 60 * 60)) / (1000 * 60)); // Remainder divided by milliseconds in a minute
 
-    return ure;
+    // Format hours and minutes
+    const formattedHours = totalHours.toString().padStart(2, "0");
+    const formattedMinutes = totalMinutes.toString().padStart(2, "0");
+
+    return `${formattedHours}:${formattedMinutes}`;
   }
 
   function getTotalTime(timeIntervals) {
+    console.log(timeIntervals);
     let totalMinutes = 0;
 
     timeIntervals
-      .filter(({ casKonec }) => casKonec !== null)
+      .filter(
+        ({ casKonec, status }) => casKonec !== null && status === "Odobreno"
+      )
       .forEach(({ casZacetek, casKonec }) => {
         const durationString = subtractTime(casZacetek, casKonec);
-        const [hours, minutes] = durationString.split(":").map(Number);
-        totalMinutes += hours * 60 + minutes;
+        if (durationString !== "/") {
+          // Ensure duration is valid before parsing
+          const [hours, minutes] = durationString.split(":").map(Number);
+          totalMinutes += hours * 60 + minutes;
+        }
       });
 
     // Convert total minutes back into "HH:mm"
@@ -63,19 +124,29 @@ const CasData = ({ data, vTeku }) => {
   }
 
   function getAverageTime(filteredData) {
-    // Convert all durations to minutes, sum them up, and then calculate the average
+    if (filteredData.length === 0) {
+      return "00:00";
+    } // Convert all durations to minutes, sum them up, and then calculate the average
     let totalMinutes = 0;
+    let validEntries = 0;
 
     filteredData
-      .filter(({ casKonec }) => casKonec !== null)
+      .filter(
+        ({ casKonec, status }) => casKonec !== null && status === "Odobreno"
+      )
       .forEach(({ casZacetek, casKonec }) => {
         const start = dayjs(casZacetek);
         const end = dayjs(casKonec);
         const diff = end.diff(start, "minute"); // Get the difference in minutes directly
         totalMinutes += diff;
+        validEntries++;
       });
 
-    const averageMinutes = totalMinutes / filteredData.length;
+    if (validEntries === 0) {
+      return "00:00"; // Return "00:00" if there are no valid entries after excluding "V teku"
+    }
+
+    const averageMinutes = totalMinutes / validEntries;
 
     // Convert the average minutes back to hours and minutes
     const averageHours = Math.floor(averageMinutes / 60);
@@ -130,16 +201,18 @@ const CasData = ({ data, vTeku }) => {
                 }
               >
                 <td>{idx + 1}.</td>
-                <td>{filteredData.formattedCasZacetek}</td>
+                <td>{data.formattedCasZacetek}</td>
                 <td>
-                  {filteredData.formattedCasKonec !== "Invalid Date"
-                    ? filteredData.formattedCasKonec
+                  {data.formattedCasKonec !== "Invalid Date"
+                    ? data.formattedCasKonec
                     : "Še ni zaključeno"}
                 </td>
-                <td>
-                  {subtractTime(filteredData.casZacetek, filteredData.casKonec)}
+                <td className={data.status !== "Odobreno" ? "grayish" : ""}>
+                  {subtractTime(data.casZacetek, data.casKonec)}
                 </td>
-                <td>{filteredData.status}</td>
+                <td className={statusToClassNameMap[data.status] || ""}>
+                  {data.status}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -158,10 +231,10 @@ const CasData = ({ data, vTeku }) => {
           </tfoot>
         </ErrorBoundary>
       </Table>
-      {vTeku && (
+      {hasInProgress && (
         <Alert severity="info">
-          Če ima delovni čas status "V teku" je izključen iz povprečnega časa in
-          skupnega števila ur
+          Če delovni čas NI v statusu <strong>"Odobreno"</strong>, je izključen
+          iz števca povprečnega časa in skupnega števila ur
         </Alert>
       )}
     </div>

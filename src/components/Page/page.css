@@ -335,7 +335,11 @@ h2 {
 }
 
 .orangish {
-  color: orange !important;
+  color: rgb(255, 106, 0) !important;
+}
+
+.blueish {
+  color: rgb(0, 102, 255) !important;
 }
 
 .gesloArea {

@@ -23,7 +23,6 @@ export const Cas = () => {
   const [casData, setCasData] = useState([]);
   const [thereIsData, setThereIsData] = useState(false);
   const [name, setName] = useState("");
-  const [vTeku, setVTeku] = useState(false);
 
   function preglejBtn(e) {
     try {
@@ -32,7 +31,6 @@ export const Cas = () => {
         checkForData(response.data.cas);
         const formattedData = createFormattedTwins(response.data.cas);
         const finalData = formattedData;
-        checkIfVTeku(finalData);
         setCasData(finalData);
       });
     } catch (error) {
@@ -96,16 +94,6 @@ export const Cas = () => {
 
     return data;
   }
-
-  function checkIfVTeku(data) {
-    //Check if any of the items in the data array have the status "V teku"
-    const vTeku = data.some((item) => item.status === "V teku");
-    setVTeku(vTeku);
-  }
-
-  useEffect(() => {
-    getZaposleni();
-  }, []);
 
   return (
     <div>
@@ -173,7 +161,7 @@ export const Cas = () => {
 
       {thereIsData ? (
         <ErrorBoundary>
-          <CasData data={casData} vTeku={vTeku} />
+          <CasData data={casData} />
         </ErrorBoundary>
       ) : (
         <div className="divine">
