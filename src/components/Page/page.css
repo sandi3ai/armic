@@ -46,6 +46,20 @@ body {
   );
   border-radius: 1rem;
   backdrop-filter: blur(4px);
+  z-index: 0;
+}
+
+.divine-no-blur {
+  margin: 1rem;
+  padding: 1rem;
+  color: black;
+  background: linear-gradient(
+    to top right,
+    rgba(255, 255, 255, 0.788),
+    rgba(255, 255, 255, 0.1)
+  );
+  border-radius: 1rem;
+  z-index: 0;
 }
 
 .parent {
@@ -172,8 +186,13 @@ h2 {
   text-align: center;
 }
 
+.dropdown {
+  position: relative;
+  z-index: 100 !important;
+}
+
 .dropdown-item {
-  z-index: 2 !important;
+  z-index: 5 !important;
   position: relative !important;
 }
 
@@ -323,7 +342,7 @@ h2 {
 }
 
 .reddish {
-  color: red !important;
+  color: rgb(255, 0, 60) !important;
 }
 
 .greenish {
@@ -335,7 +354,7 @@ h2 {
 }
 
 .orangish {
-  color: rgb(255, 106, 0) !important;
+  color: rgb(255, 162, 0) !important;
 }
 
 .blueish {
@@ -406,7 +425,7 @@ h2 {
 /* Ensures the dropdown content is fully visible without scrollbars.*/
 .dropdown-menu {
   max-height: 350px !important;
-  z-index: 10 !important;
+  z-index: 100 !important;
   scrollbar-width: thin !important;
   scrollbar-color: #888 #f1f1f1 !important;
   border-radius: 5px !important;

@@ -113,6 +113,7 @@ export const Cas = () => {
             }}
             drop="down"
             title={checkIfName(name)}
+            className="dropdown"
           >
             {data.map((data) => (
               <Dropdown.Item key={data.zaposleniID} eventKey={data.zaposleniID}>
@@ -164,7 +165,7 @@ export const Cas = () => {
           <CasData data={casData} />
         </ErrorBoundary>
       ) : (
-        <div className="divine">
+        <div className="divine-no-blur">
           Za izbran vnos ni informacij o delovnem času
         </div>
       )}

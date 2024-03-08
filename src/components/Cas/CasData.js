@@ -25,6 +25,14 @@ const CasData = ({ data }) => {
     Malica: "grayish",
   };
 
+  const statusToCheckboxKey = {
+    Odobreno: "approved",
+    Pregled: "review",
+    Zavrnjeno: "denied",
+    "V teku": "inProgress",
+    Malica: "inLunch",
+  };
+
   // Prepare data by merging cas and malice entries
   const prepareDataWithMalice = () => {
     const allEntries = [];
@@ -66,16 +74,44 @@ const CasData = ({ data }) => {
   };
 
   //Filter the data based on the checkbox states in CasFiltri.js.
-  const filteredData = prepareDataWithMalice().filter((item) => {
-    if (checkboxStates.approved && item.status === "Odobreno") return true;
-    if (checkboxStates.review && item.status === "Pregled") return true;
-    if (checkboxStates.denied && item.status === "Zavrnjeno") return true;
-    if (checkboxStates.inProgress && item.status === "V teku") return true;
-    if (checkboxStates.inLunch && item.status === "Malica") return true;
-    return false;
-  });
+  const prepareFilteredData = () => {
+    // Merge cas and malice entries
+    const allDataWithMalice = prepareDataWithMalice();
 
-  const hasInProgress = filteredData.some((item) => item.status !== "Odobreno");
+    // Transform an array to an object of cas entries keyed by casID
+    const casStatusMap = allDataWithMalice.reduce((acc, item) => {
+      if (item.type === "cas") {
+        acc[item.casID] = item.status; // Map 'casID' to its status
+      }
+      return acc;
+    }, {});
+
+    return allDataWithMalice.filter((item) => {
+      if (item.type === "cas") {
+        // Directly use the mapping to convert status to the checkbox state key
+        return checkboxStates[statusToCheckboxKey[item.status]];
+      } else if (item.type === "malice") {
+        // Get the status of the related 'cas' entry
+        const relatedCasStatus = casStatusMap[item.casID];
+        if (relatedCasStatus) {
+          // return true if the related 'cas' entry is checked and the 'malica' checkbox is checked
+          return (
+            relatedCasStatus &&
+            checkboxStates[statusToCheckboxKey[relatedCasStatus]] &&
+            checkboxStates.inLunch
+          );
+        }
+        return false;
+      }
+      return false; // This should not happen, just handling unexpected cases
+    });
+  };
+
+  const filteredData = prepareFilteredData();
+
+  const someNotApproved = filteredData.some(
+    (item) => item.status !== "Odobreno"
+  );
 
   function subtractTime(start, finish) {
     //Handle time subtraction for logs "V teku"
@@ -97,7 +133,6 @@ const CasData = ({ data }) => {
   }
 
   function getTotalTime(timeIntervals) {
-    console.log(timeIntervals);
     let totalMinutes = 0;
 
     timeIntervals
@@ -143,7 +178,7 @@ const CasData = ({ data }) => {
       });
 
     if (validEntries === 0) {
-      return "00:00"; // Return "00:00" if there are no valid entries after excluding "V teku"
+      return "00:00"; // Return "00:00" if there are no valid entries after excluding them
     }
 
     const averageMinutes = totalMinutes / validEntries;
@@ -231,7 +266,7 @@ const CasData = ({ data }) => {
           </tfoot>
         </ErrorBoundary>
       </Table>
-      {hasInProgress && (
+      {someNotApproved && (
         <Alert severity="info">
           Če delovni čas NI v statusu <strong>"Odobreno"</strong>, je izključen
           iz števca povprečnega časa in skupnega števila ur
