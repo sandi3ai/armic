@@ -8,13 +8,11 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
-import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
 
-export const Nadure = () => {
+export const Nadure = ({ countProsnje }) => {
   const [nadureData, setNadureData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
@@ -66,6 +64,7 @@ export const Nadure = () => {
 
   useEffect(() => {
     getProsnjeNadure();
+    countProsnje();
   }, []);
 
   return (
@@ -154,6 +153,7 @@ export const Nadure = () => {
             buttonData={clickedButtonData}
             onHide={() => {
               getProsnjeNadure();
+              countProsnje();
               setModalShow(false);
               setClickedItem(null);
               setClickedButtonData(null);

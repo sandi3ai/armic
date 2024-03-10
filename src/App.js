@@ -3,6 +3,7 @@ import Login from "./components/Login/Login";
 import useLazyApi from "./hooks/useLazyApi";
 import Page from "./components/Page/Page";
 import Header from "./components/Header/Header";
+import { CountsProvider } from "./hooks/CountsContext";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -18,11 +19,13 @@ function App() {
 
   return (
     <div className="App">
-      {loggedIn ? (
-        <Header Logout={Logout} />
-      ) : (
-        <Login setLoggedIn={setLoggedIn} />
-      )}
+      <CountsProvider>
+        {loggedIn ? (
+          <Header Logout={Logout} />
+        ) : (
+          <Login setLoggedIn={setLoggedIn} />
+        )}
+      </CountsProvider>
     </div>
   );
 }

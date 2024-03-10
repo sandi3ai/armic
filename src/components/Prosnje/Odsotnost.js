@@ -11,11 +11,12 @@ import "dayjs/locale/sl";
 import DeleteModal from "./DeleteModal";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import InfoTooltip from "../Elements/InfoTooltip";
+import { useCounts } from "../../hooks/CountsContext";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
 
-export const Odsotnost = () => {
+export const Odsotnost = ({ countProsnje }) => {
   const [odsotnostData, setOdsotnostData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
@@ -80,6 +81,7 @@ export const Odsotnost = () => {
 
   useEffect(() => {
     getProsnjeOdsotnost();
+    countProsnje();
   }, []);
 
   return (
@@ -224,6 +226,7 @@ export const Odsotnost = () => {
               setModalShow(false);
               setClickedItem(null);
               setClickedButtonData(null);
+              countProsnje();
             }}
             type="odsotnost"
             clickedItem={clickedItem}

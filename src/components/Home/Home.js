@@ -26,7 +26,7 @@ export const Home = () => {
   return (
     <div>
       <div className="content">
-        <h2>Zaposleni v podjetju:</h2>
+        <h2>ZAPOSLENI V PODJETJU:</h2>
         <p>
           Tukaj lahko dodate ali izbrišete delavca, mu dodelite skupino, ali pa
           skupino ustvarite
