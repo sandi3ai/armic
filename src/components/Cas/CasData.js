@@ -236,8 +236,10 @@ const CasData = ({ data }) => {
                 }
               >
                 <td>{idx + 1}.</td>
-                <td>{data.formattedCasZacetek}</td>
-                <td>
+                <td className={data.status === "Malica" ? "grayish" : ""}>
+                  {data.formattedCasZacetek}
+                </td>
+                <td className={data.status === "Malica" ? "grayish" : ""}>
                   {data.formattedCasKonec !== "Invalid Date"
                     ? data.formattedCasKonec
                     : "Še ni zaključeno"}
