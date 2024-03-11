@@ -23,6 +23,11 @@ if (isset($_POST['updatedPass']) && !empty($_POST['updatedPass'])) {
     $valuesToUpdate['pass'] = hash("sha256", $_POST['updatedPass']);
 }
 
+if (isset($_POST['updatedEmail'])) {
+    $fieldsToUpdate[] = "email=:email";
+    $valuesToUpdate['email'] = $_POST['updatedEmail'];
+}
+
 if (isset($_POST['updatedDopust'])) {
     $fieldsToUpdate[] = "preostanekDopusta=:dopust";
     $valuesToUpdate['dopust'] = $_POST['updatedDopust'];

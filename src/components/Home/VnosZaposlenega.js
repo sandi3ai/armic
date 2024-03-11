@@ -3,10 +3,7 @@ import { Button, Col, DropdownButton, Dropdown, Form } from "react-bootstrap";
 import Axios from "axios";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
-import TextField from "@mui/material/TextField";
-import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InfoTooltip from "../Elements/InfoTooltip";
 
 export const VnosZaposlenega = () => {
   const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
@@ -20,6 +17,8 @@ export const VnosZaposlenega = () => {
   const [casZacetka, setCasZacetka] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
   const [imeSkupine, setImeSkupine] = useState("");
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [pass, setPass] = useState("");
   const [emptyTxt, setEmptyTxt] = useState(false);
 
@@ -31,20 +30,30 @@ export const VnosZaposlenega = () => {
       name,
       izbranaSkupina,
       pass,
+      email,
       dniDopusta,
       casZacetka,
     };
     console.log(postData);
-    if (name && izbranaSkupina && pass && dniDopusta && casZacetka !== "") {
+    if (
+      name &&
+      izbranaSkupina &&
+      pass &&
+      dniDopusta &&
+      casZacetka !== "" &&
+      isEmailValid
+    ) {
       post(postUrl, {
         name: postData.name,
         group: postData.izbranaSkupina,
         pass: postData.pass,
+        email: postData.email,
         preostanekDopusta: postData.dniDopusta,
         predvidenZacetek: postData.casZacetka,
       }).then(() => {
         console.log("submitForm executed");
         setName("");
+        setEmail("");
         //prikaže success box
         setSuccessTxt(true);
         setTimeout(() => {
@@ -90,6 +99,14 @@ export const VnosZaposlenega = () => {
     }
   }
 
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    const isValid =
+      newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+    setEmail(newEmail);
+    setIsEmailValid(isValid);
+  };
+
   return (
     <div className="addNew">
       <h3>Dodaj novega zaposlenega</h3>
@@ -127,7 +144,6 @@ export const VnosZaposlenega = () => {
             </div>{" "}
           </Form.Group>
         </div>
-
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
           variant="outline-primary"
@@ -146,6 +162,37 @@ export const VnosZaposlenega = () => {
             </Dropdown.Item>
           ))}
         </DropdownButton>
+        <div className="spacer"></div>
+        <Form.Group className="mb-3">
+          <div className="inputForm">
+            <Form.Label>
+              <InfoTooltip
+                placement="right"
+                sourceTitle="Email"
+                content={
+                  <>
+                    Email ni obvezen, vendar je priporočljiv za obveščanje.
+                    <br />
+                    Format mora biti veljaven.
+                  </>
+                }
+              />
+            </Form.Label>
+            <Col lg="12" md="12" sm="12">
+              <Form.Control
+                name="email"
+                onChange={handleEmailChange}
+                value={email}
+                type="email"
+                placeholder="primer.emaila@armic-sp.si"
+                isInvalid={!isEmailValid}
+              />
+              <Form.Control.Feedback type="invalid">
+                Prosim vnesi veljaven e-mail naslov.
+              </Form.Control.Feedback>
+            </Col>
+          </div>
+        </Form.Group>{" "}
         <div className="spacer"></div>
         <Form.Group className="mb-3">
           <div className="inputForm">
@@ -182,7 +229,7 @@ export const VnosZaposlenega = () => {
             Dodaj novega zaposlenega
           </Button>
           {successTxt && " Nov zaposleni uspešno dodan!"}
-          {emptyTxt && " Vsa polja so obvezna!"}
+          {emptyTxt && " Izpolni obvezna polja!"}
         </div>
       </Form>
     </div>

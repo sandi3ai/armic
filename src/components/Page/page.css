@@ -242,20 +242,24 @@ h2 {
 }
 
 .blue-modal-header {
-  background: linear-gradient(to right, #5ca5ff, #ffffff);
-  color: #fff; /* Adjust the text color as needed */
-  border-bottom: 3px solid #5ca5ff !important; /* Optional: adds a border line similar to default Bootstrap modals */
+  background: linear-gradient(to right, #0073ff, #ffffff);
+  color: #fff !important;
+  border-bottom: 3px solid #0073ff !important; /* Optional: adds a border line similar to default Bootstrap modals */
+}
+
+.blue-modal-content {
+  color: #0073ff !important;
 }
 
 .red-modal-header {
   background: linear-gradient(to right, #e54151, #ffffff);
-  color: #fff; /* Adjust the text color as needed */
+  color: #fff;
   border-bottom: 3px solid #e54151 !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 
 .green-modal-header {
   background: linear-gradient(to right, #2cb94d, #ffffff);
-  color: #fff; /* Adjust the text color as needed */
+  color: #fff;
   border-bottom: 3px solid #2cb94d !important; /* Optional: adds a border line similar to default Bootstrap modals */
 }
 

@@ -14,6 +14,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { post } from "../../Helper";
 import Divider from "@mui/material/Divider";
 import Switch from "@mui/material/Switch";
+import InfoTooltip from "../Elements/InfoTooltip";
 
 const ModalEdit = ({ closeModal, passID }) => {
   const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
@@ -23,6 +24,8 @@ const ModalEdit = ({ closeModal, passID }) => {
   const [data, setData] = useState([]);
   const [updatedName, setUpdatedName] = useState("");
   const [skupine, setSkupine] = useState([{ id: "", name: "" }]);
+  const [updatedEmail, setUpdatedEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
   const [updatedSkupina, setUpdatedSkupina] = useState("");
   const [updatedDopust, setUpdatedDopust] = useState("");
   const [updatedCasZacetka, setUpdatedCasZacetka] = useState("");
@@ -46,6 +49,7 @@ const ModalEdit = ({ closeModal, passID }) => {
         );
         setUpdatedName(zaposleniData.ime);
         setUpdatedSkupina(zaposleniData.skupina);
+        setUpdatedEmail(zaposleniData.email);
         setUpdatedDopust(zaposleniData.dopust);
         setUpdatedCasZacetka(zaposleniData.casZacetka);
       });
@@ -61,6 +65,7 @@ const ModalEdit = ({ closeModal, passID }) => {
       return {
         ime: "Ni podatka o imenu",
         skupina: "Ni podatka o skupini",
+        email: "Ni podatka o e-mailu",
         dopust: "Ni podatka o dopustu",
         casZacetka: "Ni podatka o času začetka",
       };
@@ -69,6 +74,7 @@ const ModalEdit = ({ closeModal, passID }) => {
     return {
       ime: zaposleni.zaposleniIme,
       skupina: idToNameFn(zaposleni.zaposleniSkupinaID),
+      email: zaposleni.email,
       dopust: zaposleni.preostanekDopusta,
       casZacetka: zaposleni.predvidenZacetek,
     };
@@ -124,6 +130,7 @@ const ModalEdit = ({ closeModal, passID }) => {
       passID,
       updatedName,
       updatedSkupina,
+      updatedEmail,
       updatedPass,
       updatedDopust,
       updatedCasZacetka,
@@ -136,6 +143,7 @@ const ModalEdit = ({ closeModal, passID }) => {
           id: postData.passID,
           updatedName: postData.updatedName,
           updatedSkupina: postData.updatedSkupina,
+          updatedEmail: postData.updatedEmail,
           updatedPass: postData.updatedPass,
           updatedDopust: postData.updatedDopust,
           updatedCasZacetka: postData.updatedCasZacetka,
@@ -158,6 +166,14 @@ const ModalEdit = ({ closeModal, passID }) => {
       }, 4000);
     }
   }
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    const isValid =
+      newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+    setUpdatedEmail(newEmail);
+    setIsEmailValid(isValid);
+  };
 
   return (
     <Modal show={true} onHide={() => closeModal()} centered>
@@ -220,6 +236,34 @@ const ModalEdit = ({ closeModal, passID }) => {
               ))}
             </DropdownButton>
           </Form.Group>
+          <Form.Group className="mb-3">
+            <div className="inputForm">
+              <Form.Label>
+                <InfoTooltip
+                  placement="right"
+                  sourceTitle="Spremeni e-mail:"
+                  content={
+                    <>
+                      Email ni obvezen, vendar je priporočljiv za obveščanje.
+                      <br />
+                      Format mora biti veljaven.
+                    </>
+                  }
+                />
+              </Form.Label>
+              <Form.Control
+                name="email"
+                onChange={handleEmailChange}
+                value={updatedEmail}
+                type="email"
+                isInvalid={!isEmailValid}
+                placeholder="primer.emaila@armic-sp.si"
+              />
+              <Form.Control.Feedback type="invalid">
+                Prosim vnesi veljaven e-mail naslov.
+              </Form.Control.Feedback>
+            </div>
+          </Form.Group>
           <Divider />
           <Form.Group className="mb-3">
             <div className="inputForm">
@@ -255,7 +299,11 @@ const ModalEdit = ({ closeModal, passID }) => {
           {successTxt && (
             <img className="checkMark" src={checkMark} alt="Posodobljeno!" />
           )}
-          <Button variant="outline-success" type="submit">
+          <Button
+            variant="outline-success"
+            type="submit"
+            disabled={!isEmailValid}
+          >
             Posodobi
           </Button>
           <Button variant="outline-primary" onClick={() => closeModal()}>

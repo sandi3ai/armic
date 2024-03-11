@@ -60,19 +60,22 @@ const PrikaziZaposlene = () => {
   const renderPopover = (zaposlen) => (
     <Popover id={`popover-${zaposlen.zaposleniID}`}>
       <Popover.Header as="h1" className="blue-modal-header">
-        {zaposlen.zaposleniIme}
+        <strong>{zaposlen.zaposleniIme}</strong>
       </Popover.Header>
       <Popover.Body>
-        Skupina: <strong>{imeSkupine}</strong>
+        <span className="blue-modal-content">E-mail: </span>
+        <strong>{zaposlen.email}</strong> <br />
+        <span className="blue-modal-content">Skupina: </span>
+        <strong>{imeSkupine}</strong>
         <br />
-        Preostanek dopusta:{" "}
+        <span className="blue-modal-content">Preostanek dopusta: </span>
         <strong>
           {zaposlen.preostanekDopusta}{" "}
           {zaposlen.preostanekDopusta === 1 ? "dan" : "dni"}
         </strong>
         <br />
         <span>
-          Predviden začetek:{" "}
+          <span className="blue-modal-content">Predviden začetek: </span>
           <strong>
             {zaposlen.predvidenZacetek
               ? zaposlen.predvidenZacetek.substring(0, 5)
