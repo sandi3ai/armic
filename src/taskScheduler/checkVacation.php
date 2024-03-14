@@ -9,13 +9,13 @@ function isOnVacation($userID, DateTime $today) {
     $sql = "SELECT COUNT(*) FROM odsotnost 
             WHERE odsotenUserID = :userID 
             AND datumZ <= :todayFormatted 
-            AND datumK >= :todayFormatted";
+            AND datumK >= :todayFormatted
+            AND status = 'Odobreno'";
 
     $stmt = $conn->prepare($sql);
     
     // Bind the parameters using PDO
     $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
-    $stmt->bindParam(':todayFormatted', $todayFormatted, PDO::PARAM_STR);
     $stmt->bindParam(':todayFormatted', $todayFormatted, PDO::PARAM_STR);
 
     $stmt->execute();

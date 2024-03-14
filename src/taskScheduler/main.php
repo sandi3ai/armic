@@ -43,4 +43,4 @@ foreach ($results as $row) {
 
 var_dump($users);
 
-echo isOnVacation($users, $today);
+var_dump(isOnVacation($users, $today));
