@@ -2,19 +2,15 @@
 
 include_once '../rest/db.php';
 
-function hasLoggedHours($userID, DateTime $today) {
+function markEmailAsSent($userID) {
     global $conn; 
-    $todayFormatted = $today->format('Y-m-d');
     
-    $sql = "SELECT COUNT(*) FROM cas 
-            WHERE userID = :userID 
-            AND DATE(casZacetek) = :todayFormatted"; 
+    $sql = "UPDATE ..."; 
 
     $stmt = $conn->prepare($sql);
     
     // Bind the parameters using PDO
     $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
-    $stmt->bindParam(':todayFormatted', $todayFormatted, PDO::PARAM_STR);
 
     $stmt->execute();
 

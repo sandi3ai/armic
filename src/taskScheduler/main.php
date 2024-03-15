@@ -4,10 +4,10 @@ include_once '../rest/db.php';
 //TODO: Should I include auth.php here?
 require_once 'getHolidays.php';
 require_once 'checkVacation.php';
+require_once 'checkLoggedHours.php';
+require_once 'sendEmail.php';
 
 $today = new DateTime();
-$users = [];
-var_dump("TODAY: ", $today->format('d.m.Y'));
 $holidayFilePath = __DIR__ . "/../hooks/holidays_slovenia_gov_si.json";
 
 $isWorkFreeDay = isHolidayOrAWeekend($today, $holidayFilePath);
@@ -20,7 +20,7 @@ if ($isWorkFreeDay) {
 }
 
 // selecting users that didn't yet receive email and have estimated start time before current time
-$sql = "SELECT zaposlen.zaposleniID, zaposlen.zaposleniIme, zaposlen.predvidenZacetek
+$sql = "SELECT zaposlen.zaposleniID, zaposlen.zaposleniIme, zaposlen.predvidenZacetek, zaposlen.email
 FROM zaposlen
 WHERE zaposlen.emailZaUrePoslan = 0
 AND (
@@ -35,12 +35,17 @@ AND (
 
 $stmt = $conn->prepare($sql);
 $stmt->execute();
-$results = $stmt->fetchAll();
+$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-foreach ($results as $row) {
-    $users[] = $row['zaposleniID'];
+foreach ($results as $user) {
+    if (!isOnVacation($user['zaposleniID'], $today) && !hasLoggedHours($user['zaposleniID'], $today)) {
+        echo "Sending email to: " . $user['zaposleniIme'] . "\n";
+        echo "Email: " . $user['email'] . "\n";
+        // Here you would send the email
+        sendEmailNotification($user['email']);
+        set
+    }
 }
 
-var_dump($users);
 
-var_dump(isOnVacation($users, $today));
+$conn = null;

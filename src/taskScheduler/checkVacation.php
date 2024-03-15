@@ -3,7 +3,7 @@
 include_once '../rest/db.php';
 
 function isOnVacation($userID, DateTime $today) {
-    global $conn; // Assuming $conn is a PDO instance
+    global $conn;
     $todayFormatted = $today->format('Y-m-d');
 
     $sql = "SELECT COUNT(*) FROM odsotnost 
@@ -21,6 +21,6 @@ function isOnVacation($userID, DateTime $today) {
     $stmt->execute();
 
     // Fetch the count. If the count is more than 0, the user is on vacation.
-    echo "stmt->fetchColumn(): " . $stmt->fetchColumn() . "\n";
-    return $stmt->fetchColumn() > 0;
+    $count = $stmt->fetchColumn();
+    return $count > 0;
 }
