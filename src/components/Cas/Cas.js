@@ -166,7 +166,7 @@ export const Cas = () => {
         </ErrorBoundary>
       ) : (
         <div className="divine-no-blur">
-          Za izbran vnos ni informacij o delovnem času
+          Za izbran vnos ni podatkov o delovnem času
         </div>
       )}
     </div>

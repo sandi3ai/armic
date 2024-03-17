@@ -3,18 +3,18 @@
 include_once '../rest/db.php';
 
 function markEmailAsSent($userID) {
-    global $conn; 
-    
-    $sql = "UPDATE ..."; 
+    global $conn;
+    try {
+        $sql = "UPDATE zaposlen SET emailZaUrePoslan = 1 WHERE zaposleniID = :userID";
 
-    $stmt = $conn->prepare($sql);
-    
-    // Bind the parameters using PDO
-    $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
+        $stmt = $conn->prepare($sql);
+        
+        $stmt->bindParam(':userID', $userID, PDO::PARAM_INT);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    // Fetch the count. If the count is more than 0, the user has logged hours for today.
-    $count = $stmt->fetchColumn();
-    return $count > 0;
+        echo "emailZaUrePoslan set to 1 for userID: " . $userID . "\n;";
+    } catch (PDOException $e) {
+        echo "Server error: " . $e->getMessage();
+    }
 }

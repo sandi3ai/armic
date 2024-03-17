@@ -36,7 +36,3 @@ try {
     http_response_code(500);
     echo "Server error: " . $e->getMessage();
 }
-
-$stmt = null;
-$conn = null;
-?>

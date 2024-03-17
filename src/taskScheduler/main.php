@@ -6,6 +6,9 @@ require_once 'getHolidays.php';
 require_once 'checkVacation.php';
 require_once 'checkLoggedHours.php';
 require_once 'sendEmail.php';
+require_once 'setEmailSent.php';
+
+echo "Starting task scheduler\n";
 
 $today = new DateTime();
 $holidayFilePath = __DIR__ . "/../hooks/holidays_slovenia_gov_si.json";
@@ -32,20 +35,20 @@ AND (
     ELSE
       ADDTIME(zaposlen.predvidenZacetek, '02:00:00') <= ADDTIME(CURRENT_TIME(), '24:00:00')
   END);";
-
+echo "Users selected\n";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+echo "Results fetched: " . count($results) . "\n";
 
 foreach ($results as $user) {
     if (!isOnVacation($user['zaposleniID'], $today) && !hasLoggedHours($user['zaposleniID'], $today)) {
         echo "Sending email to: " . $user['zaposleniIme'] . "\n";
         echo "Email: " . $user['email'] . "\n";
         // Here you would send the email
-        sendEmailNotification($user['email']);
-        set
+        sendEmailNotification($user['email']);   
+        //markEmailAsSent($user['zaposleniID']);
     }
 }
-
 
 $conn = null;
