@@ -1,0 +1,1 @@
+All emailZaUrePoslan flags have been reset to 0

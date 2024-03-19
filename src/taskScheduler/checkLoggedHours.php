@@ -1,6 +1,7 @@
 <?php
 
-include_once '../rest/db.php';
+include_once __DIR__ . '/../rest/db.php';
+
 
 function hasLoggedHours($userID, DateTime $today) {
     global $conn; 

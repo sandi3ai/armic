@@ -1,8 +1,13 @@
 <?php
 
-include_once '../rest/db.php';
+include_once __DIR__ . '/../rest/db.php';
 
-function markEmailAsSent($userID) {
+
+function markEmailAsSent($userID, $logFile) {
+    $currentDateTime = date('Y-m-d H:i:s');
+
+    file_put_contents($logFile, "Email sent to userID {$userID} at {$currentDateTime}: " . "\n", FILE_APPEND);
+
     global $conn;
     try {
         $sql = "UPDATE zaposlen SET emailZaUrePoslan = 1 WHERE zaposleniID = :userID";

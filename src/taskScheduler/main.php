@@ -1,15 +1,21 @@
 <?php
 
-include_once '../rest/db.php';
 //TODO: Should I include auth.php here?
-require_once 'getHolidays.php';
-require_once 'checkVacation.php';
-require_once 'checkLoggedHours.php';
-require_once 'sendEmail.php';
-require_once 'setEmailSent.php';
+include_once __DIR__ . '/../rest/db.php';
+require_once __DIR__ . '/getHolidays.php';
+require_once __DIR__ . '/checkVacation.php';
+require_once __DIR__ . '/checkLoggedHours.php';
+require_once __DIR__ . '/sendEmail.php';
+require_once __DIR__ . '/setEmailSent.php';
 
-echo "Starting task scheduler\n";
 
+$logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\log.txt";
+$currentContent = file_get_contents($logFile);
+$currentDateTime = date('Y-m-d H:i:s');
+
+$logFileContent = "Script started at {$currentDateTime}\n";
+
+try {
 $today = new DateTime();
 $holidayFilePath = __DIR__ . "/../hooks/holidays_slovenia_gov_si.json";
 
@@ -41,14 +47,32 @@ $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 echo "Results fetched: " . count($results) . "\n";
 
+$emailSentCounter = 0;
+
 foreach ($results as $user) {
     if (!isOnVacation($user['zaposleniID'], $today) && !hasLoggedHours($user['zaposleniID'], $today)) {
+      if(!empty($user['email'])) {
         echo "Sending email to: " . $user['zaposleniIme'] . "\n";
-        echo "Email: " . $user['email'] . "\n";
-        // Here you would send the email
-        sendEmailNotification($user['email']);   
-        //markEmailAsSent($user['zaposleniID']);
+        $logFileContent .= "Sending email to: " . $user['zaposleniIme'] . "\n";
+
+        // Sending email
+        sendEmailNotification($user['email'], $user['zaposleniIme'], $logFile);   
+        markEmailAsSent($user['zaposleniID'], $logFile);
+        $emailSentCounter++;
+      }else {
+        $logFileContent .= "Error at {$currentDateTime}: Email for user " . $user['zaposleniIme'] . " is empty\n"; // If an email is empty
+      }
+
     }
 }
+} catch (PDOException $e) {
+    $logFileContent .= "Error at {$currentDateTime}: " . $e->getMessage() . "\n"; // For catching exceptions
+    echo "Server error: " . $e->getMessage();
+}
+
+
+$logFileContent .= "Script ended at {$currentDateTime}\n***\n"; // At the end of your script
+$finalContent = $logFileContent . $currentContent;
+file_put_contents($logFile, $finalContent);
 
 $conn = null;
