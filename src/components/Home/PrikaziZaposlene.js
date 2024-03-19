@@ -1,34 +1,17 @@
-import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
-import { OverlayTrigger, Popover, Button, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import { post } from "../../Helper";
 
-const PrikaziZaposlene = () => {
-  const [data, setData] = useState([]);
+const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [imeSkupine, setImeSkupine] = useState("");
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
   const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
-
-  const getZaposleni = async () => {
-    setIsLoading(true);
-    try {
-      const response = await Axios.get(getUrl, { withCredentials: true });
-      console.log("ZASOSLENI: ", response.data.zaposleni);
-      setData(response.data.zaposleni || []);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const idToName = (e) => {
     console.log(e);

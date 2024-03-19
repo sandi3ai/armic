@@ -5,7 +5,7 @@ import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
 import InfoTooltip from "../Elements/InfoTooltip";
 
-export const VnosZaposlenega = () => {
+export const VnosZaposlenega = ({ getZaposleni }) => {
   const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
   const getUrlSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
   const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
@@ -53,12 +53,14 @@ export const VnosZaposlenega = () => {
       }).then(() => {
         console.log("submitForm executed");
         setName("");
+        setPass("");
         setEmail("");
         //prikaže success box
         setSuccessTxt(true);
         setTimeout(() => {
           setSuccessTxt(false);
         }, 4000);
+        getZaposleni();
       });
     } else {
       setEmptyTxt(true);

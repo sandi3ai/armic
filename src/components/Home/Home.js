@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import Axios from "axios";
 import { Button } from "react-bootstrap";
 import VnosZaposlenega from "./VnosZaposlenega";
 import PrikaziZaposlene from "./PrikaziZaposlene";
 import NovaSkupina from "./NovaSkupina";
 
+const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
+
 export const Home = () => {
   const [novVnos, setNovVnos] = useState(false);
   const [novaSkupina, setNovaSkupina] = useState(false);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   function showNovVnos() {
     if (novVnos === false) {
@@ -23,6 +28,24 @@ export const Home = () => {
       setNovaSkupina(false);
     }
   }
+
+  const getZaposleni = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const response = await Axios.get(getUrl, { withCredentials: true });
+      console.log("ZASOSLENI: ", response.data.zaposleni);
+      setData(response.data.zaposleni || []);
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    getZaposleni();
+  }, [getZaposleni]);
+
   return (
     <div>
       <div className="content">
@@ -39,7 +62,7 @@ export const Home = () => {
           Dodaj delavca
         </Button>
 
-        {novVnos ? <VnosZaposlenega /> : null}
+        {novVnos ? <VnosZaposlenega getZaposleni={getZaposleni} /> : null}
         <Button
           className="vnosBtn"
           variant="outline-primary"
@@ -50,7 +73,11 @@ export const Home = () => {
         {novaSkupina ? <NovaSkupina /> : null}
         <hr />
         <h2>Seznam zaposlenih:</h2>
-        <PrikaziZaposlene />
+        <PrikaziZaposlene
+          data={data}
+          isLoading={isLoading}
+          getZaposleni={getZaposleni}
+        />
       </div>
     </div>
   );
