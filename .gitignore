@@ -24,3 +24,7 @@ yarn-error.log*
 
 todo.txt
 /vendor/
+
+# Task scheduler logs
+/src/taskScheduler/log.txt
+/src/taskScheduler/emailResetLog.txt
