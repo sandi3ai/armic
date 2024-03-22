@@ -30,20 +30,40 @@ if ($isWorkFreeDay) {
 }
 
 // selecting users that didn't yet receive email and have estimated start time before current time
-$sql = "SELECT zaposlen.zaposleniID, zaposlen.zaposleniIme, zaposlen.predvidenZacetek, zaposlen.email
-FROM zaposlen
-WHERE zaposlen.emailZaUrePoslan = 0
+$sql = "SELECT 
+  z.zaposleniID, 
+  z.zaposleniIme, 
+  z.predvidenZacetek, 
+  z.email,
+  CURRENT_TIME() AS serverTime,
+  CURRENT_DATE() AS today,
+  CASE 
+    WHEN CURRENT_TIME() < '04:00:00' THEN 
+      ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY) 
+    ELSE 
+      CURRENT_DATE() 
+  END AS referenceDate,
+  ADDTIME(CURRENT_TIME(), '-02:00:00') AS twoHoursAgo,
+  ADDTIME(CURRENT_TIME(), '-04:00:00') AS fourHoursAgo
+FROM zaposlen z 
+WHERE z.emailZaUrePoslan = 0
 AND (
-  ADDTIME(zaposlen.predvidenZacetek, '02:00:00') <= CURRENT_TIME()
-  AND ADDTIME(zaposlen.predvidenZacetek, '04:00:00') > CURRENT_TIME()
-)
-OR (
-  zaposlen.predvidenZacetek >= '22:00:00'
-  AND ADDTIME(zaposlen.predvidenZacetek, '26:00:00') <= CURRENT_TIME()
-  AND ADDTIME(zaposlen.predvidenZacetek, '28:00:00') > CURRENT_TIME()
+  (
+    -- For times today that are between two and four hours ago
+    CAST(CONCAT(CURRENT_DATE(), ' ', z.predvidenZacetek) AS DATETIME) BETWEEN 
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-04:00:00') AS DATETIME) AND 
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
+  )
+  OR 
+  (
+    -- For times from yesterday that are between two and four hours ago
+    CAST(CONCAT(ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY), ' ', z.predvidenZacetek) AS DATETIME) BETWEEN 
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-04:00:00') AS DATETIME) AND 
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
+  )
 );";
+
 echo "Users selected\n";
-$logFileContent .= "Users selected:  \n";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
