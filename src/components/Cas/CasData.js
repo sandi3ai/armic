@@ -2,6 +2,7 @@ import Alert from "@mui/material/Alert";
 import React, { useEffect, useState } from "react";
 import CasFiltri from "./CasFiltri";
 import { Table } from "react-bootstrap";
+import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ErrorBoundary from "../../hooks/errorBoundaries";
@@ -16,6 +17,8 @@ const CasData = ({ data }) => {
     inProgress: false,
     inLunch: false,
   });
+  const [selectedCas, setSelectedCas] = useState(new Set());
+  const [selectedAll, setSelectedAll] = useState(false);
 
   const statusToClassNameMap = {
     Odobreno: "greenish",
@@ -201,6 +204,62 @@ const CasData = ({ data }) => {
     }));
   };
 
+  const gridCheckboxOnChange = (casId) => {
+    setSelectedCas((prevSelectedCas) => {
+      const newSet = new Set(prevSelectedCas);
+      if (newSet.has(casId)) {
+        newSet.delete(casId);
+      } else {
+        newSet.add(casId);
+      }
+      console.log("newSet.size:", newSet.size);
+      // console.log("Filtered data: ", filteredData);
+      console.log("filteredData.length:", filteredData.length);
+
+      setSelectedAll(newSet.size === filteredData.length);
+
+      return newSet;
+    });
+  };
+
+  const bulkCheckboxOnChange = () => {
+    console.log("Bulk checkbox triggered");
+    // Assuming gridData is the array of your grid items
+    const allIds = new Set(data.map((data) => data.casID));
+
+    // If not all items are selected, select all.
+    if (selectedCas.size < data.length) {
+      setSelectedCas(allIds);
+      setSelectedAll(true);
+    } else {
+      // If all items are selected, clear the selection.
+      setSelectedCas(new Set());
+      setSelectedAll(false);
+    }
+  };
+
+  const updateGridCheckboxesOnFilterChange = () => {
+    setSelectedCas((prevSelectedCas) => {
+      const currentIds = new Set(filteredData.map((data) => data.casID));
+      const updatedSelectedCas = new Set(
+        [...prevSelectedCas].filter((id) => currentIds.has(id))
+      );
+
+      // Check if the size of the sets are different, indicating a change
+      const isAllSelected = updatedSelectedCas.size === filteredData.length;
+      console.log("Is all selected: ", isAllSelected);
+
+      // Using a functional update for setSelectedAll to ensure we're working with the most current state
+      setSelectedAll(isAllSelected);
+
+      return updatedSelectedCas;
+    });
+  };
+
+  useEffect(() => {
+    //updateGridCheckboxesOnFilterChange();
+  }, [filteredData]);
+
   return (
     <div className="content">
       <CasFiltri
@@ -212,6 +271,19 @@ const CasData = ({ data }) => {
         <thead>
           <tr>
             <th></th>
+            <th>
+              {filteredData.length > 0 ? (
+                <Checkbox
+                  sx={{ p: 0 }}
+                  color="primary"
+                  name="gridChecboxBulkSelect"
+                  checked={selectedAll}
+                  onChange={() => bulkCheckboxOnChange()}
+                />
+              ) : (
+                ""
+              )}
+            </th>
             <th>Čas začetka</th>
             <th>Čas zaključka</th>
             <th>Število ur</th>
@@ -236,6 +308,15 @@ const CasData = ({ data }) => {
                 }
               >
                 <td>{idx + 1}.</td>
+                <td>
+                  <Checkbox
+                    sx={{ p: 0 }}
+                    color="primary"
+                    name="gridChecbox"
+                    checked={selectedCas.has(data.casID)}
+                    onChange={() => gridCheckboxOnChange(data.casID)}
+                  />
+                </td>
                 <td className={data.status === "Malica" ? "grayish" : ""}>
                   {data.formattedCasZacetek}
                 </td>
@@ -257,12 +338,10 @@ const CasData = ({ data }) => {
         <ErrorBoundary>
           <tfoot className="tableFooter">
             <tr>
-              <td colSpan={3} className="tdFooter">
-                Povprečen čas - {getAverageTime(filteredData)}
-              </td>
-
+              <td colSpan={4}></td>
               <td colSpan={2}>
-                Skupno število ur - {getTotalTime(filteredData)}
+                Povprečen čas: {getAverageTime(filteredData)} <br />
+                Skupno število ur: {getTotalTime(filteredData)}
               </td>
             </tr>
           </tfoot>
