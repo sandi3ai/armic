@@ -1,5 +1,5 @@
 import Alert from "@mui/material/Alert";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CasFiltri from "./CasFiltri";
 import { Table } from "react-bootstrap";
 import { Checkbox } from "@mui/material";
@@ -18,7 +18,6 @@ const CasData = ({ data }) => {
     inLunch: false,
   });
   const [selectedCas, setSelectedCas] = useState(new Set());
-  const [selectedAll, setSelectedAll] = useState(false);
 
   const statusToClassNameMap = {
     Odobreno: "greenish",
@@ -110,7 +109,10 @@ const CasData = ({ data }) => {
     });
   };
 
-  const filteredData = prepareFilteredData();
+  const filteredData = useMemo(
+    () => prepareFilteredData(),
+    [data, checkboxStates]
+  );
 
   const someNotApproved = filteredData.some(
     (item) => item.status !== "Odobreno"
@@ -212,53 +214,37 @@ const CasData = ({ data }) => {
       } else {
         newSet.add(casId);
       }
-      console.log("newSet.size:", newSet.size);
-      // console.log("Filtered data: ", filteredData);
-      console.log("filteredData.length:", filteredData.length);
-
-      setSelectedAll(newSet.size === filteredData.length);
-
       return newSet;
     });
   };
 
   const bulkCheckboxOnChange = () => {
     console.log("Bulk checkbox triggered");
-    // Assuming gridData is the array of your grid items
-    const allIds = new Set(data.map((data) => data.casID));
-
-    // If not all items are selected, select all.
-    if (selectedCas.size < data.length) {
-      setSelectedCas(allIds);
-      setSelectedAll(true);
-    } else {
-      // If all items are selected, clear the selection.
-      setSelectedCas(new Set());
-      setSelectedAll(false);
-    }
+    // Assuming 'data' is the full dataset and 'filteredData' is what's currently displayed
+    const allIds = new Set(filteredData.map((item) => item.casID));
+    setSelectedCas((prevSelected) =>
+      prevSelected.size < filteredData.length ? allIds : new Set()
+    );
   };
 
   const updateGridCheckboxesOnFilterChange = () => {
+    // Adjust selectedCas based on filteredData changes
     setSelectedCas((prevSelectedCas) => {
       const currentIds = new Set(filteredData.map((data) => data.casID));
-      const updatedSelectedCas = new Set(
-        [...prevSelectedCas].filter((id) => currentIds.has(id))
-      );
-
-      // Check if the size of the sets are different, indicating a change
-      const isAllSelected = updatedSelectedCas.size === filteredData.length;
-      console.log("Is all selected: ", isAllSelected);
-
-      // Using a functional update for setSelectedAll to ensure we're working with the most current state
-      setSelectedAll(isAllSelected);
-
-      return updatedSelectedCas;
+      return new Set([...prevSelectedCas].filter((id) => currentIds.has(id)));
     });
   };
 
   useEffect(() => {
-    //updateGridCheckboxesOnFilterChange();
+    updateGridCheckboxesOnFilterChange();
   }, [filteredData]);
+
+  const selectedAll = useMemo(
+    () =>
+      filteredData.length > 0 &&
+      filteredData.every((data) => selectedCas.has(data.casID)),
+    [filteredData, selectedCas]
+  );
 
   return (
     <div className="content">
@@ -266,6 +252,7 @@ const CasData = ({ data }) => {
         checkboxStates={checkboxStates}
         onCheckboxChange={handleCheckboxChange}
       />
+      {selectedCas.size > 0 && <span>Izbrani vnosi: {selectedCas.size}</span>}
       <br />
       <Table borderless striped hover size="sm" responsive>
         <thead>
