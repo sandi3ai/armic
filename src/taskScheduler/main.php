@@ -34,34 +34,26 @@ $sql = "SELECT
   z.zaposleniID, 
   z.zaposleniIme, 
   z.predvidenZacetek, 
-  z.email,
-  CURRENT_TIME() AS serverTime,
-  CURRENT_DATE() AS today,
-  CASE 
-    WHEN CURRENT_TIME() < '04:00:00' THEN 
-      ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY) 
-    ELSE 
-      CURRENT_DATE() 
-  END AS referenceDate,
-  ADDTIME(CURRENT_TIME(), '-02:00:00') AS twoHoursAgo,
-  ADDTIME(CURRENT_TIME(), '-04:00:00') AS fourHoursAgo
-FROM zaposlen z 
-WHERE z.emailZaUrePoslan = 0
-AND (
-  (
-    -- For times today that are between two and four hours ago
-    CAST(CONCAT(CURRENT_DATE(), ' ', z.predvidenZacetek) AS DATETIME) BETWEEN 
+  z.email
+FROM 
+  zaposlen z 
+WHERE 
+  z.emailZaUrePoslan = 0
+  AND (
+    -- Consider the time range from two to four hours ago
+    CAST(CONCAT(CASE 
+                  WHEN CURRENT_TIME() < '04:00:00' AND z.predvidenZacetek > '04:00:00' THEN 
+                    ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY)
+                  ELSE 
+                    CURRENT_DATE() 
+                END, 
+                ' ', 
+                z.predvidenZacetek) AS DATETIME
+    ) BETWEEN 
     CAST(ADDTIME(CURRENT_TIMESTAMP(), '-04:00:00') AS DATETIME) AND 
     CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
-  )
-  OR 
-  (
-    -- For times from yesterday that are between two and four hours ago
-    CAST(CONCAT(ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY), ' ', z.predvidenZacetek) AS DATETIME) BETWEEN 
-    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-04:00:00') AS DATETIME) AND 
-    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
-  )
-);";
+  );
+";
 
 echo "Users selected\n";
 $stmt = $conn->prepare($sql);
