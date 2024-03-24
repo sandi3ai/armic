@@ -212,6 +212,10 @@ h2 {
   border: none !important;
 }
 
+.table-cas {
+  margin-top: 4px;
+}
+
 .vnosBtn {
   margin: 10px 10px 10px 0px;
 }
@@ -342,6 +346,10 @@ h2 {
 
 .formCheck {
   flex-grow: 1; /* Ensures the checkbox label takes up the available space */
+}
+
+.export-delete {
+  float: right;
 }
 
 /* Ensures the dropdown content is fully visible without scrollbars.*/

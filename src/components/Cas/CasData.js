@@ -1,11 +1,12 @@
 import Alert from "@mui/material/Alert";
 import React, { useEffect, useMemo, useState } from "react";
 import CasFiltri from "./CasFiltri";
-import { Table } from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 import { Checkbox } from "@mui/material";
 import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ErrorBoundary from "../../hooks/errorBoundaries";
+import ExportDelete from "./ExportDelete";
 
 dayjs.extend(duration);
 
@@ -248,13 +249,37 @@ const CasData = ({ data }) => {
 
   return (
     <div className="content">
-      <CasFiltri
-        checkboxStates={checkboxStates}
-        onCheckboxChange={handleCheckboxChange}
-      />
-      {selectedCas.size > 0 && <span>Izbrani vnosi: {selectedCas.size}</span>}
-      <br />
-      <Table borderless striped hover size="sm" responsive>
+      <div style={{ marginLeft: "1rem" }}>
+        <Row>
+          <Col md={7} sm={12}>
+            <CasFiltri
+              checkboxStates={checkboxStates}
+              onCheckboxChange={handleCheckboxChange}
+            />
+          </Col>
+          <Col
+            md={5}
+            sm={12}
+            style={{ display: "flex", justifyContent: "flex-end" }}
+          >
+            {selectedCas.size > 0 && (
+              <span className="export-delete">
+                <strong>
+                  Izbrani vnosi: {selectedCas.size} <ExportDelete />
+                </strong>
+              </span>
+            )}
+          </Col>
+        </Row>
+      </div>
+      <Table
+        borderless
+        striped
+        hover
+        size="sm"
+        responsive
+        className="table-cas"
+      >
         <thead>
           <tr>
             <th></th>
