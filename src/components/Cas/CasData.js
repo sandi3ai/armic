@@ -10,7 +10,7 @@ import ExportDelete from "./ExportDelete";
 
 dayjs.extend(duration);
 
-const CasData = ({ data }) => {
+const CasData = ({ data, name }) => {
   const [checkboxStates, setCheckboxStates] = useState({
     approved: true,
     review: false,
@@ -222,10 +222,19 @@ const CasData = ({ data }) => {
   const bulkCheckboxOnChange = () => {
     console.log("Bulk checkbox triggered");
     // Assuming 'data' is the full dataset and 'filteredData' is what's currently displayed
-    const allIds = new Set(filteredData.map((item) => item.casID));
-    setSelectedCas((prevSelected) =>
-      prevSelected.size < filteredData.length ? allIds : new Set()
-    );
+    // Assuming that 'filteredData' may contain both 'cas' and 'malice' types
+    const allCasIds = new Set(filteredData.map((item) => item.casID));
+
+    // Check if all casIDs in the filteredData are currently selected
+    const areAllSelected = [...allCasIds].every((id) => selectedCas.has(id));
+
+    if (areAllSelected) {
+      // If all are selected, clear the selection
+      setSelectedCas(new Set());
+    } else {
+      // Otherwise, create a new Set with all casIDs from filteredData
+      setSelectedCas(allCasIds);
+    }
   };
 
   const updateGridCheckboxesOnFilterChange = () => {
@@ -265,7 +274,13 @@ const CasData = ({ data }) => {
             {selectedCas.size > 0 && (
               <span className="export-delete">
                 <strong>
-                  Izbrani vnosi: {selectedCas.size} <ExportDelete />
+                  Izbrani vnosi: {selectedCas.size}{" "}
+                  <ExportDelete
+                    filteredData={filteredData}
+                    selectedCas={selectedCas}
+                    setSelectedCas={setSelectedCas}
+                    name={name}
+                  />
                 </strong>
               </span>
             )}

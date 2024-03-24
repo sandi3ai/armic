@@ -162,7 +162,7 @@ export const Cas = () => {
 
       {thereIsData ? (
         <ErrorBoundary>
-          <CasData data={casData} />
+          <CasData data={casData} name={name} />
         </ErrorBoundary>
       ) : (
         <div className="divine-no-blur">
