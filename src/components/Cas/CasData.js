@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import ExportDelete from "./ExportDelete";
+import InfoTooltip from "../Elements/InfoTooltip";
 
 dayjs.extend(duration);
 
@@ -47,8 +48,11 @@ const CasData = ({ data, name }) => {
       const formattedCasZacetek = dayjs(item.casZacetek).format(
         "D. MMMM YYYY HH:mm"
       );
+      const trajanje = subtractTime(item.casZacetek, item.casKonec);
+
       allEntries.push({
         ...item,
+        trajanje,
         type: "cas", // Mark original data as 'cas'
       });
 
@@ -273,15 +277,15 @@ const CasData = ({ data, name }) => {
           >
             {selectedCas.size > 0 && (
               <span className="export-delete">
-                <strong>
-                  Izbrani vnosi: {selectedCas.size}{" "}
-                  <ExportDelete
-                    filteredData={filteredData}
-                    selectedCas={selectedCas}
-                    setSelectedCas={setSelectedCas}
-                    name={name}
-                  />
-                </strong>
+                Izbrani vnosi: {selectedCas.size + " "}
+                Trajanje izbranih: Trajanje malic:
+                <ExportDelete
+                  filteredData={filteredData}
+                  selectedCas={selectedCas}
+                  setSelectedCas={setSelectedCas}
+                  name={name}
+                  totalHours={getTotalTime(filteredData)}
+                />
               </span>
             )}
           </Col>
@@ -368,7 +372,7 @@ const CasData = ({ data, name }) => {
               <td colSpan={4}></td>
               <td colSpan={2}>
                 Povprečen čas: {getAverageTime(filteredData)} <br />
-                Skupno število ur: {getTotalTime(filteredData)}
+                Skupno odobrenih ur: {getTotalTime(filteredData)}
               </td>
             </tr>
           </tfoot>
