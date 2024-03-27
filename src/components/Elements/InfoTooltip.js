@@ -2,35 +2,52 @@ import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
-const InfoTooltip = ({ placement, sourceTitle, content, bright }) => {
+const InfoTooltip = ({
+  placement,
+  sourceTitle,
+  content,
+  bright,
+  marginLeft,
+}) => {
   const renderTooltipContent = () => {
-    return content.split("\n").map((line, index) => (
-      <React.Fragment key={index}>
-        {line}
-        <br />
-      </React.Fragment>
-    ));
+    if (content.includes("\n")) {
+      return content.split("\n").map((line, index) => (
+        <React.Fragment key={index}>
+          {line}
+          {index < content.split("\n").length - 1 && <br />}{" "}
+        </React.Fragment>
+      ));
+    } else {
+      return content; // Return content as is if there are no line breaks
+    }
   };
   return (
-    <div style={{ display: "flex", alignItems: "center" }}>
+    <>
+      {" "}
       {sourceTitle}
       <OverlayTrigger
         placement={placement}
         overlay={
-          <Tooltip id={`tooltip-${placement}`} style={{ zIndex: 1500 }}>
+          <Tooltip
+            id={`tooltip-${placement}`}
+            className="custom-tooltip"
+            style={{ zIndex: 1500 }}
+          >
             {renderTooltipContent()}
           </Tooltip>
         }
       >
-        <div>
-          <InfoOutlinedIcon
-            className="info-icon"
-            style={{ color: bright ? "white" : "gray" }}
-          />
-        </div>
+        <InfoOutlinedIcon
+          className="info-icon"
+          style={{ color: bright ? "white" : "gray", marginLeft: marginLeft }}
+        />
       </OverlayTrigger>
-    </div>
+    </>
   );
+};
+
+InfoTooltip.defaultProps = {
+  marginLeft: "0px", // Default margin left is 0px
 };
 
 export default InfoTooltip;

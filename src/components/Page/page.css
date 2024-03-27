@@ -349,7 +349,25 @@ h2 {
 }
 
 .export-delete {
-  float: right;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin-left: auto;
+  gap: 5px; /* Adjust the space between child elements */
+}
+
+.export-delete > span,
+.export-delete > .info-icon {
+  flex-shrink: 1; /* Prevent shrinking */
+}
+
+/* Add a media query for larger screens where you want to prevent shrinking */
+@media (min-width: 768px) {
+  .export-delete > span,
+  .export-delete > .info-icon {
+    flex-shrink: 0; /* Prevent shrinking on larger screens */
+  }
 }
 
 /* Ensures the dropdown content is fully visible without scrollbars.*/

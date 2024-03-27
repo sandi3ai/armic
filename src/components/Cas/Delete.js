@@ -3,7 +3,10 @@ import Button from "@mui/material/Button";
 import { red } from "@mui/material/colors";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-const Delete = () => {
+const Delete = ({ selectedCas, setSelectedCas, name }) => {
+  const handleDeleteClick = () => {
+    console.log("Delete button clicked");
+  };
   return (
     <>
       <Button
@@ -18,6 +21,9 @@ const Delete = () => {
         endIcon={
           <FaRegTrashAlt style={{ fontSize: "1rem", marginBottom: "1px" }} />
         }
+        onClick={() => {
+          handleDeleteClick();
+        }}
       >
         Izbriši
       </Button>

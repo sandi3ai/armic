@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import ErrorBoundary from "../../hooks/errorBoundaries";
 import ExportDelete from "./ExportDelete";
+import { mergeSetIdsWithData } from "../../hooks/mergeSetWithData";
 import InfoTooltip from "../Elements/InfoTooltip";
 
 dayjs.extend(duration);
@@ -20,6 +21,7 @@ const CasData = ({ data, name }) => {
     inLunch: false,
   });
   const [selectedCas, setSelectedCas] = useState(new Set());
+  const [selectedTimes, setSelectedTimes] = useState("00:00");
 
   const statusToClassNameMap = {
     Odobreno: "greenish",
@@ -142,21 +144,23 @@ const CasData = ({ data, name }) => {
     return `${formattedHours}:${formattedMinutes}`;
   }
 
-  function getTotalTime(timeIntervals) {
+  function getTotalTime(timeIntervals, odobrenoOnly = true) {
     let totalMinutes = 0;
 
-    timeIntervals
-      .filter(
-        ({ casKonec, status }) => casKonec !== null && status === "Odobreno"
-      )
-      .forEach(({ casZacetek, casKonec }) => {
-        const durationString = subtractTime(casZacetek, casKonec);
-        if (durationString !== "/") {
-          // Ensure duration is valid before parsing
-          const [hours, minutes] = durationString.split(":").map(Number);
-          totalMinutes += hours * 60 + minutes;
-        }
-      });
+    const intervalsToConsider = odobrenoOnly
+      ? timeIntervals.filter(
+          ({ casKonec, status }) => casKonec !== null && status === "Odobreno"
+        )
+      : timeIntervals;
+
+    intervalsToConsider.forEach(({ casZacetek, casKonec }) => {
+      const durationString = subtractTime(casZacetek, casKonec);
+      if (durationString !== "/") {
+        // Ensure duration is valid before parsing
+        const [hours, minutes] = durationString.split(":").map(Number);
+        totalMinutes += hours * 60 + minutes;
+      }
+    });
 
     // Convert total minutes back into "HH:mm"
     const totalHours = Math.floor(totalMinutes / 60);
@@ -228,6 +232,7 @@ const CasData = ({ data, name }) => {
     // Assuming 'data' is the full dataset and 'filteredData' is what's currently displayed
     // Assuming that 'filteredData' may contain both 'cas' and 'malice' types
     const allCasIds = new Set(filteredData.map((item) => item.casID));
+    console.log("SelectedCas.CasID: ", selectedCas);
 
     // Check if all casIDs in the filteredData are currently selected
     const areAllSelected = [...allCasIds].every((id) => selectedCas.has(id));
@@ -249,6 +254,18 @@ const CasData = ({ data, name }) => {
     });
   };
 
+  const calculateSelectedTimes = () => {
+    // Calculate the total time of selected entries
+    const selectedEntries = mergeSetIdsWithData(selectedCas, filteredData);
+    const totalHours = getTotalTime(selectedEntries, false);
+    setSelectedTimes(totalHours);
+    console.log("Total hours: ", totalHours);
+  };
+
+  useEffect(() => {
+    calculateSelectedTimes();
+  }, [filteredData, selectedCas]);
+
   useEffect(() => {
     updateGridCheckboxesOnFilterChange();
   }, [filteredData]);
@@ -257,37 +274,50 @@ const CasData = ({ data, name }) => {
     () =>
       filteredData.length > 0 &&
       filteredData.every((data) => selectedCas.has(data.casID)),
-    [filteredData, selectedCas]
+    [(filteredData, selectedCas)]
   );
 
   return (
     <div className="content">
       <div style={{ marginLeft: "1rem" }}>
         <Row>
-          <Col md={7} sm={12}>
+          <Col lg={true} md={12} sm={12}>
             <CasFiltri
               checkboxStates={checkboxStates}
               onCheckboxChange={handleCheckboxChange}
             />
           </Col>
-          <Col
-            md={5}
-            sm={12}
-            style={{ display: "flex", justifyContent: "flex-end" }}
-          >
-            {selectedCas.size > 0 && (
-              <span className="export-delete">
-                Izbrani vnosi: {selectedCas.size + " "}
-                Trajanje izbranih: Trajanje malic:
-                <ExportDelete
-                  filteredData={filteredData}
-                  selectedCas={selectedCas}
-                  setSelectedCas={setSelectedCas}
-                  name={name}
-                  totalHours={getTotalTime(filteredData)}
-                />
-              </span>
-            )}
+          <Col lg={true} md={12} sm={12}>
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              {selectedCas.size > 0 && (
+                <span className="export-delete">
+                  <span>
+                    Izbrani vnosi:{" "}
+                    <strong style={{ display: "inline" }}>
+                      {selectedCas.size + ""}
+                    </strong>
+                  </span>
+
+                  <InfoTooltip
+                    placement="top"
+                    sourceTitle={
+                      <span style={{ paddingRight: "-10px" }}>
+                        Trajanje izbranih: <strong>{selectedTimes}</strong>
+                      </span>
+                    }
+                    content={`Trajanje izbranih vnosov je izračunano kot vsota trajanj vseh izbranih vnosov, ne le odobrenih.
+                  \nIzjema so le vnosi s statusom 'V teku', katerim je nemogoče izračunati trajanje, dokler niso zaključeni.`}
+                  />
+                  <ExportDelete
+                    filteredData={filteredData}
+                    selectedCas={selectedCas}
+                    setSelectedCas={setSelectedCas}
+                    name={name}
+                    totalHours={selectedTimes}
+                  />
+                </span>
+              )}
+            </div>
           </Col>
         </Row>
       </div>
@@ -370,10 +400,11 @@ const CasData = ({ data, name }) => {
           <tfoot className="tableFooter">
             <tr>
               <td colSpan={4}></td>
-              <td colSpan={2}>
+              <td colSpan={1}>
                 Povprečen čas: {getAverageTime(filteredData)} <br />
                 Skupno odobrenih ur: {getTotalTime(filteredData)}
               </td>
+              <td colSpan={1}></td>
             </tr>
           </tfoot>
         </ErrorBoundary>

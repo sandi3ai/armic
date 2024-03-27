@@ -6,6 +6,7 @@ import MenuItem from "@mui/material/MenuItem";
 import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOfflineOutlined";
 import { blue } from "@mui/material/colors";
 import InfoTooltip from "../Elements/InfoTooltip";
+import { mergeSetIdsWithData } from "../../hooks/mergeSetWithData";
 
 const Export = ({ filteredData, selectedCas, name, totalHours }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -18,12 +19,10 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleExportClick = () => {
-    console.log("Prepare csv data: ", prepareCsvData(filteredData));
+  const handleCsvExportClick = () => {
     let dataToExport = prepareCsvData(filteredData);
-    console.log("Data to export: ", dataToExport);
     dataToExport = mergeSetIdsWithData(selectedCas, dataToExport);
-    console.log("Data to export after merge: ", dataToExport);
+    dataToExport = removeCasID(dataToExport);
     const csvString = convertToCSV(dataToExport);
 
     // Add UTF-8 Byte Order Mark (BOM)
@@ -57,21 +56,6 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
     }));
   };
 
-  const mergeSetIdsWithData = (setIds, filteredData) => {
-    // Convert the Set of selected IDs into an Array for easier processing
-    const selectedIdsArray = Array.from(setIds);
-
-    // Filter the filteredData to only include those entries whose casID is in the selectedIdsArray
-    let mergedData = filteredData.filter((data) =>
-      selectedIdsArray.includes(data.casID)
-    );
-    mergedData = removeCasID(mergedData || []);
-
-    console.log("Merged data: ", mergedData);
-
-    return mergedData;
-  };
-
   const convertToCSV = (objArray) => {
     const array = Array.isArray(objArray) ? objArray : JSON.parse(objArray);
     let csvString = "";
@@ -88,7 +72,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
       csvString += line + "\r\n";
     });
 
-    csvString += "Skupno število odobrenih ur,,,," + totalHours;
+    csvString += "Skupno število ur,,,," + totalHours;
 
     return csvString;
   };
@@ -98,6 +82,60 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
       const { casID, ...rest } = obj;
       return rest;
     });
+  };
+
+  const handleSqlExportClick = () => {
+    let dataToExport = prepareSqlData(filteredData);
+    dataToExport = mergeSetIdsWithData(selectedCas, dataToExport);
+    const sqlString = convertToSQL(dataToExport);
+
+    // Create a Blob from the JSON string
+    const blob = new Blob([sqlString], { type: "text/sql;charset=utf-8;" });
+
+    // Create a link element, use it to download the Blob, and remove it after download
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.style.display = "none";
+    link.href = url;
+    link.download = `Delovni Čas ${name}.sql`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the URL object
+    URL.revokeObjectURL(url);
+  };
+
+  const prepareSqlData = (data) => {
+    return data.map((item) => ({
+      casID: item.casID,
+      userID: item.userID,
+      casZacetek: item.casZacetek,
+      casKonec: item.casKonec,
+      status: item.status,
+    }));
+  };
+
+  const convertToSQL = (objArray) => {
+    const array = Array.isArray(objArray) ? objArray : JSON.parse(objArray);
+    let sqlString = "";
+
+    // Extract data rows
+    array.forEach((item) => {
+      const values = Object.values(item).map((value) => {
+        if (typeof value === "string") {
+          return `'${value}'`;
+        } else {
+          return value;
+        }
+      });
+      const line = `INSERT INTO cas (casID, userID, casZacetek, casKonec, status) VALUES (${values.join(
+        ","
+      )});\r\n`;
+      sqlString += line;
+    });
+
+    return sqlString;
   };
 
   return (
@@ -128,7 +166,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
       >
         <MenuItem
           onClick={() => {
-            handleExportClick(".csv"); // Pass the format as an argument to the function
+            handleCsvExportClick();
             handleClose();
           }}
         >
@@ -145,6 +183,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
           onClick={() => {
             // For SQL export, you would have a separate function or logic
             // handleExportSql();
+            handleSqlExportClick();
             handleClose();
           }}
         >

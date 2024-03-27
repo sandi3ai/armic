@@ -18,7 +18,6 @@ const ExportDelete = ({
         totalHours={totalHours}
       />
       <Delete
-        filteredData={filteredData}
         selectedCas={selectedCas}
         setSelectedCas={setSelectedCas}
         name={name}
