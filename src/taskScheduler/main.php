@@ -39,6 +39,7 @@ FROM
   zaposlen z 
 WHERE 
   z.emailZaUrePoslan = 0
+  AND z.`deleted` = 0
   AND (
     -- Consider the time range from two to four hours ago
     CAST(CONCAT(CASE 

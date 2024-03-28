@@ -10,7 +10,8 @@ function isOnVacation($userID, DateTime $today) {
             WHERE odsotenUserID = :userID 
             AND datumZ <= :todayFormatted 
             AND datumK >= :todayFormatted
-            AND status = 'Odobreno'";
+            AND status = 'Odobreno'
+            AND `deleted` = 0";
 
     $stmt = $conn->prepare($sql);
     

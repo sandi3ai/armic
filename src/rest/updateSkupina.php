@@ -23,14 +23,14 @@ try {
         'skupinaID' => $skupinaID,
         'skupinaIme' => $skupinaIme,
     ];
-    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme WHERE skupinaID=:skupinaID";
+    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme WHERE skupinaID=:skupinaID AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 
     if ($stmt->rowCount() > 0) {
-        echo "Skupina številka " . $skupinaID . " je spremenila ime na " . $skupinaIme;
+        echo "Skupina številka " . htmlspecialchars($skupinaID) . " je spremenila ime na " . htmlspecialchars($skupinaIme);
     } else {
-        echo "Ni zapisov za posodobitev za skupino: " . $skupinaID;
+        echo "Ni zapisov za posodobitev za skupino: " . htmlspecialchars($skupinaID);
     }
 } catch (PDOException $e) {
     http_response_code(500);

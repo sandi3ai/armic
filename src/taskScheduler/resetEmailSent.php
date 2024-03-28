@@ -5,7 +5,7 @@ $logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\emailRe
     $currentDateTime = date('Y-m-d H:i:s');
 
 try {
-    $sql = "UPDATE zaposlen SET emailZaUrePoslan = 0";
+    $sql = "UPDATE zaposlen SET emailZaUrePoslan = 0 WHERE `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     echo "All emailZaUrePoslan flags have been reset to 0\n";

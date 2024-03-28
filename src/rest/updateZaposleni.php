@@ -39,18 +39,28 @@ if (isset($_POST['updatedCasZacetka'])) {
 }
 
 if (count($fieldsToUpdate) > 0) {
-    $sql = "UPDATE `zaposlen` SET " . implode(", ", $fieldsToUpdate) . " WHERE zaposleniID=:id";
-    $valuesToUpdate['id'] = $id;
+    $updates = [];
+    $valuesToUpdate = ['id' => $id]; // Initialize with 'id' for WHERE clause
+
+    foreach ($fieldsToUpdate as $field => $value) {
+        // Directly use field names and placeholders
+        $updates[] = "`$field` = :$field";
+        $valuesToUpdate[$field] = $value; // Bind value to placeholder
+    }
+
+    $sql = "UPDATE `zaposlen` SET " . implode(", ", $updates) . " 
+        WHERE zaposleniID = :id AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute($valuesToUpdate)) {
-        echo "Zaposleni številka " . $id . " je posodobljen.";
+        echo "Zaposleni številka " . htmlspecialchars($id) . " je posodobljen.";
     } else {
-        echo "Napaka pri posodabljanju zaposlenega številka " . $id . ".";
+        echo "Napaka pri posodabljanju zaposlenega številka " . htmlspecialchars($id) . ".";
     }
 } else {
     echo "Ni podanih podatkov za posodobitev.";
 }
+
 
 $conn = null;
 $stmt = null;

@@ -23,7 +23,7 @@ try {
         'casID' => $casID,
         'status' => $status,
     ];
-    $sql = "UPDATE `cas` SET status=:status WHERE casID=:casID";
+$sql = "UPDATE `cas` SET status=:status WHERE casID=:casID AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 

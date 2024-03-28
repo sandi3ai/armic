@@ -7,8 +7,7 @@ $name = $_POST['name'];
 
 
 if ($name != null) {
-$sql = "INSERT INTO skupine (skupinaIme) VALUES (?)";
-$stmt= $conn->prepare($sql);
-$stmt->execute([$name]);
+    $sql = "INSERT INTO skupine (skupinaIme) VALUES (:name)";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute(['name' => $name]);
 }
-?>

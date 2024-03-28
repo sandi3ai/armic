@@ -62,17 +62,17 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
 
     // Extract headers
     if (array.length > 0) {
-      const headerLine = Object.keys(array[0]).join(",");
+      const headerLine = Object.keys(array[0]).join(";");
       csvString += headerLine + "\r\n";
     }
 
     // Extract data rows
     array.forEach((item) => {
-      const line = Object.values(item).join(",");
+      const line = Object.values(item).join(";");
       csvString += line + "\r\n";
     });
 
-    csvString += "Skupno število ur,,,," + totalHours;
+    csvString += "Skupno število ur;;;;" + totalHours;
 
     return csvString;
   };

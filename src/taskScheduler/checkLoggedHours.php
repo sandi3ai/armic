@@ -9,7 +9,8 @@ function hasLoggedHours($userID, DateTime $today) {
     
     $sql = "SELECT COUNT(*) FROM cas 
             WHERE userID = :userID 
-            AND DATE(casZacetek) = :todayFormatted"; 
+            AND DATE(casZacetek) = :todayFormatted
+            AND `deleted` = 0"; 
 
     $stmt = $conn->prepare($sql);
     

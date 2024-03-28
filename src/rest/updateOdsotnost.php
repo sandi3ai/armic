@@ -26,21 +26,23 @@ try {
         'dopustID' => $dopustID,
         'status' => $status,
     ];
-    $sql = "UPDATE `odsotnost` SET status=:status WHERE dopustID=:dopustID";
+    $sql = "UPDATE `odsotnost` SET status=:status
+    WHERE dopustID=:dopustID AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 
     // Check if there's a need to update the zaposlen table
     if ($newVacationValue !== null && $odsotenUserID !== null) {
         // Fetch the tip of odsotnost to determine if it's "Dopust"
-        $tipSql = "SELECT tip FROM odsotnost WHERE dopustID=:dopustID";
+        $tipSql = "SELECT tip FROM odsotnost WHERE dopustID=:dopustID AND `deleted` = 0";
         $tipStmt = $conn->prepare($tipSql);
         $tipStmt->execute(['dopustID' => $dopustID]);
         $tipResult = $tipStmt->fetch(PDO::FETCH_ASSOC);
 
         // If the odsotnost is of type "Dopust", update the zaposlen table
         if ($tipResult['tip'] === 'Dopust') {
-            $updateZaposlenSql = "UPDATE `zaposlen` SET preostanekDopusta=:newVacationValue WHERE zaposleniID=:odsotenUserID";
+            $updateZaposlenSql = "UPDATE `zaposlen` SET preostanekDopusta=:newVacationValue
+            WHERE zaposleniID=:odsotenUserID AND `deleted` = 0";
             $updateZaposlenStmt = $conn->prepare($updateZaposlenSql);
             $updateZaposlenStmt->execute([
                 'newVacationValue' => $newVacationValue,

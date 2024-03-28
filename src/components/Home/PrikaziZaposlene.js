@@ -15,6 +15,9 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
 
   const idToName = (e) => {
     console.log(e);
+    if (imeSkupine != "") {
+      return;
+    }
     post(urlImeSkupine, { dropValue: e })
       .then((response) => {
         if (response.data && response.data.skupinaIme) {

@@ -12,6 +12,7 @@ $endDate = $_POST['endDate'];
 $sql = "SELECT cas.*, malice.malicaZacetek, malice.malicaKonec FROM `cas`
 LEFT JOIN `malice` ON cas.casID = malice.casID
 WHERE cas.userID = :userID 
+AND cas.`deleted` = 0
 AND (
     cas.casZacetek >= :startDate 
     AND (

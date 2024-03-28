@@ -1,6 +1,7 @@
 import React from "react";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import { isString } from "lodash";
 
 const InfoTooltip = ({
   placement,
@@ -10,7 +11,7 @@ const InfoTooltip = ({
   marginLeft,
 }) => {
   const renderTooltipContent = () => {
-    if (content.includes("\n")) {
+    if (isString(content) && content.includes("\n")) {
       return content.split("\n").map((line, index) => (
         <React.Fragment key={index}>
           {line}

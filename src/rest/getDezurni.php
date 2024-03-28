@@ -2,7 +2,7 @@
 include_once 'auth.php';
 include_once 'db.php';
 
-$sql = "SELECT * FROM dezurstva ORDER BY dezurniDatum ASC";
+$sql = "SELECT * FROM dezurstva WHERE `deleted` = 0 ORDER BY dezurniDatum ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

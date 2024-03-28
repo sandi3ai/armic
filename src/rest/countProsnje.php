@@ -26,4 +26,4 @@ echo json_encode($response);
 $stmtOdsotnost = null;
 $stmtCas = null;
 $conn = null;
-?>
+

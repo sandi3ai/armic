@@ -8,16 +8,10 @@ $sql = "SELECT cas.*, zaposlen.zaposleniIme,
         TIMESTAMPDIFF(MINUTE, cas.casZacetek, cas.casKonec) AS durationMinutes
         FROM cas 
         JOIN zaposlen ON cas.userID = zaposlen.zaposleniID
-        WHERE cas.status = :status
+        WHERE cas.status = 'Pregled' AND cas.deleted = 0 AND zaposlen.deleted = 0
         ORDER BY cas.casZacetek DESC";
 
 $stmt = $conn->prepare($sql);
-
-// Bind the "V pregledu" status to the :status parameter
-$status = "Pregled";
-$stmt->bindParam(':status', $status);
-
-// Execute the statement
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

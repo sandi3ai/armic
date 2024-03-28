@@ -242,13 +242,10 @@ const ModalEdit = ({ closeModal, passID }) => {
                 <InfoTooltip
                   placement="right"
                   sourceTitle="Spremeni e-mail:"
-                  content={
-                    <>
+                  content={`
                       Email ni obvezen, vendar je priporočljiv za obveščanje.
-                      <br />
                       Format mora biti veljaven.
-                    </>
-                  }
+                    `}
                 />
               </Form.Label>
               <Form.Control

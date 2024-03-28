@@ -10,7 +10,8 @@ function markEmailAsSent($userID, $logFile) {
 
     global $conn;
     try {
-        $sql = "UPDATE zaposlen SET emailZaUrePoslan = 1 WHERE zaposleniID = :userID";
+        $sql = "UPDATE zaposlen SET emailZaUrePoslan = 1
+        WHERE zaposleniID = :userID AND `deleted` = 0";
 
         $stmt = $conn->prepare($sql);
         

@@ -5,10 +5,8 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 
 $id = $_POST['id'];
 
-$sql = "DELETE FROM `zaposlen` WHERE `zaposlen`.`zaposleniID` =" . $id;
+$sql = "UPDATE `zaposlen` SET `deleted` = 1 WHERE `zaposleniID` = :zaposleniID AND `deleted` = 0";
 $stmt= $conn->prepare($sql);
-if ($stmt->execute()){
+if ($stmt->execute(['zaposleniID' => $id])){
     echo "Zaposleni številka " . $id . " je izbrisan.";
 }
-
-?>
