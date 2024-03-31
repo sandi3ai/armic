@@ -72,6 +72,9 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
       csvString += line + "\r\n";
     });
 
+    //Formatting the total hours
+    const [hours, minutes] = totalHours.split(":"); // Split it and keep the first two parts
+    const formattedTime = `${hours}:${minutes}`; // Stitch 'em back together
     csvString += "Skupno število ur;;;;" + totalHours;
 
     return csvString;

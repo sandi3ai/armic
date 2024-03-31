@@ -43,7 +43,7 @@ WHERE
   AND (
     -- Consider the time range from two to four hours ago
     CAST(CONCAT(CASE 
-                  WHEN CURRENT_TIME() < '04:00:00' AND z.predvidenZacetek > '04:00:00' THEN 
+                  WHEN CURRENT_TIME() <= '03:00:00' AND z.predvidenZacetek >= '03:00:00' THEN 
                     ADDDATE(CURRENT_DATE(), INTERVAL -1 DAY)
                   ELSE 
                     CURRENT_DATE() 
@@ -51,7 +51,7 @@ WHERE
                 ' ', 
                 z.predvidenZacetek) AS DATETIME
     ) BETWEEN 
-    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-04:00:00') AS DATETIME) AND 
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-03:00:00') AS DATETIME) AND 
     CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
   );
 ";
