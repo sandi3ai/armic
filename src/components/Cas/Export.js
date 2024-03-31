@@ -149,7 +149,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
           mr: "5px",
           color: "white",
           "&:hover": {
-            backgroundColor: blue[600], // Darken the color on hover
+            backgroundColor: blue[600],
           },
         }}
         endIcon={<DownloadForOfflineOutlinedIcon />}
@@ -177,15 +177,11 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
             placement="top"
             sourceTitle="Izvozi .csv"
             content={`Izvoz podatkov v CSV formatu - Primerno za grafičen prikaz
-                podatkov v Excelu ali drugih programih za urejanje tabel.\n
-                Primer za Excel: v zavihku 'Podatki':\n> Nova poizvedba\n> Iz datoteke
-                > Iz datoteke CSV`}
+                podatkov v Excelu ali drugih programih za urejanje tabel.`}
           />
         </MenuItem>
         <MenuItem
           onClick={() => {
-            // For SQL export, you would have a separate function or logic
-            // handleExportSql();
             handleSqlExportClick();
             handleClose();
           }}

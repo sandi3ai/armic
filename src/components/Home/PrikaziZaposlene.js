@@ -4,9 +4,11 @@ import ModalEdit from "./ModalEdit";
 import ModalDelete from "./ModalDelete";
 import { OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import { post } from "../../Helper";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [imeSkupine, setImeSkupine] = useState("");
+  const [loadingImeSkupine, setLoadingImeSkupine] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
@@ -15,20 +17,25 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
 
   const idToName = (e) => {
     console.log(e);
-    if (imeSkupine != "") {
+    setLoadingImeSkupine(true);
+    if (imeSkupine !== "") {
+      setLoadingImeSkupine(false);
       return;
     }
     post(urlImeSkupine, { dropValue: e })
       .then((response) => {
         if (response.data && response.data.skupinaIme) {
           setImeSkupine(response.data.skupinaIme);
+          setLoadingImeSkupine(false);
           console.log("Response skupinaIme:", response.data.skupinaIme);
         } else {
           console.log("No skupinaIme in response:", response.data);
+          setLoadingImeSkupine(false);
         }
       })
       .catch((error) => {
         console.error("Error fetching skupinaIme:", error);
+        setLoadingImeSkupine(false);
       });
   };
 
@@ -49,26 +56,32 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
         <strong>{zaposlen.zaposleniIme}</strong>
       </Popover.Header>
       <Popover.Body>
-        <span className="blue-modal-content">E-mail: </span>
-        <strong>{zaposlen.email}</strong> <br />
-        <span className="blue-modal-content">Skupina: </span>
-        <strong>{imeSkupine}</strong>
-        <br />
-        <span className="blue-modal-content">Preostanek dopusta: </span>
-        <strong>
-          {zaposlen.preostanekDopusta}{" "}
-          {zaposlen.preostanekDopusta === 1 ? "dan" : "dni"}
-        </strong>
-        <br />
-        <span>
-          <span className="blue-modal-content">Predviden začetek: </span>
-          <strong>
-            {zaposlen.predvidenZacetek
-              ? zaposlen.predvidenZacetek.substring(0, 5)
-              : ""}
-          </strong>
-        </span>
-        <br />
+        {loadingImeSkupine ? (
+          <CircularProgress />
+        ) : (
+          <>
+            <span className="blue-modal-content">E-mail: </span>
+            <strong>{zaposlen.email}</strong> <br />
+            <span className="blue-modal-content">Skupina: </span>
+            <strong>{imeSkupine}</strong>
+            <br />
+            <span className="blue-modal-content">Preostanek dopusta: </span>
+            <strong>
+              {zaposlen.preostanekDopusta}{" "}
+              {zaposlen.preostanekDopusta === 1 ? "dan" : "dni"}
+            </strong>
+            <br />
+            <span>
+              <span className="blue-modal-content">Predviden začetek: </span>
+              <strong>
+                {zaposlen.predvidenZacetek
+                  ? zaposlen.predvidenZacetek.substring(0, 5)
+                  : ""}
+              </strong>
+            </span>
+            <br />
+          </>
+        )}
       </Popover.Body>
     </Popover>
   );

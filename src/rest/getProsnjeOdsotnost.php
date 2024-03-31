@@ -12,7 +12,7 @@ $sql = 'SELECT odsotnost.*, zaposlen.zaposleniIme, zaposlen.preostanekDopusta
         JOIN zaposlen ON odsotnost.odsotenUserID = zaposlen.zaposleniID
         WHERE odsotnost.status IN ("Pregled", "Zavrnjeno")
         AND odsotnost.deleted = 0 AND zaposlen.deleted = 0
-        ORDER BY odsotnost.datumZ DESC';
+        ORDER BY odsotnost.datumZ ASC';
 
 $stmt = $conn->prepare($sql);
 

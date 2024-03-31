@@ -6,15 +6,28 @@ import OdsotnostFiltri from "./OdsotnostFiltri";
 
 function ToggleButtonGroup({ holidays }) {
   const getSkupineUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
+  const getLetaUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getLetaOdsotnost.php`;
   const [radioValue, setRadioValue] = useState("");
   const [tip, setTip] = useState("Brez filtra");
   const [status, setStatus] = useState("Brez filtra");
+  const [vpisanaLeta, setVpisanaLeta] = useState([]); //različna leta v bazi
+  const [leto, setLeto] = useState(new Date().getFullYear());
   const [skupine, setSkupine] = useState([{ skupinaID: "", skupinaIme: "" }]);
 
   const getSkupine = (getSkupinaObject) => {
     try {
       Axios.get(getSkupineUrl, { withCredentials: true }).then((response) => {
         getSkupinaObject(response.data.skupine);
+      });
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
+  const getLeta = () => {
+    try {
+      Axios.get(getLetaUrl, { withCredentials: true }).then((response) => {
+        setVpisanaLeta(response.data.letaVBazi);
       });
     } catch (error) {
       alert(error.message);
@@ -52,6 +65,7 @@ function ToggleButtonGroup({ holidays }) {
 
   useEffect(() => {
     getSkupine(getSkupinaObject);
+    getLeta();
   }, []);
 
   return (
@@ -84,6 +98,9 @@ function ToggleButtonGroup({ holidays }) {
           tip={tip}
           setStatus={setStatus}
           status={status}
+          vpisanaLeta={vpisanaLeta}
+          setLeto={setLeto}
+          leto={leto}
         />
       </div>
       <div className="spacer"></div>
@@ -94,6 +111,7 @@ function ToggleButtonGroup({ holidays }) {
         tip={tip}
         status={status}
         holidays={holidays}
+        leto={leto}
       />
     </div>
   );

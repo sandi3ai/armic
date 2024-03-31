@@ -1,7 +1,15 @@
 import React from "react";
 import { Alert, Button, DropdownButton, Dropdown } from "react-bootstrap";
 
-const OdsotnostFiltri = ({ setTip, tip, setStatus, status }) => {
+const OdsotnostFiltri = ({
+  setTip,
+  tip,
+  setStatus,
+  status,
+  vpisanaLeta,
+  setLeto,
+  leto,
+}) => {
   return (
     <div>
       <div className="stackHorizontally">
@@ -29,6 +37,21 @@ const OdsotnostFiltri = ({ setTip, tip, setStatus, status }) => {
           <Dropdown.Item eventKey="Pregled">Pregled</Dropdown.Item>
           <Dropdown.Item eventKey="Odobreno">Odobreno</Dropdown.Item>
           <Dropdown.Item eventKey="Zavrnjeno">Zavrnjeno</Dropdown.Item>
+        </DropdownButton>
+        <DropdownButton
+          variant="outline-primary"
+          title={leto}
+          value="value"
+          drop="down"
+          onSelect={(e) => {
+            setLeto(e);
+          }}
+        >
+          {vpisanaLeta.map((leto, index) => (
+            <Dropdown.Item eventKey={leto} key={index}>
+              {leto}
+            </Dropdown.Item>
+          ))}
         </DropdownButton>
       </div>
 

@@ -9,7 +9,7 @@ $sql = "SELECT cas.*, zaposlen.zaposleniIme,
         FROM cas 
         JOIN zaposlen ON cas.userID = zaposlen.zaposleniID
         WHERE cas.status = 'Pregled' AND cas.deleted = 0 AND zaposlen.deleted = 0
-        ORDER BY cas.casZacetek DESC";
+        ORDER BY cas.casZacetek ASC";
 
 $stmt = $conn->prepare($sql);
 $stmt->execute();

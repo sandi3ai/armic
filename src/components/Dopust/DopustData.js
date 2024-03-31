@@ -10,6 +10,7 @@ const DopustData = ({
   tip,
   status,
   holidays,
+  leto,
 }) => {
   const getDopustnikUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getOdsotnost.php`;
   const [dopustnik, setDopustnik] = useState([
@@ -19,10 +20,12 @@ const DopustData = ({
   const giveMeVacay = (radioValueID) => {
     if (radioValueID !== "") {
       try {
-        post(getDopustnikUrl, { radioValue: radioValueID }).then((response) => {
-          const res = response.data.dopustnik;
-          getDopustnikObject(res);
-        });
+        post(getDopustnikUrl, { radioValue: radioValueID, leto: leto }).then(
+          (response) => {
+            const res = response.data.dopustnik;
+            getDopustnikObject(res);
+          }
+        );
       } catch (error) {
         alert(error.message);
       }
@@ -60,7 +63,7 @@ const DopustData = ({
 
   useEffect(() => {
     giveMeVacay(radioValueID);
-  }, [radioValueID]);
+  }, [radioValueID, leto]);
 
   return (
     <div className="content">

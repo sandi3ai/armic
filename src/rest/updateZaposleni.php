@@ -3,53 +3,43 @@ include_once 'db.php';
 include_once 'auth.php';
 $_POST = json_decode(file_get_contents("php://input"), true);
 
-$id = $_POST['id'] ?? null; // 'id' will always be provided for an update operation
+$id = $_POST['id'] ?? null; // Assuming 'id' will always be provided for an update operation.
 $fieldsToUpdate = [];
-$valuesToUpdate = [];
+$valuesToUpdate = ['id' => $id]; // Initialize with 'id' for the WHERE clause.
 
-//This will only update the fields that are provided in the request, other fields will remain unchanged
+// This will only update the fields that are provided in the request; other fields will remain unchanged.
 if (isset($_POST['updatedName'])) {
-    $fieldsToUpdate[] = "zaposleniIme=:name";
-    $valuesToUpdate['name'] = $_POST['updatedName'];
+    $fieldsToUpdate['zaposleniIme'] = $_POST['updatedName'];
 }
 
 if (isset($_POST['updatedSkupina'])) {
-    $fieldsToUpdate[] = "zaposleniSkupinaID=:skupina";
-    $valuesToUpdate['skupina'] = $_POST['updatedSkupina'];
+    $fieldsToUpdate['zaposleniSkupinaID'] = $_POST['updatedSkupina'];
 }
 
 if (isset($_POST['updatedPass']) && !empty($_POST['updatedPass'])) {
-    $fieldsToUpdate[] = "zaposleniPass=:pass";
-    $valuesToUpdate['pass'] = hash("sha256", $_POST['updatedPass']);
+    $fieldsToUpdate['zaposleniPass'] = hash("sha256", $_POST['updatedPass']);
 }
 
 if (isset($_POST['updatedEmail'])) {
-    $fieldsToUpdate[] = "email=:email";
-    $valuesToUpdate['email'] = $_POST['updatedEmail'];
+    $fieldsToUpdate['email'] = $_POST['updatedEmail'];
 }
 
 if (isset($_POST['updatedDopust'])) {
-    $fieldsToUpdate[] = "preostanekDopusta=:dopust";
-    $valuesToUpdate['dopust'] = $_POST['updatedDopust'];
+    $fieldsToUpdate['preostanekDopusta'] = $_POST['updatedDopust'];
 }
 
 if (isset($_POST['updatedCasZacetka'])) {
-    $fieldsToUpdate[] = "predvidenZacetek=:casZacetka";
-    $valuesToUpdate['casZacetka'] = $_POST['updatedCasZacetka'];
+    $fieldsToUpdate['predvidenZacetek'] = $_POST['updatedCasZacetka'];
 }
 
 if (count($fieldsToUpdate) > 0) {
-    $updates = [];
-    $valuesToUpdate = ['id' => $id]; // Initialize with 'id' for WHERE clause
+    $updates = implode(", ", array_map(function ($field) {
+        return "`$field` = :$field";
+    }, array_keys($fieldsToUpdate)));
+    
+    $valuesToUpdate = array_merge($valuesToUpdate, $fieldsToUpdate);
 
-    foreach ($fieldsToUpdate as $field => $value) {
-        // Directly use field names and placeholders
-        $updates[] = "`$field` = :$field";
-        $valuesToUpdate[$field] = $value; // Bind value to placeholder
-    }
-
-    $sql = "UPDATE `zaposlen` SET " . implode(", ", $updates) . " 
-        WHERE zaposleniID = :id AND `deleted` = 0";
+    $sql = "UPDATE `zaposlen` SET $updates WHERE zaposleniID = :id AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
 
     if ($stmt->execute($valuesToUpdate)) {
@@ -61,7 +51,5 @@ if (count($fieldsToUpdate) > 0) {
     echo "Ni podanih podatkov za posodobitev.";
 }
 
-
 $conn = null;
 $stmt = null;
-
