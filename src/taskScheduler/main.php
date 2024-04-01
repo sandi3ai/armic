@@ -8,12 +8,12 @@ require_once __DIR__ . '/checkLoggedHours.php';
 require_once __DIR__ . '/sendEmail.php';
 require_once __DIR__ . '/setEmailSent.php';
 
-
 $logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\log.txt";
 $currentContent = file_get_contents($logFile);
 $currentDateTime = date('Y-m-d H:i:s');
 
 $logFileContent = "Script started at {$currentDateTime}\n";
+$logFileContent .= "argv[1]: {$argv[1]}\n";
 
 try {
 $today = new DateTime();
