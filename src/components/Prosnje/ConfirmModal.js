@@ -1,10 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { post } from "../../Helper";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
   const updateNadureUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/updateNadure.php`;
   const updateOdsotnostUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/updateOdsotnost.php`;
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [statusForSnackbar, setStatusForSnackbar] = useState("pregledana");
+  const [severity, setSeverity] = useState("success");
 
   const submitHandler = async () => {
     let url = "";
@@ -13,10 +17,15 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
     let newVacationValue = null;
     let odsotenUserID = null;
 
-    buttonData?.action === "approve"
-      ? (status = "Odobreno")
-      : (status = "Zavrnjeno");
-
+    if (buttonData?.action === "approve") {
+      status = "Odobreno";
+      setStatusForSnackbar("odobrena");
+      setSeverity("success");
+    } else {
+      status = "Zavrnjeno";
+      setStatusForSnackbar("zavrnjena");
+      setSeverity("error");
+    }
     if (type === "nadure") {
       url = updateNadureUrl;
       passedID = clickedItem?.casID;
@@ -39,6 +48,7 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
       })
       .then(() => {
         console.log("Status uspešno spremenjen");
+        setOpenSnackbar(true);
         onHide();
       })
       .catch((error) => {
@@ -50,74 +60,81 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
   };
 
   return (
-    <Modal
-      size="md"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-      animation={false}
-      show={show}
-      onHide={onHide}
-      className="custom-modal"
-    >
-      <Modal.Header
-        className={
-          buttonData?.action === "approve"
-            ? "green-modal-header"
-            : "red-modal-header"
-        }
+    <>
+      <Modal
+        size="md"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        animation={false}
+        show={show}
+        onHide={onHide}
+        className="custom-modal"
       >
-        <Modal.Title id="contained-modal-title-vcenter">
-          {clickedItem?.zaposleniIme} -{" "}
-          {buttonData?.action === "approve" ? "Odobritev" : "Zavrnitev"}{" "}
-        </Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-        {type === "nadure" ? (
-          <p>
-            {buttonData?.action === "approve" ? "Odobritev" : "Zavrnitev"}{" "}
-            delovnega časa - {type}:{" "}
-            <strong>{clickedItem?.durationHHMM}</strong>
-          </p>
-        ) : (
-          <p>
-            <strong>{clickedItem?.tip}:</strong>{" "}
-            {clickedItem?.formattedCasZacetek} -{" "}
-            {clickedItem?.formattedCasKonec}
-            <br />
-            {clickedItem?.tip === "Bolniška" ? (
-              <>Trajanje: {clickedItem?.trajanje} dni</>
-            ) : (
-              <>
-                {clickedItem?.zaposleniIme} ima na voljo{" "}
-                {clickedItem?.preostanekDopusta} dni dopusta
-                <br />
-                Trajanje tega dopusta je {clickedItem?.trajanje} dni
-                <br />
-                Ostane: {clickedItem?.preostanekDopusta -
-                  clickedItem?.trajanje}{" "}
-                dni
-              </>
-            )}
-          </p>
-        )}
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant={
+        <Modal.Header
+          className={
             buttonData?.action === "approve"
-              ? "outline-success"
-              : "outline-danger"
+              ? "green-modal-header"
+              : "red-modal-header"
           }
-          onClick={submitHandler}
         >
-          Potrdi
-        </Button>
-        <Button variant="outline-dark" onClick={onHide}>
-          Prekliči
-        </Button>
-      </Modal.Footer>
-    </Modal>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {clickedItem?.zaposleniIme} -{" "}
+            {buttonData?.action === "approve" ? "Odobritev" : "Zavrnitev"}{" "}
+          </Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          {type === "nadure" ? (
+            <p>
+              {buttonData?.action === "approve" ? "Odobritev" : "Zavrnitev"}{" "}
+              delovnega časa - {type}:{" "}
+              <strong>{clickedItem?.durationHHMM}</strong>
+            </p>
+          ) : (
+            <p>
+              <strong>{clickedItem?.tip}:</strong>{" "}
+              {clickedItem?.formattedCasZacetek} -{" "}
+              {clickedItem?.formattedCasKonec}
+              <br />
+              {clickedItem?.tip === "Bolniška" ? (
+                <>Trajanje: {clickedItem?.trajanje} dni</>
+              ) : (
+                <>
+                  {clickedItem?.zaposleniIme} ima na voljo{" "}
+                  {clickedItem?.preostanekDopusta} dni dopusta
+                  <br />
+                  Trajanje tega dopusta je {clickedItem?.trajanje} dni
+                  <br />
+                  Ostane:{" "}
+                  {clickedItem?.preostanekDopusta - clickedItem?.trajanje} dni
+                </>
+              )}
+            </p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant={
+              buttonData?.action === "approve"
+                ? "outline-success"
+                : "outline-danger"
+            }
+            onClick={submitHandler}
+          >
+            Potrdi
+          </Button>
+          <Button variant="outline-dark" onClick={onHide}>
+            Prekliči
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <CustomSnackbar //this one works debug how and why are the others not working
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content={`Prošnja ${statusForSnackbar}.`}
+        severity={severity}
+      />
+    </>
   );
 };
 

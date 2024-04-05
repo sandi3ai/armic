@@ -4,7 +4,8 @@ include_once 'auth.php';
 $_POST = json_decode(file_get_contents("php://input"), true);
 
 $skupinaID = $_POST['skupinaID'] ?? null; // Using null coalescing operator
-$skupinaIme = $_POST['skupinaIme'] ?? null; 
+$skupinaIme = $_POST['skupinaIme'] ?? null;
+$skupinaEmail = $_POST['skupinaEmail'] ?? null;
 
 if (!$skupinaID) {
     http_response_code(400);
@@ -18,17 +19,26 @@ if (!$skupinaIme) {
     exit;
 }
 
+if (!$skupinaEmail) {
+    http_response_code(400);
+    echo "Napaka: Email vodje skupine ni podano ali je prazno.";
+    exit;
+}
+
 try {
     $data = [
         'skupinaID' => $skupinaID,
         'skupinaIme' => $skupinaIme,
+        'skupinaEmail' => $skupinaEmail
     ];
-    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme WHERE skupinaID=:skupinaID AND `deleted` = 0";
+    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme, vodjaEmail=:skupinaEmail WHERE skupinaID=:skupinaID AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 
     if ($stmt->rowCount() > 0) {
-        echo "Skupina številka " . htmlspecialchars($skupinaID) . " je spremenila ime na " . htmlspecialchars($skupinaIme);
+        echo "Skupina številka " . htmlspecialchars($skupinaID) .
+        " je spremenila ime na " . htmlspecialchars($skupinaIme) .
+        " in email vodje na " . htmlspecialchars($skupinaEmail);
     } else {
         echo "Ni zapisov za posodobitev za skupino: " . htmlspecialchars($skupinaID);
     }

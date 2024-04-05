@@ -16,4 +16,3 @@ echo json_encode($fetch);
 
 $stmt = null;
 $conn = null;
-?>

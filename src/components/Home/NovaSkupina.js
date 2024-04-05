@@ -8,6 +8,8 @@ const NovaSkupina = () => {
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [showSeznam, setShowSeznam] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   function submitForm(e) {
     e.preventDefault();
@@ -16,6 +18,7 @@ const NovaSkupina = () => {
     try {
       post(postUrl, {
         name: imeSkupine,
+        email: email,
       }).then(() => {
         console.log("submitForm executed");
         if (imeSkupine !== "") {
@@ -27,6 +30,7 @@ const NovaSkupina = () => {
         }
 
         setImeSkupine("");
+        setEmail("");
       });
     } catch (error) {
       alert(error.message);
@@ -40,6 +44,14 @@ const NovaSkupina = () => {
       setShowSeznam(false);
     }
   }
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    const isValid =
+      newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+    setEmail(newEmail);
+    setIsEmailValid(isValid);
+  };
 
   return (
     <div>
@@ -55,6 +67,20 @@ const NovaSkupina = () => {
               type="text"
               placeholder="Naziv skupine ..."
             />
+          </Col>
+          <Form.Label>Vpiši e-mail vodje skupine: </Form.Label>
+          <Col xl="3" lg="5" md="6" sm="7">
+            <Form.Control
+              name="email"
+              onChange={handleEmailChange}
+              value={email}
+              type="email"
+              placeholder="primer.emaila@armic-sp.si"
+              isInvalid={!isEmailValid}
+            />
+            <Form.Control.Feedback type="invalid">
+              Prosim vnesi veljaven e-mail naslov.
+            </Form.Control.Feedback>
           </Col>
         </Form.Group>
         <div className="successBox">
