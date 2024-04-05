@@ -21,6 +21,7 @@ export const Odsotnost = ({ countProsnje }) => {
   const [modalDeleteShow, setModalDeleteShow] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
   const [clickedButtonData, setClickedButtonData] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const getProsnjeOdsotnostUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getProsnjeOdsotnost.php`;
 
@@ -230,6 +231,7 @@ export const Odsotnost = ({ countProsnje }) => {
             type="odsotnost"
             clickedItem={clickedItem}
             buttonData={clickedButtonData}
+            openSnackBar={() => setOpenSnackbar(true)}
           />
           <DeleteModal
             show={modalDeleteShow}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Col, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import Axios from "axios";
 import ErrorBoundary from "../../hooks/errorBoundaries";
@@ -113,7 +113,6 @@ export const Cas = () => {
             }}
             drop="down"
             title={checkIfName(name)}
-            className="dropdown"
           >
             {data.map((data) => (
               <Dropdown.Item key={data.zaposleniID} eventKey={data.zaposleniID}>
@@ -122,7 +121,6 @@ export const Cas = () => {
             ))}
           </DropdownButton>
           <br />
-
           <Col lg="3" md="4" sm="5">
             <Form.Label>Obdobje od: </Form.Label>
             <Form.Control

@@ -42,10 +42,6 @@ export const Home = () => {
     }
   }, []);
 
-  useEffect(() => {
-    getZaposleni();
-  }, [getZaposleni]);
-
   return (
     <div>
       <div className="content">

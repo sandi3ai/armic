@@ -12,6 +12,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { post } from "../../Helper";
+import CustomSnackbar from "../Elements/Snackbar";
 
 dayjs.locale("sl");
 
@@ -19,6 +20,7 @@ function ReadDezurni() {
   const [data, setData] = useState([]);
   const [selectedDezurni, setSelectedDezurni] = useState(new Set());
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getDezurni.php`;
   const delUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteDezurni.php`;
@@ -48,6 +50,8 @@ function ReadDezurni() {
     })
       .then(() => {
         console.log(id + " number sent on deleteDezurni");
+        setOpenSnackbar(true);
+        setSelectedDezurni(new Set());
         getDezurni();
       })
       .catch((err) => console.log(err));
@@ -80,12 +84,12 @@ function ReadDezurni() {
   };
 
   return (
-    <div>
+    <>
       {openDeleteModal && (
         <DeleteModal
           selectedDezurni={selectedDezurni}
           setSelectedDezurni={setSelectedDezurni}
-          setOpenDeleteModal={setOpenDeleteModal}
+          onHide={() => setOpenDeleteModal(false)}
         />
       )}
       <Button
@@ -162,7 +166,13 @@ function ReadDezurni() {
             </div>
           ))}
       </div>
-    </div>
+      <CustomSnackbar
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content="Dežurstvo izbrisano."
+        severity="error"
+      />
+    </>
   );
 }
 

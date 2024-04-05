@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 
-const ModalDelete = ({ closeModal, passID }) => {
+const ModalDelete = ({ closeModal, passID, onConfirm }) => {
   const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
   const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteZaposleni.php`;
 
@@ -38,6 +38,7 @@ const ModalDelete = ({ closeModal, passID }) => {
     post(deleteUrl, { id: id })
       .then(() => {
         console.log(id + " number sent on deleteZaposleni.php");
+        onConfirm("Zaposleni je izbrisan.", "error");
         closeModal(false);
       })
       .catch((error) => console.log(error));
@@ -48,35 +49,37 @@ const ModalDelete = ({ closeModal, passID }) => {
   }, []);
 
   return (
-    <Modal show={true} onHide={() => closeModal()} centered>
-      <Modal.Header className="red-modal-header">
-        <Modal.Title>
-          <strong>{getZaposleniIme(data, passID)}</strong>
-          <br />
-          Potrdi izbris
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        Ali res želite dokončno izbrisati izbranega zaposlenega?
-        <Alert severity="error">
-          <AlertTitle>Previdno</AlertTitle>
-          S tem bodo dokončno izbrisani vsi podatki
-          <br />
-          (delovni čas, odsotnosti, ...).
-        </Alert>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          variant="outline-danger"
-          onClick={() => deleteZaposleni(passID)}
-        >
-          Dokončno izbriši
-        </Button>
-        <Button variant="outline-primary" onClick={() => closeModal()}>
-          Prekliči
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Modal show={true} onHide={() => closeModal()} centered>
+        <Modal.Header className="red-modal-header">
+          <Modal.Title>
+            <strong>{getZaposleniIme(data, passID)}</strong>
+            <br />
+            Potrdi izbris
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Ali res želite dokončno izbrisati izbranega zaposlenega?
+          <Alert severity="error">
+            <AlertTitle>Previdno</AlertTitle>
+            S tem bodo dokončno izbrisani vsi podatki
+            <br />
+            (delovni čas, odsotnosti, ...).
+          </Alert>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="outline-danger"
+            onClick={() => deleteZaposleni(passID)}
+          >
+            Dokončno izbriši
+          </Button>
+          <Button variant="outline-primary" onClick={() => closeModal()}>
+            Prekliči
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 };
 

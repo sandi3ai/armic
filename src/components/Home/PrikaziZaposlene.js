@@ -5,6 +5,7 @@ import ModalDelete from "./ModalDelete";
 import { OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import { post } from "../../Helper";
 import CircularProgress from "@mui/material/CircularProgress";
+import CustomSnackbar, { useSnackbar } from "../Elements/Snackbar";
 
 const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [imeSkupine, setImeSkupine] = useState("");
@@ -12,6 +13,9 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
@@ -37,6 +41,12 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
         console.error("Error fetching skupinaIme:", error);
         setLoadingImeSkupine(false);
       });
+  };
+
+  const handleSnackbarOpen = (message, severity = "info") => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
   };
 
   useEffect(() => {
@@ -95,9 +105,19 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
           {checkIfContent()}
           {openModal && <ModalEdit closeModal={setOpenModal} passID={passID} />}
           {openDeleteModal && (
-            <ModalDelete closeModal={setOpenDeleteModal} passID={passID} />
+            <ModalDelete
+              closeModal={setOpenDeleteModal}
+              passID={passID}
+              onConfirm={handleSnackbarOpen}
+            />
           )}
           <div className="parent">
+            <CustomSnackbar
+              open={openSnackbar}
+              handleClose={() => setOpenSnackbar(false)}
+              content={snackbarMessage}
+              severity={snackbarSeverity}
+            />
             {data.length > 0 &&
               data.map((zaposlen) => (
                 <div key={zaposlen.zaposleniID} className="child">
@@ -109,7 +129,13 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
                     overlay={renderPopover(zaposlen)}
                     onExit={() => setImeSkupine("")}
                   >
-                    <span className="zaposleni-hover">
+                    <span
+                      className="zaposleni-hover"
+                      onClick={() => {
+                        setOpenModal(true);
+                        setPassID(zaposlen.zaposleniID);
+                      }}
+                    >
                       {zaposlen.zaposleniIme}
                       {zaposlen.zaposleniZacetek}
                     </span>

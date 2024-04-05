@@ -38,7 +38,7 @@ body {
     rgba(255, 255, 255, 0.1)
   ) !important;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  /*backdrop-filter: blur(10px);*/
 }
 
 @media (max-width: 600px) {
@@ -212,11 +212,12 @@ h2 {
 .dropdown-menu.show {
   overflow: scroll;
   max-height: 20rem;
+  max-width: 15rem !important;
 }
 
-.tableFooter {
-  font-weight: bold;
-  color: #740f26;
+.tableFooter td {
+  text-align: right; /* Align text to the right */
+  vertical-align: middle; /* Center text vertically if needed */
 }
 
 .table-bordered td,
@@ -246,6 +247,22 @@ h2 {
 
 #button-tooltip-2 {
   z-index: 10000000000 !important;
+}
+
+.gap {
+  gap: 1rem;
+}
+
+.custom-tooltip {
+  background-color: #000 !important;
+  color: white !important;
+}
+
+.custom-snackbar {
+  position: fixed;
+  bottom: 1rem; /* Adjust the distance from the bottom */
+  right: 1rem; /* Adjust the distance from the right */
+  z-index: 1100; /* Ensures it's on top of other content */
 }
 
 /* =====  ===== MODAL CSS ===== ===== */

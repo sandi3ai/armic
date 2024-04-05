@@ -12,7 +12,9 @@ function ToggleButtonGroup({ holidays }) {
   const [status, setStatus] = useState("Brez filtra");
   const [vpisanaLeta, setVpisanaLeta] = useState([]); //različna leta v bazi
   const [leto, setLeto] = useState(new Date().getFullYear());
-  const [skupine, setSkupine] = useState([{ skupinaID: "", skupinaIme: "" }]);
+  const [skupine, setSkupine] = useState([
+    { skupinaID: "", skupinaIme: "", skupinaEmail: "default" },
+  ]);
 
   const getSkupine = (getSkupinaObject) => {
     try {
@@ -40,6 +42,7 @@ function ToggleButtonGroup({ holidays }) {
         return {
           skupinaIme: data.skupinaIme,
           skupinaID: data.skupinaID,
+          skupinaEmail: data.vodjaEmail,
         };
       })
     );
@@ -110,7 +113,7 @@ function ToggleButtonGroup({ holidays }) {
         radioValueID={radioValue}
         tip={tip}
         status={status}
-        holidays={holidays}
+        skupina={skupine}
         leto={leto}
       />
     </div>

@@ -128,7 +128,7 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
           </Button>
         </Modal.Footer>
       </Modal>
-      <CustomSnackbar //this one works debug how and why are the others not working
+      <CustomSnackbar
         open={openSnackbar}
         handleClose={() => setOpenSnackbar(false)}
         content={`Prošnja ${statusForSnackbar}.`}

@@ -399,12 +399,12 @@ const CasData = ({ data, name }) => {
         <ErrorBoundary>
           <tfoot className="tableFooter">
             <tr>
-              <td colSpan={4}></td>
-              <td colSpan={1}>
-                Povprečen čas: {getAverageTime(filteredData)} <br />
-                Skupno odobrenih ur: {getTotalTime(filteredData)}
+              <td colSpan={6}>
+                Povprečen čas: <strong>{getAverageTime(filteredData)}</strong>{" "}
+                <br />
+                Skupno odobrenih ur:{" "}
+                <strong>{getTotalTime(filteredData)}</strong>
               </td>
-              <td colSpan={1}></td>
             </tr>
           </tfoot>
         </ErrorBoundary>

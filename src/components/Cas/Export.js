@@ -7,9 +7,12 @@ import DownloadForOfflineOutlinedIcon from "@mui/icons-material/DownloadForOffli
 import { blue } from "@mui/material/colors";
 import InfoTooltip from "../Elements/InfoTooltip";
 import { mergeSetIdsWithData } from "../../hooks/mergeSetWithData";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const Export = ({ filteredData, selectedCas, name, totalHours }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
   const open = Boolean(anchorEl);
 
   const handleMenuClick = (event) => {
@@ -43,6 +46,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
 
     // Clean up the URL object
     URL.revokeObjectURL(url);
+    setOpenSnackbar(true);
   };
 
   const prepareCsvData = (data) => {
@@ -107,6 +111,7 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
 
     // Clean up the URL object
     URL.revokeObjectURL(url);
+    setOpenSnackbar(true);
   };
 
   const prepareSqlData = (data) => {
@@ -193,6 +198,11 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
           />{" "}
         </MenuItem>
       </Menu>
+      <CustomSnackbar
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content="Podatki so bili izvoženi."
+      />
     </>
   );
 };

@@ -1,48 +1,56 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
+import CustomSnackbar from "../Elements/Snackbar";
 
-const DeleteModal = ({
-  selectedDezurni,
-  setSelectedDezurni,
-  setOpenDeleteModal,
-}) => {
+const DeleteModal = ({ selectedDezurni, setSelectedDezurni, onHide }) => {
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const delUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteDezurni.php`;
 
   const deleteSelectedDezurni = () => {
-    selectedDezurni.forEach((dezurniID) => {
-      post(delUrl, {
-        id: dezurniID,
+    const deletePromises = Array.from(selectedDezurni).map((dezurniID) =>
+      post(delUrl, { id: dezurniID })
+    );
+
+    Promise.all(deletePromises)
+      .then((results) => {
+        console.log("All selected items deleted successfully");
       })
-        .then(() => {
-          console.log(`${dezurniID} deleted successfully`);
-        })
-        .catch((err) => console.log(err));
-    });
-    setOpenDeleteModal(false);
-    setSelectedDezurni(new Set());
+      .catch((err) => {
+        console.error("Error deleting items", err);
+      })
+      .finally(() => {
+        // Only do these actions once, after all operations are done
+        setOpenSnackbar(true);
+        onHide();
+        setSelectedDezurni(new Set());
+      });
   };
 
   return (
-    <Modal show={true} onHide={() => setOpenDeleteModal(false)} centered>
-      <Modal.Header className="red-modal-header">
-        <Modal.Title>
-          Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>Nadaljujem?</Modal.Body>
-      <Modal.Footer>
-        <Button variant="outline-danger" onClick={deleteSelectedDezurni}>
-          Dokončno izbriši
-        </Button>
-        <Button
-          variant="outline-primary"
-          onClick={() => setOpenDeleteModal(false)}
-        >
-          Prekliči
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <>
+      <Modal show={true} onHide={onHide} centered>
+        <Modal.Header className="red-modal-header">
+          <Modal.Title>
+            Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Nadaljujem?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-danger" onClick={deleteSelectedDezurni}>
+            Dokončno izbriši
+          </Button>
+          <Button variant="outline-primary" onClick={onHide}>
+            Prekliči
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <CustomSnackbar
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content={`Izbrisanih dežurstev: ${selectedDezurni.size}`}
+      />
+    </>
   );
 };
 

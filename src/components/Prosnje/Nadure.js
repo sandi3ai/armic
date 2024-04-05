@@ -8,6 +8,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import dayjs from "dayjs";
 import "dayjs/locale/sl";
 import ErrorBoundary from "../../hooks/errorBoundaries";
+import CustomSnackbar from "../Elements/Snackbar";
 
 dayjs.extend(customParseFormat);
 dayjs.locale("sl");
@@ -146,6 +147,7 @@ export const Nadure = ({ countProsnje }) => {
               </tr>
             </tfoot>
           </Table>
+
           <ConfirmModal
             show={modalShow}
             type="nadure"

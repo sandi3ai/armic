@@ -4,6 +4,7 @@ import Axios from "axios";
 import usePasswordToggle from "../../hooks/usePasswordToggle";
 import { post } from "../../Helper";
 import InfoTooltip from "../Elements/InfoTooltip";
+import CustomSnackbar from "../Elements/Snackbar";
 
 export const VnosZaposlenega = ({ getZaposleni }) => {
   const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
@@ -11,7 +12,6 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
   const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
   const [name, setName] = useState("");
-  const [successTxt, setSuccessTxt] = useState(false);
   const [izbranaSkupina, setIzbranaSkupina] = useState("");
   const [dniDopusta, setDniDopusta] = useState("");
   const [casZacetka, setCasZacetka] = useState("");
@@ -21,6 +21,7 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [pass, setPass] = useState("");
   const [emptyTxt, setEmptyTxt] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const [ToggleIcon, PasswordInputType] = usePasswordToggle();
 
@@ -52,14 +53,11 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
         predvidenZacetek: postData.casZacetka,
       }).then(() => {
         console.log("submitForm executed");
+        setOpenSnackbar(true);
         setName("");
         setPass("");
         setEmail("");
         //prikaže success box
-        setSuccessTxt(true);
-        setTimeout(() => {
-          setSuccessTxt(false);
-        }, 4000);
         getZaposleni();
       });
     } else {
@@ -230,10 +228,16 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
           <Button variant="outline-success" type="submit">
             Dodaj novega zaposlenega
           </Button>
-          {successTxt && " Nov zaposleni uspešno dodan!"}
           {emptyTxt && " Izpolni obvezna polja!"}
         </div>
       </Form>
+
+      <CustomSnackbar
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content={`Nov zaposleni dodan.`}
+        severity="success"
+      />
     </div>
   );
 };

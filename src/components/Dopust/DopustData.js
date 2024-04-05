@@ -3,19 +3,28 @@ import { Table } from "react-bootstrap";
 import moment from "moment";
 import { post } from "../../Helper";
 import InfoTooltip from "../Elements/InfoTooltip";
+import AlternateEmailTwoToneIcon from "@mui/icons-material/AlternateEmailTwoTone";
+import GroupsTwoToneIcon from "@mui/icons-material/GroupsTwoTone";
+import Tooltip from "@mui/material/Tooltip";
 
 const DopustData = ({
   radioValueName,
   radioValueID,
   tip,
   status,
-  holidays,
+  skupina,
   leto,
 }) => {
   const getDopustnikUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getOdsotnost.php`;
   const [dopustnik, setDopustnik] = useState([
     { dopustnikIme: "", dopustnikID: "", datumZ: "", datumK: "", dni: "" },
   ]);
+
+  const statusToClassNameMap = {
+    Odobreno: "greenish",
+    Pregled: "orangish",
+    Zavrnjeno: "reddish",
+  };
 
   const giveMeVacay = (radioValueID) => {
     if (radioValueID !== "") {
@@ -61,15 +70,55 @@ const DopustData = ({
     return matchesTip && matchesStatus; // An item must match both filters to be included
   });
 
+  const getSkupinaEmail = () => {
+    const skupinaItem = skupina.find(
+      (item) => item.skupinaID === Number(radioValueID)
+    );
+    return skupinaItem ? skupinaItem.skupinaEmail : "";
+  };
+
+  const tooltipComponentProps = {
+    tooltip: {
+      sx: {
+        bgcolor: "black",
+        color: "white",
+      },
+    },
+  };
+
   useEffect(() => {
     giveMeVacay(radioValueID);
   }, [radioValueID, leto]);
 
   return (
     <div className="content">
-      <h5>
-        Izbrana skupina: <strong>{radioValueName}</strong>
-      </h5>
+      {getSkupinaEmail() !== "" ? (
+        <div className="content">
+          <Tooltip
+            arrow
+            placement="top"
+            title="Ime skupine"
+            componentsProps={tooltipComponentProps}
+          >
+            <span>
+              <GroupsTwoToneIcon /> <strong>{radioValueName}</strong>
+            </span>
+          </Tooltip>
+          <br />
+          <Tooltip
+            arrow
+            placement="top"
+            title="E-mail vodje skupine"
+            componentsProps={tooltipComponentProps}
+          >
+            <span>
+              <AlternateEmailTwoToneIcon /> {getSkupinaEmail()}
+            </span>
+          </Tooltip>
+        </div>
+      ) : (
+        ""
+      )}
       {filteredDopustnik.length === 0 || radioValueID === "" ? (
         "Ni zabeleženih odsotnosti za izbrano skupino."
       ) : (
@@ -108,8 +157,10 @@ const DopustData = ({
                 <td>{dopustnik.datumZ}</td>
                 <td>{dopustnik.datumK}</td>
                 <td>{dopustnik.tipOdsotnosti}</td>
-                <td>{dopustnik.trajanje}</td>
-                <td>{dopustnik.status}</td>
+                <td style={{ textAlign: "center" }}>{dopustnik.trajanje}</td>
+                <td className={statusToClassNameMap[dopustnik.status] || ""}>
+                  {dopustnik.status}
+                </td>
               </tr>
             ))}
           </tbody>

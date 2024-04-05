@@ -8,6 +8,10 @@ const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
   const [updatedGroupName, setUpdatedGroupName] = useState(
     skupinaData.skupinaIme
   );
+  const [updatedGroupEmail, setUpdatedGroupEmail] = useState(
+    skupinaData.vodjaEmail
+  );
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const updateUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/updateSkupina.php`;
 
@@ -16,10 +20,19 @@ const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
     post(updateUrl, {
       skupinaID: e,
       skupinaIme: updatedGroupName,
+      skupinaEmail: updatedGroupEmail,
     }).then((response) => {
       refreshSkupine();
       closeModal(false);
     });
+  };
+
+  const handleEmailChange = (e) => {
+    const newEmail = e.target.value;
+    const isValid =
+      newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
+    setUpdatedGroupEmail(newEmail);
+    setIsEmailValid(isValid);
   };
 
   return (
@@ -40,6 +53,19 @@ const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
             value={updatedGroupName}
             type="text"
           />
+        </Form.Group>{" "}
+        <Form.Group className="mb-3">
+          <Form.Label>Spremeni email vodje skupine:</Form.Label>
+          <Form.Control
+            name="email"
+            onChange={handleEmailChange}
+            value={updatedGroupEmail || ""}
+            type="email"
+            isInvalid={!isEmailValid}
+          />
+          <Form.Control.Feedback type="invalid">
+            Prosim vnesi veljaven e-mail naslov.
+          </Form.Control.Feedback>
         </Form.Group>{" "}
         <Alert severity="info">
           <AlertTitle>Informacija</AlertTitle>Pripadajoči delavci ostanejo
