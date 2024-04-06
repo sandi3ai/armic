@@ -13,9 +13,11 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [passID, setPassID] = useState(null);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarStates, setSnackbarStates] = useState({
+    open: false,
+    content: "",
+    severity: "info",
+  });
 
   const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
@@ -43,10 +45,8 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
       });
   };
 
-  const handleSnackbarOpen = (message, severity = "info") => {
-    setSnackbarMessage(message);
-    setSnackbarSeverity(severity);
-    setOpenSnackbar(true);
+  const handleSnackbarOpen = (content, severity = "info") => {
+    setSnackbarStates({ open: true, content, severity });
   };
 
   useEffect(() => {
@@ -113,10 +113,15 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
           )}
           <div className="parent">
             <CustomSnackbar
-              open={openSnackbar}
-              handleClose={() => setOpenSnackbar(false)}
-              content={snackbarMessage}
-              severity={snackbarSeverity}
+              open={snackbarStates.open}
+              handleClose={() =>
+                setSnackbarStates((prevConfig) => ({
+                  ...prevConfig,
+                  open: false,
+                }))
+              }
+              content={snackbarStates.content}
+              severity={snackbarStates.severity}
             />
             {data.length > 0 &&
               data.map((zaposlen) => (

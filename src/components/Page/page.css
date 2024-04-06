@@ -98,6 +98,9 @@ body {
   width: 100%;
   align-items: center;
   display: inline-block;
+  white-space: nowrap; /* Prevent text from wrapping to next line */
+  overflow: hidden; /* Hide overflow content */
+  text-overflow: ellipsis; /* Add ellipsis (...) at the end when text overflows */
 }
 
 .navbar {
@@ -212,7 +215,7 @@ h2 {
 .dropdown-menu.show {
   overflow: scroll;
   max-height: 20rem;
-  max-width: 15rem !important;
+  max-width: max-content !important;
 }
 
 .tableFooter td {

@@ -37,8 +37,11 @@ const ModalDelete = ({ closeModal, passID, onConfirm }) => {
   const deleteZaposleni = (id) => {
     post(deleteUrl, { id: id })
       .then(() => {
+        const selectedZaposleni = data.find(
+          (zaposleni) => zaposleni.zaposleniID === id
+        );
         console.log(id + " number sent on deleteZaposleni.php");
-        onConfirm("Zaposleni je izbrisan.", "error");
+        onConfirm(`${selectedZaposleni.zaposleniIme} je izbrisan/a.`, "error");
         closeModal(false);
       })
       .catch((error) => console.log(error));

@@ -4,7 +4,12 @@ import AlertTitle from "@mui/material/AlertTitle";
 import { Button, Form, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 
-const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
+const ModalEditSkupina = ({
+  closeModal,
+  skupinaData,
+  refreshSkupine,
+  onConfirm,
+}) => {
   const [updatedGroupName, setUpdatedGroupName] = useState(
     skupinaData.skupinaIme
   );
@@ -23,6 +28,7 @@ const ModalEditSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
       skupinaEmail: updatedGroupEmail,
     }).then((response) => {
       refreshSkupine();
+      onConfirm("Skupina urejena.", "success");
       closeModal(false);
     });
   };

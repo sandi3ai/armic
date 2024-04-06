@@ -4,7 +4,12 @@ import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 import React from "react";
 
-const ModalDeleteSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
+const ModalDeleteSkupina = ({
+  closeModal,
+  skupinaData,
+  refreshSkupine,
+  onConfirm,
+}) => {
   const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteSkupina.php`;
 
   const deleteSkupina = (id, event) => {
@@ -16,6 +21,7 @@ const ModalDeleteSkupina = ({ closeModal, skupinaData, refreshSkupine }) => {
         console.log(id + " number sent on deleteSkupina.php");
         refreshSkupine();
         closeModal(false);
+        onConfirm("Skupina izbrisana.", "error");
       })
       .catch((error) => alert(error));
   };

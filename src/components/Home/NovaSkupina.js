@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const NovaSkupina = () => {
   const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novaSkupina.php`;
   const [imeSkupine, setImeSkupine] = useState("");
-  const [successTxt, setSuccessTxt] = useState(false);
   const [showSeznam, setShowSeznam] = useState(false);
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
@@ -23,10 +24,7 @@ const NovaSkupina = () => {
         console.log("submitForm executed");
         if (imeSkupine !== "") {
           //prikaže success box, če so vsi podatki izpolnjeni
-          setSuccessTxt(true);
-          setTimeout(() => {
-            setSuccessTxt(false);
-          }, 4000);
+          setOpenSnackbar(true);
         }
 
         setImeSkupine("");
@@ -87,7 +85,6 @@ const NovaSkupina = () => {
           <Button variant="outline-success" type="submit">
             Ustvari novo skupino
           </Button>
-          {successTxt && " Nova skupina ustvarjena!"}
           <br />
           <br />
           <Button variant="outline-primary" onClick={prikazi}>
@@ -96,6 +93,11 @@ const NovaSkupina = () => {
         </div>
         {showSeznam && <PrikaziSkupine />}
       </Form>
+      <CustomSnackbar
+        open={openSnackbar}
+        handleClose={() => setOpenSnackbar(false)}
+        content={`Nova skupina dodana.`}
+      />
     </div>
   );
 };

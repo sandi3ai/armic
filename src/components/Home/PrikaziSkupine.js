@@ -4,12 +4,18 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalDeleteSkupina from "./ModalDeleteSkupina";
 import ModalEditSkupina from "./ModalEditSkupina";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const PrikaziSkupine = () => {
   const [data, setData] = useState([]);
   const [passedSkupinaData, setPassedSkupinaData] = useState({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [snackbarStates, setSnackbarStates] = useState({
+    open: false,
+    content: "",
+    severity: "info",
+  });
 
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
 
@@ -23,6 +29,11 @@ const PrikaziSkupine = () => {
       alert(error.message);
     }
   };
+
+  const handleSnackbarOpen = (content, severity = "info") => {
+    setSnackbarStates({ open: true, content, severity });
+  };
+
   useEffect(() => {
     getSkupine();
   }, []);
@@ -75,6 +86,7 @@ const PrikaziSkupine = () => {
                 closeModal={setOpenDeleteModal}
                 skupinaData={passedSkupinaData}
                 refreshSkupine={getSkupine}
+                onConfirm={handleSnackbarOpen}
               />
             )}
             {openEditModal && (
@@ -82,10 +94,19 @@ const PrikaziSkupine = () => {
                 closeModal={setOpenEditModal}
                 skupinaData={passedSkupinaData}
                 refreshSkupine={getSkupine}
+                onConfirm={handleSnackbarOpen}
               />
             )}
           </div>
         ))}
+        <CustomSnackbar
+          open={snackbarStates.open}
+          handleClose={() =>
+            setSnackbarStates((prevConfig) => ({ ...prevConfig, open: false }))
+          }
+          content={snackbarStates.content}
+          severity={snackbarStates.severity}
+        />
       </div>
     </div>
   );
