@@ -32,7 +32,8 @@ if ($isWorkFreeDay) {
 // selecting users that didn't yet receive email and have estimated start time before current time
 $sql = "SELECT 
   z.zaposleniID, 
-  z.zaposleniIme, 
+  z.zaposleniIme,
+  z.zaposleniSkupinaID 
   z.predvidenZacetek, 
   z.email
 FROM 
@@ -77,8 +78,18 @@ foreach ($results as $user) {
       }else {
         $logFileContent .= "Error at {$currentDateTime}: Email for user " . $user['zaposleniIme'] . " is empty\n"; // If an email is empty
       }
-
     }
+    //If a user is on vacation, but the hours aren't logged the email will be sent to group leader
+    /*else if (!hasLoggedHours($user['zaposleniID'], $today)) {
+        $groupEmail = selectGroupEmail($user['zaposleniSkupinaID'], $logFileContent, $user['zaposleniIme']);
+        if (!empty($groupEmail)) {
+          sendEmailNotification($groupEmail, $user['zaposleniIme'], $logFile, true);
+           $logFileContent .= "User " . $user['zaposleniIme'] . " is on vacation,sending email to a group leader\n";
+          markEmailAsSent($user['zaposleniID'], $logFile);
+        } else {
+          $logFileContent .= "Error at {$currentDateTime}: No group leader email found for user " . $user['zaposleniIme'] . "\n";
+        }
+    }*/
 }
 } catch (PDOException $e) {
     $logFileContent .= "Error at {$currentDateTime}: " . $e->getMessage() . "\n"; // For catching exceptions
@@ -86,7 +97,7 @@ foreach ($results as $user) {
 }
 
 
-$logFileContent .= "Script ended at {$currentDateTime}\n***\n"; // At the end of your script
+$logFileContent .= "Script ended at {$currentDateTime}, {$emailSentCounter} sent.\n***\n"; // At the end of your script
 $finalContent = $logFileContent . $currentContent;
 file_put_contents($logFile, $finalContent);
 

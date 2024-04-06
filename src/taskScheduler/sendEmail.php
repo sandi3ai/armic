@@ -5,9 +5,12 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-function sendEmailNotification($email, $name, $logFile) {
+function sendEmailNotification($email, $name, $logFile, $altEmailBody = false) {
     $mail = new PHPMailer(true); // Passing `true` enables exceptions
     $mail->CharSet = 'UTF-8'; // Explicitly set the charset to UTF-8
+    $emailBodyForEmployee = "Pozdravljen/a $name,<br><br>Za danes še nimaš vpisanih ur. Prosim da to čim hitreje storiš.<br><br>Lep pozdrav,<br>Avtomati Armič";
+    $emailBodyForGroupLeader = "Pozdravljen/a!<br>  $name, ki je danes na dopustu in je v tvoji skupini, za danes še nima vpisanih ur.\n\nLP\nAvtomati Armič";
+    $emailBody = $altEmailBody ? $emailBodyForGroupLeader : $emailBodyForEmployee;
 
     try {
         //Server settings
@@ -15,7 +18,7 @@ function sendEmailNotification($email, $name, $logFile) {
         $mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = 'sandi.podrzaj@gmail.com'; // SMTP username
-        $mail->Password = 'lxva cdtd pitt xhuk'; // SMTP password (specific for this app)
+        $mail->Password = getenv('SMTP_PASS'); // SMTP password (specific for this app)
         $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 587; // TCP port to connect to
 
@@ -26,8 +29,8 @@ function sendEmailNotification($email, $name, $logFile) {
         //Content
         $mail->isHTML(true); // Set email format to HTML
         $mail->Subject = "Opomnik: Vnos ur za $name";
-        $mail->Body    = "Pozdravljen/a $name,<br><br>Za danes še nimaš vpisanih ur. Prosim da to čim hitreje storiš.<br><br>Lep pozdrav,<br>Avtomati Armič";
-        $mail->AltBody = "Pozdravljen/a $name,\n\nZa danes še nimaš vpisanih ur. Prosim da to čim hitreje storiš.\n\nLP\nAvtomati Armič";
+        $mail->Body    = $emailBody;
+        $mail->AltBody = strip_tags(str_replace("<br>", "\n", $emailBody));
 
 
         $mail->send();
