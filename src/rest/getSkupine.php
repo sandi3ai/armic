@@ -2,7 +2,9 @@
 include_once 'auth.php';
 include_once 'db.php';
 
-$sql = "SELECT * FROM skupine WHERE `deleted` = 0 ORDER BY skupinaIme ASC";
+$sql = "SELECT skupine.*, zaposlen.zaposleniIme AS vodjaIme 
+FROM skupine LEFT JOIN zaposlen ON skupine.vodjaID = zaposlen.zaposleniID 
+WHERE skupine.deleted = 0 ORDER BY skupinaIme ASC";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 

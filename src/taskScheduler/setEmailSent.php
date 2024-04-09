@@ -19,7 +19,7 @@ function markEmailAsSent($userID, $logFile) {
 
         $stmt->execute();
 
-        echo "emailZaUrePoslan set to 1 for userID: " . $userID . "\n;";
+        echo "emailZaUrePoslan set to 1 for userID: " . $userID . "\n*";
     } catch (PDOException $e) {
         echo "Server error: " . $e->getMessage();
     }

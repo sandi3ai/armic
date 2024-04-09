@@ -13,7 +13,14 @@ $currentContent = file_get_contents($logFile);
 $currentDateTime = date('Y-m-d H:i:s');
 
 $logFileContent = "Script started at {$currentDateTime}\n";
-$logFileContent .= "argv[1]: {$argv[1]}\n";
+
+// Security check (second argument must be the secret key)
+if (isset($argv[1]) && $argv[1] === 'GhjqT@0}W2}&(@!YO@NLmt]zY;}') {
+    $logFileContent .= "Security check passed.\n";  
+} else {
+    $logFileContent .= "Security check failed: incorrect or no second argument provided.\n";
+    exit;
+}
 
 try {
 $today = new DateTime();
@@ -33,7 +40,7 @@ if ($isWorkFreeDay) {
 $sql = "SELECT 
   z.zaposleniID, 
   z.zaposleniIme,
-  z.zaposleniSkupinaID 
+  z.zaposleniSkupinaID, 
   z.predvidenZacetek, 
   z.email
 FROM 
@@ -53,7 +60,7 @@ WHERE
                 z.predvidenZacetek) AS DATETIME
     ) BETWEEN 
     CAST(ADDTIME(CURRENT_TIMESTAMP(), '-03:00:00') AS DATETIME) AND 
-    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-02:00:00') AS DATETIME)
+    CAST(ADDTIME(CURRENT_TIMESTAMP(), '-01:59:00') AS DATETIME)
   );
 ";
 
@@ -61,9 +68,10 @@ echo "Users selected\n";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($results as $user) {
+    echo "User suitable for email: " . $user['zaposleniIme'] . "\n";
+}
 echo "Results fetched: " . count($results) . "\n";
-
-$emailSentCounter = 0;
 
 foreach ($results as $user) {
     if (!isOnVacation($user['zaposleniID'], $today) && !hasLoggedHours($user['zaposleniID'], $today)) {
@@ -74,7 +82,6 @@ foreach ($results as $user) {
         // Sending email
         sendEmailNotification($user['email'], $user['zaposleniIme'], $logFile);   
         markEmailAsSent($user['zaposleniID'], $logFile);
-        $emailSentCounter++;
       }else {
         $logFileContent .= "Error at {$currentDateTime}: Email for user " . $user['zaposleniIme'] . " is empty\n"; // If an email is empty
       }
@@ -97,7 +104,7 @@ foreach ($results as $user) {
 }
 
 
-$logFileContent .= "Script ended at {$currentDateTime}, {$emailSentCounter} sent.\n***\n"; // At the end of your script
+$logFileContent .= "Script ended at {$currentDateTime}.\n***\n"; // At the end of your script
 $finalContent = $logFileContent . $currentContent;
 file_put_contents($logFile, $finalContent);
 

@@ -5,6 +5,9 @@ use PHPMailer\PHPMailer\Exception;
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 function sendEmailNotification($email, $name, $logFile, $altEmailBody = false) {
     $mail = new PHPMailer(true); // Passing `true` enables exceptions
     $mail->CharSet = 'UTF-8'; // Explicitly set the charset to UTF-8
@@ -18,7 +21,7 @@ function sendEmailNotification($email, $name, $logFile, $altEmailBody = false) {
         $mail->Host = 'smtp.gmail.com'; // Specify main and backup SMTP servers
         $mail->SMTPAuth = true; // Enable SMTP authentication
         $mail->Username = 'sandi.podrzaj@gmail.com'; // SMTP username
-        $mail->Password = getenv('SMTP_PASS'); // SMTP password (specific for this app)
+        $mail->Password = $_ENV['SMTP_PASS']; // SMTP password (specific for this app)
         $mail->SMTPSecure = 'tls'; // Enable TLS encryption, `ssl` also accepted
         $mail->Port = 587; // TCP port to connect to
 

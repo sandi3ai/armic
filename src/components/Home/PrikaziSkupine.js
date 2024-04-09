@@ -23,7 +23,7 @@ const PrikaziSkupine = () => {
     try {
       Axios.get(getUrl, { withCredentials: true }).then((response) => {
         setData(response.data.skupine);
-        console.log(response.data.skupine);
+        console.log("response.data.skupine:", response.data.skupine);
       });
     } catch (error) {
       alert(error.message);
