@@ -8,6 +8,9 @@ const ExportDelete = ({
   setSelectedCas,
   name,
   totalHours,
+  startDate,
+  endDate,
+  preglejBtn,
 }) => {
   return (
     <>
@@ -18,9 +21,13 @@ const ExportDelete = ({
         totalHours={totalHours}
       />
       <Delete
+        filteredData={filteredData}
         selectedCas={selectedCas}
         setSelectedCas={setSelectedCas}
         name={name}
+        startDate={startDate}
+        endDate={endDate}
+        preglejBtn={preglejBtn}
       />
     </>
   );

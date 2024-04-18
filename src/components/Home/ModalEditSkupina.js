@@ -3,12 +3,13 @@ import Alert from "@mui/material/Alert";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Button, Dropdown, DropdownButton, Form, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
-import { Axios } from "axios";
 
 const ModalEditSkupina = ({
   closeModal,
   skupinaData,
   refreshSkupine,
+  zaposleniData,
+  isLoading,
   onConfirm,
 }) => {
   const [updatedGroupName, setUpdatedGroupName] = useState(
@@ -19,20 +20,26 @@ const ModalEditSkupina = ({
     vodjaEmail: skupinaData.vodjaEmail,
     vodjaIme: skupinaData.vodjaIme,
   });
-  const [zaposleniData, setZaposleniData] = useState([]);
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [formError, setFormError] = useState("");
 
   const updateUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/updateSkupina.php`;
-  const getZaposleniUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
 
   const submitForm = (e) => {
     console.log("submitForm, skupinaID(e):", e);
     console.log("skupinaData:", skupinaData);
+    if (!updatedGroupName.trim()) {
+      console.log("Updated group name is empty.");
+      setFormError("Ime skupine je obvezno polje.");
+      return;
+    }
+    setFormError("");
     post(updateUrl, {
       skupinaID: e,
       skupinaIme: updatedGroupName,
       skupinaEmail: vodjaData.vodjaEmail,
-    }).then((response) => {
+      vodjaID: vodjaData.vodjaID,
+    }).then(() => {
       refreshSkupine();
       onConfirm("Skupina urejena.", "success");
       closeModal(false);
@@ -43,17 +50,26 @@ const ModalEditSkupina = ({
     const newEmail = e.target.value;
     const isValid =
       newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
-    setVodjaData({ vodjaEmail: newEmail });
+    setVodjaData((prevVodjaData) => ({
+      ...prevVodjaData,
+      vodjaEmail: newEmail,
+    }));
     setIsEmailValid(isValid);
   };
 
-  const getZaposleni = () => {
-    try {
-      Axios.get(getZaposleniUrl, { withCredentials: true }).then((response) => {
-        setZaposleniData(response.data.zaposleni);
-      });
-    } catch (error) {
-      alert(error.message);
+  const handleSelectVodja = (selectedZaposleniID) => {
+    // Find the zaposleni object that matches the selected ID
+    const selectedZaposleni = zaposleniData.find(
+      (z) => z.zaposleniID === Number(selectedZaposleniID)
+    );
+    console.log("handleSelectVodja selectedZaposleni:", selectedZaposleni);
+
+    if (selectedZaposleni) {
+      setVodjaData((prevVodjaData) => ({
+        ...prevVodjaData,
+        vodjaID: selectedZaposleni.zaposleniID,
+        vodjaIme: selectedZaposleni.zaposleniIme,
+      }));
     }
   };
 
@@ -67,29 +83,28 @@ const ModalEditSkupina = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        VODJA DATA <br />
-        <strong>vodjaID: {skupinaData.vodjaID}</strong> <br />
-        <strong>vodjaIme: {skupinaData.vodjaIme}</strong> <br />
-        <strong>vodjaEmail: {skupinaData.vodjaEmail}</strong> <br />
-        <br />
         <Form.Group className="mb-3">
           <Form.Label>Spremeni ime skupine:</Form.Label>
           <Form.Control
+            isInvalid={formError} // Apply the 'isInvalid' prop if there's an error
             name="name"
-            onChange={(e) => setUpdatedGroupName(e.target.value)}
+            onChange={(e) => {
+              setUpdatedGroupName(e.target.value);
+              setFormError("");
+            }}
             value={updatedGroupName}
             type="text"
           />
+          <Form.Control.Feedback type="invalid">
+            {formError}
+          </Form.Control.Feedback>
         </Form.Group>{" "}
         <Form.Label>Skupini dodaj/zamenjaj vodjo: </Form.Label>
         <DropdownButton
           variant="outline-primary"
           title={vodjaData.vodjaIme || "Izberi vodjo"}
-          onClick={(e) => console.log("e:", e)}
-          onSelect={(e) => {
-            setVodjaData({ vodjaID: e });
-          }}
-          value={vodjaData.vodjaID || ""}
+          onSelect={handleSelectVodja}
+          value={vodjaData.vodjaIme || ""}
           drop="down"
         >
           {zaposleniData.map((z, i) => (
@@ -98,6 +113,7 @@ const ModalEditSkupina = ({
             </Dropdown.Item>
           ))}
         </DropdownButton>
+        <br />
         <Form.Group className="mb-3">
           <Form.Label>Spremeni email vodje skupine:</Form.Label>
           <Form.Control

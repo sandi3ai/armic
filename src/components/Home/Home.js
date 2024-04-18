@@ -33,7 +33,7 @@ export const Home = () => {
     setIsLoading(true);
     try {
       const response = await Axios.get(getUrl, { withCredentials: true });
-      console.log("ZASOSLENI: ", response.data.zaposleni);
+      console.log("ZAPOSLENI: ", response.data.zaposleni);
       setData(response.data.zaposleni || []);
     } catch (error) {
       alert(error.message);
@@ -66,7 +66,9 @@ export const Home = () => {
         >
           Uredi skupine
         </Button>
-        {novaSkupina ? <NovaSkupina /> : null}
+        {novaSkupina ? (
+          <NovaSkupina zaposleniData={data} isLoading={isLoading} />
+        ) : null}
         <hr />
         <h2>Seznam zaposlenih:</h2>
         <PrikaziZaposlene

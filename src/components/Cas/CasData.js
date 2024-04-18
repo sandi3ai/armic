@@ -12,7 +12,7 @@ import InfoTooltip from "../Elements/InfoTooltip";
 
 dayjs.extend(duration);
 
-const CasData = ({ data, name }) => {
+const CasData = ({ data, name, startDate, endDate, preglejBtn }) => {
   const [checkboxStates, setCheckboxStates] = useState({
     approved: true,
     review: false,
@@ -314,6 +314,9 @@ const CasData = ({ data, name }) => {
                     setSelectedCas={setSelectedCas}
                     name={name}
                     totalHours={selectedTimes}
+                    startDate={startDate}
+                    endDate={endDate}
+                    preglejBtn={preglejBtn}
                   />
                 </span>
               )}

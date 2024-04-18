@@ -18,7 +18,7 @@ $logFileContent = "Script started at {$currentDateTime}\n";
 if (isset($argv[1]) && $argv[1] === 'GhjqT@0}W2}&(@!YO@NLmt]zY;}') {
     $logFileContent .= "Security check passed.\n";  
 } else {
-    $logFileContent .= "Security check failed: incorrect or no second argument provided.\n";
+    $logFileContent .= "Security check failed: incorrect or no second argument provided.\nExiting...\n";
     exit;
 }
 

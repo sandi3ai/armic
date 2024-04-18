@@ -24,11 +24,20 @@ export const Cas = () => {
   const [thereIsData, setThereIsData] = useState(false);
   const [name, setName] = useState("");
 
-  function preglejBtn(e) {
+  function preglejBtn(eOrParams) {
+    if (eOrParams && typeof eOrParams.preventDefault === "function") {
+      eOrParams.preventDefault();
+    }
+
+    // Determine if eOrParams is event object or params based on the presence of preventDefault
+    const params =
+      eOrParams && typeof eOrParams.preventDefault === "function"
+        ? { startDate, endDate, dropValue } // Use existing state if eOrParams is an event
+        : eOrParams; // Use passed params directly if not
     try {
-      e.preventDefault();
       post(getCasUrl, { startDate, endDate, dropValue }).then((response) => {
         checkForData(response.data.cas);
+        console.log("DROOOOOOOOOOOOOOOOOOOOOP VALUE::: ", dropValue);
         const formattedData = createFormattedTwins(response.data.cas);
         const finalData = formattedData;
         setCasData(finalData);
@@ -160,7 +169,13 @@ export const Cas = () => {
 
       {thereIsData ? (
         <ErrorBoundary>
-          <CasData data={casData} name={name} />
+          <CasData
+            data={casData}
+            name={name}
+            startDate={startDate}
+            endDate={endDate}
+            preglejBtn={preglejBtn}
+          />
         </ErrorBoundary>
       ) : (
         <div className="divine-no-blur">

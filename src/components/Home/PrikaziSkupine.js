@@ -6,7 +6,7 @@ import ModalDeleteSkupina from "./ModalDeleteSkupina";
 import ModalEditSkupina from "./ModalEditSkupina";
 import CustomSnackbar from "../Elements/Snackbar";
 
-const PrikaziSkupine = () => {
+const PrikaziSkupine = ({ zaposleniData, isLoading }) => {
   const [data, setData] = useState([]);
   const [passedSkupinaData, setPassedSkupinaData] = useState({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -36,11 +36,12 @@ const PrikaziSkupine = () => {
 
   useEffect(() => {
     getSkupine();
+    console.log("Passed skupina data. ", passedSkupinaData);
   }, []);
 
   return (
     <div>
-      <hr />
+      <br />
       <h2>Skupine:</h2>
 
       <div className="parent">
@@ -68,7 +69,7 @@ const PrikaziSkupine = () => {
             </OverlayTrigger>
             <OverlayTrigger
               placement="top"
-              overlay={<Tooltip id={`tooltip-edit`}>Preimenuj</Tooltip>}
+              overlay={<Tooltip id={`tooltip-edit`}>Uredi</Tooltip>}
             >
               <div
                 className="editBtn" //edit icon
@@ -94,6 +95,8 @@ const PrikaziSkupine = () => {
                 closeModal={setOpenEditModal}
                 skupinaData={passedSkupinaData}
                 refreshSkupine={getSkupine}
+                zaposleniData={zaposleniData}
+                isLoading={isLoading}
                 onConfirm={handleSnackbarOpen}
               />
             )}

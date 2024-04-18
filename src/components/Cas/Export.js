@@ -152,9 +152,10 @@ const Export = ({ filteredData, selectedCas, name, totalHours }) => {
         variant="text"
         sx={{
           mr: "5px",
-          color: "white",
+          color: "#1e88e5",
           "&:hover": {
             backgroundColor: blue[600],
+            color: "white",
           },
         }}
         endIcon={<DownloadForOfflineOutlinedIcon />}

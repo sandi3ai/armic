@@ -6,6 +6,7 @@ $_POST = json_decode(file_get_contents("php://input"), true);
 $skupinaID = $_POST['skupinaID'] ?? null; // Using null coalescing operator
 $skupinaIme = $_POST['skupinaIme'] ?? null;
 $skupinaEmail = $_POST['skupinaEmail'] ?? null;
+$vodjaID = $_POST['vodjaID'] ?? null;
 
 if (!$skupinaID) {
     http_response_code(400);
@@ -19,19 +20,14 @@ if (!$skupinaIme) {
     exit;
 }
 
-if (!$skupinaEmail) {
-    http_response_code(400);
-    echo "Napaka: Email vodje skupine ni podano ali je prazno.";
-    exit;
-}
-
 try {
     $data = [
         'skupinaID' => $skupinaID,
         'skupinaIme' => $skupinaIme,
-        'skupinaEmail' => $skupinaEmail
+        'skupinaEmail' => $skupinaEmail,
+        'vodjaID' => $vodjaID
     ];
-    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme, vodjaEmail=:skupinaEmail WHERE skupinaID=:skupinaID AND `deleted` = 0";
+    $sql = "UPDATE `skupine` SET skupinaIme=:skupinaIme, vodjaEmail=:skupinaEmail, vodjaID=:vodjaID WHERE skupinaID=:skupinaID AND `deleted` = 0";
     $stmt = $conn->prepare($sql);
     $stmt->execute($data);
 

@@ -61,7 +61,11 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   };
 
   const renderPopover = (zaposlen) => (
-    <Popover id={`popover-${zaposlen.zaposleniID}`}>
+    <Popover
+      noArrow
+      id={`popover-${zaposlen.zaposleniID}`}
+      className="custom-popover"
+    >
       <Popover.Header as="h1" className="blue-modal-header">
         <strong>{zaposlen.zaposleniIme}</strong>
       </Popover.Header>

@@ -268,6 +268,13 @@ h2 {
   z-index: 1100; /* Ensures it's on top of other content */
 }
 
+.custom-popover {
+  max-width: fit-content !important;
+  border: 6px solid white !important;
+  border-radius: 1rem !important;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4); /* This adds the 3D effect */
+}
+
 /* =====  ===== MODAL CSS ===== ===== */
 
 .modalBackground {
