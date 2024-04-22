@@ -219,6 +219,7 @@ const ModalEdit = ({ closeModal, passID }) => {
           <Form.Group className="mb-3">
             <Form.Label>Delavcu spremeni skupino:</Form.Label>
             <DropdownButton
+              size="sm"
               variant="outline-primary"
               title={checkIfName(imeSkupine)}
               onClick={(e) => getSkupine(e)}
@@ -300,6 +301,7 @@ const ModalEdit = ({ closeModal, passID }) => {
             variant="outline-success"
             type="submit"
             disabled={!isEmailValid}
+            className="successBtn"
           >
             Posodobi
           </Button>

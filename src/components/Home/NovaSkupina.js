@@ -1,13 +1,22 @@
 import React, { useState } from "react";
-import { Button, Col, Dropdown, DropdownButton, Form } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Dropdown,
+  DropdownButton,
+  Form,
+  Row,
+} from "react-bootstrap";
 import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
 import CustomSnackbar from "../Elements/Snackbar";
+import GroupAddOutlinedIcon from "@mui/icons-material/GroupAddOutlined";
 
 const NovaSkupina = ({ zaposleniData, isLoading }) => {
   const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novaSkupina.php`;
   const [imeSkupine, setImeSkupine] = useState("");
   const [showSeznam, setShowSeznam] = useState(false);
+  const [novVnos, setNovVnos] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [vodjaData, setVodjaData] = useState({
@@ -56,6 +65,19 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
       setShowSeznam(true);
     } else {
       setShowSeznam(false);
+      if (novVnos === true) {
+        setNovVnos(false);
+      }
+    }
+  }
+
+  function showNovVnos() {
+    if (novVnos === false) {
+      setNovVnos(true);
+      console.log("showNovVnos triggered to true");
+    } else {
+      setNovVnos(false);
+      console.log("showNovVnos triggered to false");
     }
   }
 
@@ -88,72 +110,103 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
 
   return (
     <>
-      <div className="addNew">
-        <h3>Dodaj novo skupino</h3>
-        <Form onSubmit={(e) => submitForm(e)}>
-          <Form.Group className="mb-3 inputForm">
-            <Form.Label>Vpiši ime nove skupine: </Form.Label>
-            <Col>
-              <Form.Control
-                isInvalid={formError}
-                name="name"
-                onChange={(e) => {
-                  setImeSkupine(e.target.value);
-                  setFormError("");
-                }}
-                value={imeSkupine}
-                type="text"
-                placeholder="Naziv skupine ..."
-              />
-              <Form.Control.Feedback type="invalid">
-                {formError}
-              </Form.Control.Feedback>
-            </Col>
-            <Form.Label>Vpiši e-mail vodje skupine: </Form.Label>
-            <Col>
-              <Form.Control
-                name="email"
-                onChange={handleEmailChange}
-                value={vodjaData.vodjaEmail}
-                type="email"
-                placeholder="primer.emaila@armic-sp.si"
-                isInvalid={!isEmailValid}
-              />
-              <Form.Control.Feedback type="invalid">
-                Prosim vnesi veljaven e-mail naslov.
-              </Form.Control.Feedback>
-            </Col>
-            <Form.Label>Izberi vodjo skupine: </Form.Label>
-            <DropdownButton
-              variant="outline-primary"
-              title={vodjaData.vodjaIme || "Izberi vodjo"}
-              onSelect={handleSelectVodja}
-              value={vodjaData.vodjaIme || ""}
-              drop="down"
+      <div>
+        <div className="float-right">
+          {showSeznam && (
+            <Button
+              variant={novVnos ? "danger" : "outline-primary"}
+              onClick={showNovVnos}
             >
-              {zaposleniData.map((z, i) => (
-                <Dropdown.Item key={i} eventKey={z.zaposleniID}>
-                  {z.zaposleniIme}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-            <br />
-          </Form.Group>
-          <div className="successBox">
-            <Button variant="outline-success" type="submit">
-              Ustvari novo skupino
+              {novVnos ? (
+                "Zapri vnos skupine"
+              ) : (
+                <>
+                  Dodaj skupino <GroupAddOutlinedIcon />
+                </>
+              )}
             </Button>
-            <br />
+          )}
+          <Button
+            variant={showSeznam ? "danger" : "outline-primary"}
+            onClick={prikazi}
+          >
+            {showSeznam ? "Zapri" : "Prikaži"} skupine {showSeznam ? " " : " "}
+          </Button>
+        </div>
+
+        {showSeznam && (
+          <div className="addNew">
+            {novVnos && (
+              <div className="addNew">
+                <h3>Dodaj novo skupino</h3>
+                <Form onSubmit={(e) => submitForm(e)}>
+                  <Form.Group className="mb-3 inputForm">
+                    <Form.Label>Vpiši ime nove skupine: </Form.Label>
+                    <Col>
+                      <Form.Control
+                        isInvalid={formError}
+                        name="name"
+                        onChange={(e) => {
+                          setImeSkupine(e.target.value);
+                          setFormError("");
+                        }}
+                        value={imeSkupine}
+                        type="text"
+                        placeholder="Naziv skupine ..."
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        {formError}
+                      </Form.Control.Feedback>
+                    </Col>
+                    <Form.Label>Vpiši e-mail vodje skupine: </Form.Label>
+                    <Col>
+                      <Form.Control
+                        name="email"
+                        onChange={handleEmailChange}
+                        value={vodjaData.vodjaEmail}
+                        type="email"
+                        placeholder="primer.emaila@armic-sp.si"
+                        isInvalid={!isEmailValid}
+                      />
+                      <Form.Control.Feedback type="invalid">
+                        Prosim vnesi veljaven e-mail naslov.
+                      </Form.Control.Feedback>
+                    </Col>
+                    <Form.Label>Izberi vodjo skupine: </Form.Label>
+                    <DropdownButton
+                      size="sm"
+                      variant="outline-primary"
+                      title={vodjaData.vodjaIme || "Izberi vodjo"}
+                      onSelect={handleSelectVodja}
+                      value={vodjaData.vodjaIme || ""}
+                      drop="down"
+                    >
+                      {zaposleniData.map((z, i) => (
+                        <Dropdown.Item key={i} eventKey={z.zaposleniID}>
+                          {z.zaposleniIme}
+                        </Dropdown.Item>
+                      ))}
+                    </DropdownButton>
+                    <br />
+                  </Form.Group>
+                  <div className="successBox">
+                    <Button variant="outline-success" type="submit">
+                      Ustvari novo skupino
+                    </Button>
+                    <br />
+                  </div>
+                </Form>
+              </div>
+            )}
+            <PrikaziSkupine
+              zaposleniData={zaposleniData}
+              isLoading={isLoading}
+              novVnos={novVnos}
+              showNovVnos={showNovVnos}
+            />
           </div>
-        </Form>
+        )}
       </div>
-      <Button variant="outline-primary" onClick={prikazi}>
-        {showSeznam ? "Skrij" : "Prikaži"} seznam skupin{" "}
-        {showSeznam ? " ▴" : " ▾"}
-      </Button>
-      {showSeznam && (
-        <PrikaziSkupine zaposleniData={zaposleniData} isLoading={isLoading} />
-      )}
       <CustomSnackbar
         open={openSnackbar}
         handleClose={() => setOpenSnackbar(false)}

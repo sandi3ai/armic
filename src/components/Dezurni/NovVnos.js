@@ -65,13 +65,10 @@ const NovVnos = () => {
               placeholder="Ime in priimek izvajalca"
             />
           </Form.Group>
-
-          <div className="successBox">
-            <Button variant="outline-success" type="submit">
-              Dodaj
-            </Button>
-            {errorTxt && "  Izpolniti morate vsa polja!"}
-          </div>
+          <Button variant="outline-success" type="submit">
+            Dodaj
+          </Button>
+          {errorTxt && "  Izpolniti morate vsa polja!"}
         </Form>
       </Col>
       <CustomSnackbar

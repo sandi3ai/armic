@@ -237,9 +237,16 @@ h2 {
   margin: 10px 10px 10px 0px;
 }
 .addNew {
-  border: 1px solid white;
+  border: 5px solid white;
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 25%,
+    rgba(255, 255, 255, 0) 75%,
+    rgb(255, 255, 255) 100%
+  );
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 0.5rem;
   width: fit-content;
   margin-bottom: 2rem;
 }
@@ -544,6 +551,20 @@ h2 {
   font-style: normal;
 }
 
+.rowDiv {
+  display: flex;
+  justify-content: space-between; /* This will put space between items */
+  align-items: center; /* This will vertically center align items in the div */
+  gap: 1rem;
+}
+
+.float-right {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+  gap: 1rem; /* Adjust the space between items */
+}
+
 .info-icon {
   margin-left: 2px;
   font-size: 1rem !important;
@@ -551,6 +572,70 @@ h2 {
   margin-bottom: 0px;
   padding-bottom: 0px;
   cursor: pointer;
+}
+
+.successBtn {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #56ab2f, #56ab2f00);
+  background-color: transparent;
+  color: #56ab2f;
+  transition: background-image 0.5s ease;
+}
+
+.successBtn:hover,
+.successBtn:focus,
+.successBtn:active {
+  background-image: linear-gradient(to left, #56ab2f, #56ab2f00);
+  color: white; /* Text color on hover */
+  border: 1px solid transparent;
+}
+
+.errorExitBtn {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #cb2d3e, #ef473a);
+  background-color: transparent;
+  color: #cb2d3e; /* Adjust text color if needed */
+  transition: background-image 0.3s ease;
+}
+
+.errorExitBtn:hover,
+.errorExitBtn:focus,
+.errorExitBtn:active {
+  background-image: linear-gradient(to left, #cb2d3e, #ef473a);
+  color: white; /* Text color on hover */
+}
+
+.infoBtn {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #0073ff, #0073ff00);
+  background-color: transparent;
+  color: #0073ff; /* Adjust text color if needed */
+  transition: background-image 0.6s ease;
+}
+
+.infoBtn:hover,
+.infoBtn:focus,
+.infoBtn:active {
+  background-image: linear-gradient(to left, #0073ff, #0073ff00) !important;
+  color: white; /* Text color on hover */
+  border: 1px solid transparent;
+}
+
+.disabledBtn {
+  border: 2px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, #bdc3c7, #2c3e50);
+  background-color: transparent;
+  color: #bdc3c7; /* Adjust text color if needed */
+  transition: background-image 0.3s ease;
+}
+
+.disabledBtn:hover,
+.disabledBtn:focus,
+.disabledBtn:active {
+  background-image: linear-gradient(to left, #bdc3c7, #2c3e50);
+  color: white; /* Text color on hover */
+  border: 1px solid transparent;
 }
 
 .col,

@@ -5,7 +5,7 @@ import ModalDelete from "./ModalDelete";
 import { OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
 import { post } from "../../Helper";
 import CircularProgress from "@mui/material/CircularProgress";
-import CustomSnackbar, { useSnackbar } from "../Elements/Snackbar";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   const [imeSkupine, setImeSkupine] = useState("");

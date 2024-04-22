@@ -4,6 +4,7 @@ import { red } from "@mui/material/colors";
 import { FaRegTrashAlt } from "react-icons/fa";
 import DeleteModal from "./DeleteModal";
 import { mergeSetIdsWithData } from "../../hooks/mergeSetWithData";
+import CustomSnackbar from "../Elements/Snackbar";
 
 const Delete = ({
   filteredData,
@@ -13,9 +14,11 @@ const Delete = ({
   startDate,
   endDate,
   preglejBtn,
+  handleSnackbarOpen,
 }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [dataToDelete, setDataToDelete] = useState([]);
+
   const handleDeleteClick = () => {
     console.log("Delete button clicked");
     setOpenDeleteModal(true);
@@ -54,7 +57,6 @@ const Delete = ({
         filteredData={filteredData}
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
-        selectedCas={selectedCas}
         setSelectedCas={setSelectedCas}
         name={name}
         dataToDelete={dataToDelete}
@@ -62,6 +64,7 @@ const Delete = ({
         startDate={startDate}
         endDate={endDate}
         preglejBtn={preglejBtn}
+        handleSnackbarOpen={handleSnackbarOpen}
       />
     </>
   );

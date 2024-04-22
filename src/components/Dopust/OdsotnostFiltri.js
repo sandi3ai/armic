@@ -14,6 +14,7 @@ const OdsotnostFiltri = ({
     <div>
       <div className="stackHorizontally">
         <DropdownButton
+          size="sm"
           variant="outline-primary"
           title="Tip odsotnosti"
           value="value"
@@ -26,6 +27,7 @@ const OdsotnostFiltri = ({
           <Dropdown.Item eventKey="Bolniška">Bolniška</Dropdown.Item>
         </DropdownButton>
         <DropdownButton
+          size="sm"
           variant="outline-primary"
           title="Status"
           value="value"
@@ -39,6 +41,7 @@ const OdsotnostFiltri = ({
           <Dropdown.Item eventKey="Zavrnjeno">Zavrnjeno</Dropdown.Item>
         </DropdownButton>
         <DropdownButton
+          size="sm"
           variant="outline-primary"
           title={leto}
           value="value"

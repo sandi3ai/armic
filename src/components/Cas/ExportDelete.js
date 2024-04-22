@@ -11,6 +11,7 @@ const ExportDelete = ({
   startDate,
   endDate,
   preglejBtn,
+  handleSnackbarOpen,
 }) => {
   return (
     <>
@@ -28,6 +29,7 @@ const ExportDelete = ({
         startDate={startDate}
         endDate={endDate}
         preglejBtn={preglejBtn}
+        handleSnackbarOpen={handleSnackbarOpen}
       />
     </>
   );

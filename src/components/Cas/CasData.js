@@ -9,6 +9,7 @@ import ErrorBoundary from "../../hooks/errorBoundaries";
 import ExportDelete from "./ExportDelete";
 import { mergeSetIdsWithData } from "../../hooks/mergeSetWithData";
 import InfoTooltip from "../Elements/InfoTooltip";
+import CustomSnackbar from "../Elements/Snackbar";
 
 dayjs.extend(duration);
 
@@ -22,6 +23,15 @@ const CasData = ({ data, name, startDate, endDate, preglejBtn }) => {
   });
   const [selectedCas, setSelectedCas] = useState(new Set());
   const [selectedTimes, setSelectedTimes] = useState("00:00");
+  const [snackbarStates, setSnackbarStates] = useState({
+    open: false,
+    content: "",
+    severity: "info",
+  });
+
+  const handleSnackbarOpen = (content, severity = "info") => {
+    setSnackbarStates({ open: true, content, severity });
+  };
 
   const statusToClassNameMap = {
     Odobreno: "greenish",
@@ -317,6 +327,7 @@ const CasData = ({ data, name, startDate, endDate, preglejBtn }) => {
                     startDate={startDate}
                     endDate={endDate}
                     preglejBtn={preglejBtn}
+                    handleSnackbarOpen={handleSnackbarOpen}
                   />
                 </span>
               )}
@@ -418,6 +429,15 @@ const CasData = ({ data, name, startDate, endDate, preglejBtn }) => {
           iz števca povprečnega časa in skupnega števila ur
         </Alert>
       )}
+
+      <CustomSnackbar
+        open={snackbarStates.open}
+        handleClose={() =>
+          setSnackbarStates({ ...snackbarStates, open: false })
+        }
+        content={snackbarStates.content}
+        severity={snackbarStates.severity}
+      />
     </div>
   );
 };

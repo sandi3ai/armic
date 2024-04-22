@@ -119,6 +119,7 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
                 ? "outline-success"
                 : "outline-danger"
             }
+            className={buttonData?.action === "approve" ? "successBtn" : ""}
             onClick={submitHandler}
           >
             Potrdi

@@ -114,6 +114,7 @@ export const Cas = () => {
           </Form.Label>
 
           <DropdownButton
+            size="sm"
             variant="outline-primary"
             onClick={(e) => getZaposleni(e)}
             onSelect={(e) => {

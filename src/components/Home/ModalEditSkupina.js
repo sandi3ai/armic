@@ -101,6 +101,7 @@ const ModalEditSkupina = ({
         </Form.Group>{" "}
         <Form.Label>Skupini dodaj/zamenjaj vodjo: </Form.Label>
         <DropdownButton
+          size="sm"
           variant="outline-primary"
           title={vodjaData.vodjaIme || "Izberi vodjo"}
           onSelect={handleSelectVodja}

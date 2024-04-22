@@ -146,6 +146,7 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
         </div>
         <Form.Label>Delavcu dodaj skupino: </Form.Label>
         <DropdownButton
+          size="sm"
           variant="outline-primary"
           title={checkIfName(imeSkupine)}
           onClick={(e) => getSkupine(e)}
@@ -155,6 +156,7 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
           }}
           value={izbranaSkupina}
           drop="down"
+          className="blueDropdownBtn"
         >
           {skupine.map((skupina, i) => (
             <Dropdown.Item key={i} eventKey={skupina.skupinaID}>
@@ -224,12 +226,12 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
           </div>
         </Form.Group>
         <br />
-        <div className="successBox">
+        <Form.Label>
           <Button variant="outline-success" type="submit">
             Dodaj novega zaposlenega
           </Button>
-          {emptyTxt && " Izpolni obvezna polja!"}
-        </div>
+          {emptyTxt && "\n\nIzpolni obvezna polja!"}
+        </Form.Label>
       </Form>
 
       <CustomSnackbar

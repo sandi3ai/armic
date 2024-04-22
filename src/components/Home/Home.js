@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Axios from "axios";
-import { Button } from "react-bootstrap";
 import VnosZaposlenega from "./VnosZaposlenega";
 import PrikaziZaposlene from "./PrikaziZaposlene";
 import NovaSkupina from "./NovaSkupina";
+import { Button } from "react-bootstrap";
+import PersonAddAltOutlinedIcon from "@mui/icons-material/PersonAddAltOutlined";
+import {
+  //Button,
+  Tooltip,
+} from "antd";
 
 const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
 
 export const Home = () => {
   const [novVnos, setNovVnos] = useState(false);
-  const [novaSkupina, setNovaSkupina] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -18,14 +22,6 @@ export const Home = () => {
       setNovVnos(true);
     } else {
       setNovVnos(false);
-    }
-  }
-
-  function showNovaSkupina() {
-    if (novaSkupina === false) {
-      setNovaSkupina(true);
-    } else {
-      setNovaSkupina(false);
     }
   }
 
@@ -42,6 +38,14 @@ export const Home = () => {
     }
   }, []);
 
+  const createNewButton = (buttonText, onCLick) => {
+    <Tooltip title="search">
+      <Button type="primary" shape="circle" onClick={onCLick}>
+        {buttonText}
+      </Button>
+    </Tooltip>;
+  };
+
   return (
     <div>
       <div className="content">
@@ -50,32 +54,31 @@ export const Home = () => {
           Tukaj lahko dodate ali izbrišete delavca, mu dodelite skupino, ali pa
           skupino ustvarite
         </p>
-        <Button
-          className="vnosBtn"
-          variant="outline-primary"
-          onClick={showNovVnos}
-        >
-          Dodaj delavca
-        </Button>
+        <NovaSkupina zaposleniData={data} isLoading={isLoading} />
+        <div className="addNew">
+          <div className="rowDiv">
+            <h2>Seznam zaposlenih: </h2>
+            <Button
+              variant={novVnos ? "danger" : "outline-primary"}
+              onClick={showNovVnos}
+            >
+              {novVnos ? (
+                "Zapri vnos zaposlenega"
+              ) : (
+                <>
+                  Dodaj zaposlenega <PersonAddAltOutlinedIcon />
+                </>
+              )}
+            </Button>{" "}
+          </div>
 
-        {novVnos ? <VnosZaposlenega getZaposleni={getZaposleni} /> : null}
-        <Button
-          className="vnosBtn"
-          variant="outline-primary"
-          onClick={showNovaSkupina}
-        >
-          Uredi skupine
-        </Button>
-        {novaSkupina ? (
-          <NovaSkupina zaposleniData={data} isLoading={isLoading} />
-        ) : null}
-        <hr />
-        <h2>Seznam zaposlenih:</h2>
-        <PrikaziZaposlene
-          data={data}
-          isLoading={isLoading}
-          getZaposleni={getZaposleni}
-        />
+          {novVnos ? <VnosZaposlenega getZaposleni={getZaposleni} /> : null}
+          <PrikaziZaposlene
+            data={data}
+            isLoading={isLoading}
+            getZaposleni={getZaposleni}
+          />
+        </div>
       </div>
     </div>
   );

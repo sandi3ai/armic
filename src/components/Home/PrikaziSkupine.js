@@ -1,6 +1,6 @@
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import { FaRegTrashAlt, FaRegEdit } from "react-icons/fa";
 import ModalDeleteSkupina from "./ModalDeleteSkupina";
 import ModalEditSkupina from "./ModalEditSkupina";
@@ -41,9 +41,9 @@ const PrikaziSkupine = ({ zaposleniData, isLoading }) => {
 
   return (
     <div>
-      <br />
-      <h2>Skupine:</h2>
-
+      <div className="rowDiv">
+        <h2>Skupine:</h2>
+      </div>
       <div className="parent">
         {data.map((d) => (
           <div key={d.skupinaID} className="child">

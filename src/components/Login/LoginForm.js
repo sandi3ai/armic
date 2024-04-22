@@ -55,11 +55,7 @@ function LoginForm({ Login, error }) {
               </div>
             </Form.Group>
             <div className="spacer"></div>
-            <Button
-              className="PrijavaBtn"
-              type="submit"
-              variant="outline-success"
-            >
+            <Button type="submit" variant="outline-success">
               PRIJAVA
             </Button>
             {error !== "" ? <div className="LoginError">{error}</div> : ""}

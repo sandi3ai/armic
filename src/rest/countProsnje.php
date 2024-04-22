@@ -9,7 +9,7 @@ $stmtOdsotnost->execute();
 $countOdsotnost = $stmtOdsotnost->fetchColumn();
 
 // Query to get the count of "Pregled" entities from the "cas" table
-$sqlCas = "SELECT COUNT(*) FROM cas WHERE status = 'Pregled'";
+$sqlCas = "SELECT COUNT(*) FROM cas WHERE status = 'Pregled' AND deleted = 0";
 $stmtCas = $conn->prepare($sqlCas);
 $stmtCas->execute();
 $countNadure = $stmtCas->fetchColumn();

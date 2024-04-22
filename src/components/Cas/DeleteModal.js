@@ -7,7 +7,6 @@ const DeleteModal = ({
   filteredData,
   open,
   setOpen,
-  selectedCas,
   setSelectedCas,
   name,
   dataToDelete,
@@ -15,6 +14,7 @@ const DeleteModal = ({
   startDate,
   endDate,
   preglejBtn,
+  handleSnackbarOpen,
 }) => {
   const [includesApproved, setIncludesApproved] = useState(false);
   const deleteUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteCas.php`;
@@ -37,7 +37,7 @@ const DeleteModal = ({
         console.log("Drop value: " + filteredData[0].userID);
         console.log("Start date: ", startDate, " End date: ", endDate);
         preglejBtn({ startDate, endDate, dropValue: filteredData[0].userID });
-        //Add a snackbar here
+        handleSnackbarOpen(`Izbrisani vnosi: ${dataToDelete.length}`, "error");
       });
     } catch (error) {
       console.error("Error deleting cases:", error);
@@ -60,24 +60,15 @@ const DeleteModal = ({
       </Modal.Header>
       <Modal.Body>
         <Form.Label>
-          Izbriši izbrane case:<strong> {dataToDelete.length}</strong>
+          Število izbranih vnosov:
+          <strong> {dataToDelete.length}</strong>
         </Form.Label>
         <br />
-        {dataToDelete.map((cas) => (
-          <div key={cas.casID + cas.status}>
-            {cas.casID}:<br />
-            {cas.formattedCasZacetek} - {cas.formattedCasKonec}
-            <br />
-            Status: {cas.status}
-            <br />
-            Vsebuje odobrene čase: {includesApproved ? "Da" : "Ne"}
-            <br />
-          </div>
-        ))}
         {includesApproved && (
           <div>
             <Alert severity="info">
-              <strong>Opomba:</strong> Izbrani vnosi vsebujejo odobrene čase.
+              <strong>Opomba:</strong> Med Izbranimi vnosi so tudi odobreni
+              delovni časi.
             </Alert>
           </div>
         )}
