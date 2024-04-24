@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/sl"; // Import the Slovenian locale
 import CasData from "./CasData";
 import { post } from "../../Helper";
+import EmailLog from "./EmailLog";
 
 export const Cas = () => {
   const getUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/getZaposleni.php`;
@@ -107,13 +108,15 @@ export const Cas = () => {
   return (
     <div>
       <div className="content">
-        <h2>DELOVNI ČAS ZAPOSLENIH:</h2>
+        <div className="rowDiv">
+          <h2>DELOVNI ČAS ZAPOSLENIH:</h2>
+          <EmailLog />
+        </div>
         <Form onSubmit={(e) => preglejBtn(e)}>
-          <Form.Label>
-            Izberi zaposlenega in časovno obdobje za pregled delovnega časa:
-          </Form.Label>
-
+          Izberi zaposlenega in časovno obdobje za pregled delovnega časa:
+          <div className="spacer"></div>
           <DropdownButton
+            style={{ marginBottom: "15px" }}
             size="sm"
             variant="outline-primary"
             onClick={(e) => getZaposleni(e)}
@@ -130,7 +133,6 @@ export const Cas = () => {
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <br />
           <Col lg="3" md="4" sm="5">
             <Form.Label>Obdobje od: </Form.Label>
             <Form.Control
@@ -144,7 +146,6 @@ export const Cas = () => {
               Za lažje izbiranje klikni koledar
             </Form.Text>
           </Col>
-
           <Col lg="3" md="4" sm="5">
             <Form.Label>Obdobje do: </Form.Label>
             <Form.Control

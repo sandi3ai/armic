@@ -28,3 +28,6 @@ todo.txt
 # Task scheduler logs
 /src/taskScheduler/log.txt
 /src/taskScheduler/emailResetLog.txt
+
+.env
+/src/taskScheduler/.env

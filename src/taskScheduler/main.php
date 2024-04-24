@@ -8,17 +8,24 @@ require_once __DIR__ . '/checkLoggedHours.php';
 require_once __DIR__ . '/sendEmail.php';
 require_once __DIR__ . '/setEmailSent.php';
 
-$logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\log.txt";
+$logDate = date('Y-m-d');
+$logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\logs\\log-{$logDate}.txt";
+touch($logFile);//creates file if it doesn't exist
 $currentContent = file_get_contents($logFile);
 $currentDateTime = date('Y-m-d H:i:s');
+$currentDate = date('d.m.Y');
+$currentTime = date('H:i');
 
-$logFileContent = "Script started at {$currentDateTime}\n";
+$logFileContent = "***Pošiljanje opomnikov - začetek: {$currentDate}, {$currentTime}\n";
 
 // Security check (second argument must be the secret key)
-if (isset($argv[1]) && $argv[1] === 'GhjqT@0}W2}&(@!YO@NLmt]zY;}') {
-    $logFileContent .= "Security check passed.\n";  
-} else {
-    $logFileContent .= "Security check failed: incorrect or no second argument provided.\nExiting...\n";
+if (!isset($argv[1])) {
+    $logFileContent .= "Varnostna preverba ni uspela: drugi argument ni podan.\nIzhod...\n";
+    file_put_contents($logFile, $logFileContent);
+    exit;
+} elseif ($argv[1] !== 'GhjqT@0}W2}&(@!YO@NLmt]zY;}') {
+    $logFileContent .= "Varnostna preverba ni uspela: napačen drugi argument.\nIzhod...\n";
+    file_put_contents($logFile, $logFileContent);
     exit;
 }
 
@@ -30,7 +37,7 @@ $isWorkFreeDay = isHolidayOrAWeekend($today, $holidayFilePath);
 
 if ($isWorkFreeDay) {
     echo "It's a holiday or a weekend, no email today!";
-    $logFileContent .= "It's a holiday or a weekend, no email today!\n";
+    $logFileContent .= "Praznik ali vikend je, danes ni opomnikov!\n";
     exit;
 } else {
     echo "It's a work day, let's check if other conditions are met!\n";
@@ -77,13 +84,13 @@ foreach ($results as $user) {
     if (!isOnVacation($user['zaposleniID'], $today) && !hasLoggedHours($user['zaposleniID'], $today)) {
       if(!empty($user['email'])) {
         echo "Sending email to: " . $user['zaposleniIme'] . "\n";
-        $logFileContent .= "Sending email to: " . $user['zaposleniIme'] . "\n";
+        $logFileContent .= "Pošiljanje emaila: " . $user['zaposleniIme'] . "\n";
 
         // Sending email
         sendEmailNotification($user['email'], $user['zaposleniIme'], $logFile);   
         markEmailAsSent($user['zaposleniID'], $logFile);
       }else {
-        $logFileContent .= "Error at {$currentDateTime}: Email for user " . $user['zaposleniIme'] . " is empty\n"; // If an email is empty
+        $logFileContent .= "Napaka: Ni emaila za: " . $user['zaposleniIme'] . "\n"; // Če je email prazen
       }
     }
     //If a user is on vacation, but the hours aren't logged the email will be sent to group leader
@@ -104,8 +111,8 @@ foreach ($results as $user) {
 }
 
 
-$logFileContent .= "Script ended at {$currentDateTime}.\n***\n"; // At the end of your script
-$finalContent = $logFileContent . $currentContent;
+$logFileContent .= "Pošiljanje opomnikov - konec: {$currentTime}.\n***";
+$finalContent = $currentContent . $logFileContent;
 file_put_contents($logFile, $finalContent);
 
 $conn = null;
