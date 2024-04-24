@@ -27,7 +27,7 @@ const EmailLog = () => {
       setEmailData(text || "No content in the file");
     } catch (error) {
       console.error("Error fetching file:", error);
-      setEmailData("File doesn't exist");
+      setEmailData("Datoteka ne obstaja / noben opomnik ni bil poslan");
     }
   };
 
