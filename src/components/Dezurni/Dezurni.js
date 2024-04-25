@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { Button } from "react-bootstrap";
+import CustomSnackbar from "../Elements/Snackbar";
 import NovVnos from "./NovVnos";
 import ReadDezurni from "./ReadDezurni";
 
 export const Dezurni = () => {
   const [novVnos, setNovVnos] = useState(false);
+  const [snackbarStates, setSnackbarStates] = useState({
+    open: false,
+    content: "",
+    severity: "info",
+  });
 
   function showNovVnos() {
     if (novVnos === false) {
@@ -13,6 +19,10 @@ export const Dezurni = () => {
       setNovVnos(false);
     }
   }
+
+  const handleSnackbarOpen = (content, severity = "info") => {
+    setSnackbarStates({ open: true, content, severity });
+  };
 
   return (
     <div>
@@ -24,7 +34,15 @@ export const Dezurni = () => {
         </Button>
         {novVnos ? <NovVnos /> : null}
         <hr></hr>
-        <ReadDezurni />
+        <ReadDezurni onConfirm={handleSnackbarOpen} />
+        <CustomSnackbar
+          open={snackbarStates.open}
+          handleClose={() =>
+            setSnackbarStates((prevConfig) => ({ ...prevConfig, open: false }))
+          }
+          content={snackbarStates.content}
+          severity={snackbarStates.severity}
+        />
       </div>
     </div>
   );

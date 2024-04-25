@@ -6,7 +6,7 @@ import ModalDeleteSkupina from "./ModalDeleteSkupina";
 import ModalEditSkupina from "./ModalEditSkupina";
 import CustomSnackbar from "../Elements/Snackbar";
 
-const PrikaziSkupine = ({ zaposleniData, isLoading }) => {
+const PrikaziSkupine = ({ zaposleniData, isLoading, refreshTrigger }) => {
   const [data, setData] = useState([]);
   const [passedSkupinaData, setPassedSkupinaData] = useState({});
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -38,6 +38,11 @@ const PrikaziSkupine = ({ zaposleniData, isLoading }) => {
     getSkupine();
     console.log("Passed skupina data. ", passedSkupinaData);
   }, []);
+
+  useEffect(() => {
+    console.log("Refresh trigger: ", refreshTrigger);
+    getSkupine();
+  }, [refreshTrigger]);
 
   return (
     <div>
@@ -116,4 +121,3 @@ const PrikaziSkupine = ({ zaposleniData, isLoading }) => {
 };
 
 export default PrikaziSkupine;
-//onClick={(event) => deleteSkupina(d.skupinaID, event)}

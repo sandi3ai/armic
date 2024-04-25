@@ -8,8 +8,11 @@ require_once __DIR__ . '/checkLoggedHours.php';
 require_once __DIR__ . '/sendEmail.php';
 require_once __DIR__ . '/setEmailSent.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $logDate = date('Y-m-d');
-$logFile = "C:\\xampp\\htdocs\\reactProjects\\armic\\src\\taskScheduler\\logs\\log-{$logDate}.txt";
+$logFile = $_ENV["SOURCE_LOCATION"]."src\\taskScheduler\\logs\\log-{$logDate}.txt";
 touch($logFile);//creates file if it doesn't exist
 $currentContent = file_get_contents($logFile);
 $currentDateTime = date('Y-m-d H:i:s');

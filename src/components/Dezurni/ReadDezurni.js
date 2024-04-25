@@ -16,7 +16,7 @@ import CustomSnackbar from "../Elements/Snackbar";
 
 dayjs.locale("sl");
 
-function ReadDezurni() {
+function ReadDezurni({ onConfirm }) {
   const [data, setData] = useState([]);
   const [selectedDezurni, setSelectedDezurni] = useState(new Set());
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -90,6 +90,7 @@ function ReadDezurni() {
           selectedDezurni={selectedDezurni}
           setSelectedDezurni={setSelectedDezurni}
           onHide={() => setOpenDeleteModal(false)}
+          onConfirm={onConfirm}
         />
       )}
       <Button

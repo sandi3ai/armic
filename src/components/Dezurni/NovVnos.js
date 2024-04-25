@@ -22,10 +22,10 @@ const NovVnos = () => {
       name: postData.name,
     }).then(() => {
       console.log("submitForm executed");
-      setOpenSnackbar(true);
       setName("");
       if (name !== "" && date !== "") {
         console.log("Name: ", name, "Date: ", date);
+        setOpenSnackbar(true);
         setTimeout(() => {}, 4000);
       } else {
         //prikaže error box, če oba podatka nista izpolnjena

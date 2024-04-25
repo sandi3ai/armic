@@ -42,14 +42,16 @@ const EmailLog = () => {
 
   useEffect(() => {
     const sections = emailData.split("***").map((section, index) => {
-      if (section.trim()) {
+      const trimmedSection = section.trim();
+      if (trimmedSection) {
         console.log("Section: ", section);
+        const severity = emailData.includes("***") ? "info" : "error";
         return (
           <Alert
             key={index}
             variant="outlined"
-            severity="info"
-            style={{ marginBottom: "20px" }}
+            severity={severity}
+            style={{ marginBottom: "15px" }}
             icon={<MailOutlinedIcon />}
           >
             {section}
@@ -63,7 +65,7 @@ const EmailLog = () => {
 
   return (
     <>
-      <Button variant="outline-primary" onClick={toggleEmailModal}>
+      <Button variant="outline-dark" onClick={toggleEmailModal}>
         <span className="button-text">Poslani opomniki </span>
         <MailOutlinedIcon />
       </Button>
@@ -87,7 +89,7 @@ const EmailLog = () => {
           <div style={{ whiteSpace: "pre-wrap" }}>{formattedEmailData}</div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={toggleEmailModal}>
+          <Button variant="outline-dark" onClick={toggleEmailModal}>
             Zapri
           </Button>
         </Modal.Footer>

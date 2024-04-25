@@ -1,5 +1,5 @@
 <?php
-
+/* Deprecated, the email will not be sent to the group leader if the user is on vacation
 include_once __DIR__ . '/../rest/db.php';
 
 function selectGroupEmail($groupId, $logFileContent, $zaposleniIme) {

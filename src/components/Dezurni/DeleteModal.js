@@ -3,7 +3,12 @@ import { Button, Modal } from "react-bootstrap";
 import { post } from "../../Helper";
 import CustomSnackbar from "../Elements/Snackbar";
 
-const DeleteModal = ({ selectedDezurni, setSelectedDezurni, onHide }) => {
+const DeleteModal = ({
+  selectedDezurni,
+  setSelectedDezurni,
+  onHide,
+  onConfirm,
+}) => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const delUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/deleteDezurni.php`;
 
@@ -21,6 +26,7 @@ const DeleteModal = ({ selectedDezurni, setSelectedDezurni, onHide }) => {
       })
       .finally(() => {
         // Only do these actions once, after all operations are done
+        onConfirm(`Izbrisanih vnosov: ${selectedDezurni.size}`, "error");
         setOpenSnackbar(true);
         onHide();
         setSelectedDezurni(new Set());

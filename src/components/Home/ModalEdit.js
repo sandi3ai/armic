@@ -301,7 +301,6 @@ const ModalEdit = ({ closeModal, passID }) => {
             variant="outline-success"
             type="submit"
             disabled={!isEmailValid}
-            className="successBtn"
           >
             Posodobi
           </Button>

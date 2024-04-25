@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Col,
-  Dropdown,
-  DropdownButton,
-  Form,
-  Row,
-} from "react-bootstrap";
+import { Button, Col, Dropdown, DropdownButton, Form } from "react-bootstrap";
 import { post } from "../../Helper";
 import PrikaziSkupine from "./PrikaziSkupine";
 import CustomSnackbar from "../Elements/Snackbar";
@@ -25,13 +18,12 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
     vodjaIme: "",
   });
   const [formError, setFormError] = useState("");
+  const [refreshTrigger, setRefreshTrigger] = useState(false);
 
   function submitForm(e) {
     e.preventDefault();
-    console.log("sumbitForm triggered");
     console.log(imeSkupine);
     if (!imeSkupine.trim()) {
-      console.log("Group name is empty.");
       setFormError("Ime skupine je obvezno polje.");
       return;
     }
@@ -54,6 +46,8 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
           vodjaEmail: "",
           vodjaIme: "",
         });
+
+        setRefreshTrigger((oldTrigger) => !oldTrigger);
       });
     } catch (error) {
       alert(error.message);
@@ -97,7 +91,6 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
     const selectedZaposleni = zaposleniData.find(
       (z) => z.zaposleniID === Number(selectedZaposleniID)
     );
-    console.log("handleSelectVodja selectedZaposleni:", selectedZaposleni);
 
     if (selectedZaposleni) {
       setVodjaData((prevVodjaData) => ({
@@ -203,6 +196,7 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
               isLoading={isLoading}
               novVnos={novVnos}
               showNovVnos={showNovVnos}
+              refreshTrigger={refreshTrigger}
             />
           </div>
         )}
