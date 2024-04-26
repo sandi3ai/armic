@@ -58,7 +58,16 @@ const DeleteModal = ({ show, onHide, clickedItem }) => {
           </p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="outline-danger" onClick={submitHandler}>
+          <Button
+            autoFocus
+            variant="outline-danger"
+            onClick={submitHandler}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                submitHandler();
+              }
+            }}
+          >
             Izbriši
           </Button>
           <Button variant="outline-dark" onClick={onHide}>

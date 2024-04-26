@@ -33,12 +33,14 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
       url = updateOdsotnostUrl;
       passedID = clickedItem?.dopustID;
       if (clickedItem?.tip === "Dopust") {
-        console.log("CLICKED ITEM JE DOPUST");
-        newVacationValue =
-          clickedItem?.preostanekDopusta - clickedItem?.trajanje;
         console.log("newVacationValue: ", newVacationValue);
         odsotenUserID = clickedItem?.odsotenUserID;
         console.log("odsotenUserID: ", odsotenUserID);
+        if (status === "Odobreno") {
+          console.log("CLICKED ITEM JE DOPUST");
+          newVacationValue =
+            clickedItem?.preostanekDopusta - clickedItem?.trajanje;
+        }
       }
     }
 
@@ -114,13 +116,20 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button
+            autoFocus
             variant={
               buttonData?.action === "approve"
                 ? "outline-success"
                 : "outline-danger"
             }
-            className={buttonData?.action === "approve" ? "successBtn" : ""}
+            className={buttonData?.action === "approve" ? "outline-success" : ""}
             onClick={submitHandler}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                console.log("ENTER PRESSED");
+                submitHandler();
+              }
+            }}
           >
             Potrdi
           </Button>

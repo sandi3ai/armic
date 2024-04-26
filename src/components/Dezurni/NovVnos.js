@@ -39,9 +39,8 @@ const NovVnos = () => {
 
   return (
     <div>
-      <br />
-      <Col xxl="2" xl="3" lg="5" md="8" sm="9">
-        <Form className="novVnos" onSubmit={(e) => submitForm(e)}>
+      <Col xxl="4" xl="6" lg="9" md="11" sm="12">
+        <Form className="addNew" onSubmit={(e) => submitForm(e)}>
           <Form.Group className="mb-5">
             <Form.Label>Datum dežurstva: </Form.Label>
             <Form.Control
@@ -55,7 +54,7 @@ const NovVnos = () => {
               Ob kliku na ikono koledarja se odpre koledar
             </Form.Text>
           </Form.Group>
-          <Form.Group className="mb-5">
+          <Form.Group className="mb-4">
             <Form.Label>Izvajalec dežurstva: </Form.Label>
             <Form.Control
               name="name"
