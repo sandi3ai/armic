@@ -134,7 +134,7 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
                 <h3>Dodaj novo skupino</h3>
                 <Form onSubmit={(e) => submitForm(e)}>
                   <Form.Group className="mb-3 inputForm">
-                    <Form.Label>Vpiši ime nove skupine: </Form.Label>
+                    <div className="margin-top">Vpiši ime nove skupine:</div>
                     <Col>
                       <Form.Control
                         isInvalid={formError}
@@ -151,7 +151,9 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
                         {formError}
                       </Form.Control.Feedback>
                     </Col>
-                    <Form.Label>Vpiši e-mail vodje skupine: </Form.Label>
+                    <div className="margin-top">
+                      Vpiši e-mail vodje skupine:
+                    </div>
                     <Col>
                       <Form.Control
                         name="email"
@@ -165,7 +167,7 @@ const NovaSkupina = ({ zaposleniData, isLoading }) => {
                         Prosim vnesi veljaven e-mail naslov.
                       </Form.Control.Feedback>
                     </Col>
-                    <Form.Label>Izberi vodjo skupine: </Form.Label>
+                    <div className="margin-top">Izberi vodjo skupine:</div>
                     <DropdownButton
                       size="sm"
                       variant="outline-primary"

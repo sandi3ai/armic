@@ -341,7 +341,7 @@ const CasData = ({ data, name, startDate, endDate, preglejBtn }) => {
         hover
         size="sm"
         responsive
-        className="table-cas"
+        className="margin-top"
       >
         <thead>
           <tr>
