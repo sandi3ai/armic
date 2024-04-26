@@ -33,14 +33,17 @@ const ConfirmModal = ({ show, onHide, type, clickedItem, buttonData }) => {
       url = updateOdsotnostUrl;
       passedID = clickedItem?.dopustID;
       if (clickedItem?.tip === "Dopust") {
-        console.log("CLICKED ITEM JE DOPUST");
-        newVacationValue =
-          clickedItem?.preostanekDopusta - clickedItem?.trajanje;
         console.log("newVacationValue: ", newVacationValue);
         odsotenUserID = clickedItem?.odsotenUserID;
         console.log("odsotenUserID: ", odsotenUserID);
+        if (status === "Odobreno") {
+          console.log("CLICKED ITEM JE DOPUST");
+          newVacationValue =
+          clickedItem?.preostanekDopusta - clickedItem?.trajanje;
+        }
       }
     }
+    
 
     post(url, { passedID, status, newVacationValue, odsotenUserID })
       .then((response) => {

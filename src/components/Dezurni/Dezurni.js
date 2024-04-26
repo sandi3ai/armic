@@ -29,8 +29,8 @@ export const Dezurni = () => {
       <div className="content">
         <h2>SEZNAM DEŽURNIH:</h2>
         <div className="spacer"></div>
-        <Button variant="outline-primary" onClick={showNovVnos}>
-          Skrij / prikaži nov vnos
+        <Button variant={novVnos ? "danger" : "outline-primary"} className="mb-2" onClick={showNovVnos}>
+          {novVnos ? "Zapri" : "Dodaj dežurnega"}
         </Button>
         {novVnos ? <NovVnos /> : null}
         <hr></hr>

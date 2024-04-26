@@ -6,9 +6,16 @@
     $password = "";
     $dbname = "armic";
 
+    $allowed_origins = ["http://localhost:3000", "http://localhost:3001"];
+    $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
+
+    if (in_array($origin, $allowed_origins)) {
+      header("Access-Control-Allow-Origin: $origin");
+    }
+
     header("HTTP/1.1 200 OK");
     header('Content-Type: application/json; charset=utf-8');
-    header("Access-Control-Allow-Origin: http://localhost:3000");
+    //header("Access-Control-Allow-Origin: http://localhost:3000");
     header("Access-Control-Allow-Headers: GET,PUT,POST,DELETE,PATCH,OPTIONS,CONTENT-TYPE");
     header("Access-Control-Allow-Credentials: true");    
     header("Access-Control-Request-Headers: GET,PUT,POST,DELETE,PATCH,OPTIONS,CONTENT-TYPE");    
