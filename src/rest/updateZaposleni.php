@@ -32,6 +32,12 @@ if (isset($_POST['updatedCasZacetka'])) {
     $fieldsToUpdate['predvidenZacetek'] = $_POST['updatedCasZacetka'];
 }
 
+if (isset($_POST['updatedSuperVodja'])) {
+    $fieldsToUpdate['superVodja'] = filter_var($_POST['updatedSuperVodja'], FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+}
+
+echo $_POST['updatedSuperVodja'];
+
 if (count($fieldsToUpdate) > 0) {
     $updates = implode(", ", array_map(function ($field) {
         return "`$field` = :$field";

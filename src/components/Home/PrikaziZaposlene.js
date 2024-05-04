@@ -61,11 +61,7 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
   };
 
   const renderPopover = (zaposlen) => (
-    <Popover
-      noArrow
-      id={`popover-${zaposlen.zaposleniID}`}
-      className="custom-popover"
-    >
+    <Popover id={`popover-${zaposlen.zaposleniID}`} className="custom-popover">
       <Popover.Header as="h1" className="blue-modal-header">
         <strong>{zaposlen.zaposleniIme}</strong>
       </Popover.Header>
@@ -93,6 +89,12 @@ const PrikaziZaposlene = ({ data, isLoading, getZaposleni }) => {
                   : ""}
               </strong>
             </span>
+            {zaposlen.superVodja !== 0 && (
+              <strong>
+                <br />
+                <span className="reddish">Super vodja</span>
+              </strong>
+            )}
             <br />
           </>
         )}

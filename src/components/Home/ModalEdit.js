@@ -29,6 +29,7 @@ const ModalEdit = ({ closeModal, passID }) => {
   const [updatedSkupina, setUpdatedSkupina] = useState("");
   const [updatedDopust, setUpdatedDopust] = useState("");
   const [updatedCasZacetka, setUpdatedCasZacetka] = useState("");
+  const [superVodja, setSuperVodja] = useState(false);
   const [imeSkupine, setImeSkupine] = useState("");
   const [successTxt, setSuccessTxt] = useState(false);
   const [updatedPass, setUpdatedPass] = useState("");
@@ -47,11 +48,18 @@ const ModalEdit = ({ closeModal, passID }) => {
           passID,
           idToName
         );
-        setUpdatedName(zaposleniData.ime);
-        setUpdatedSkupina(zaposleniData.skupina);
-        setUpdatedEmail(zaposleniData.email);
-        setUpdatedDopust(zaposleniData.dopust);
-        setUpdatedCasZacetka(zaposleniData.casZacetka);
+        setUpdatedName(zaposleniData.ime || "");
+        setUpdatedSkupina(zaposleniData.skupina || "");
+        setUpdatedEmail(zaposleniData.email || "");
+        setUpdatedDopust(zaposleniData.dopust || "");
+        setUpdatedCasZacetka(zaposleniData.casZacetka || "");
+        setSuperVodja(zaposleniData.superVodja === 1 ? true : false || "");
+
+        console.log("Zaspoleni data: ", zaposleniData);
+        console.log(
+          "Is zaposleni superVodja true? ",
+          zaposleniData.superVodja === 1 ? true : false
+        );
       });
     } catch (error) {
       alert(error.message);
@@ -68,6 +76,7 @@ const ModalEdit = ({ closeModal, passID }) => {
         email: "Ni podatka o e-mailu",
         dopust: "Ni podatka o dopustu",
         casZacetka: "Ni podatka o času začetka",
+        superVodja: "",
       };
     }
 
@@ -77,6 +86,7 @@ const ModalEdit = ({ closeModal, passID }) => {
       email: zaposleni.email,
       dopust: zaposleni.preostanekDopusta,
       casZacetka: zaposleni.predvidenZacetek,
+      superVodja: zaposleni.superVodja,
     };
   };
 
@@ -134,8 +144,9 @@ const ModalEdit = ({ closeModal, passID }) => {
       updatedPass,
       updatedDopust,
       updatedCasZacetka,
+      superVodja,
     };
-    console.log(postData);
+    console.log("PostData: ", postData);
     if (postData.updatedPass !== "" || !switchChecked) {
       Axios.post(
         updateUrl,
@@ -147,6 +158,7 @@ const ModalEdit = ({ closeModal, passID }) => {
           updatedPass: postData.updatedPass,
           updatedDopust: postData.updatedDopust,
           updatedCasZacetka: postData.updatedCasZacetka,
+          updatedSuperVodja: postData.superVodja,
         },
         { withCredentials: true }
       ).then(() => {
@@ -173,6 +185,10 @@ const ModalEdit = ({ closeModal, passID }) => {
       newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
     setUpdatedEmail(newEmail);
     setIsEmailValid(isValid);
+  };
+
+  const handleSuperVodjaChange = (event) => {
+    setSuperVodja(event.target.checked);
   };
 
   return (
@@ -291,6 +307,12 @@ const ModalEdit = ({ closeModal, passID }) => {
                 />
               </Col>
             </div>
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <label>
+              <Switch checked={superVodja} onChange={handleSuperVodjaChange} />
+              Super vodja
+            </label>
           </Form.Group>
         </Modal.Body>
         <Modal.Footer>

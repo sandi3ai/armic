@@ -7,10 +7,6 @@ import InfoTooltip from "../Elements/InfoTooltip";
 import CustomSnackbar from "../Elements/Snackbar";
 
 export const VnosZaposlenega = ({ getZaposleni }) => {
-  const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
-  const getUrlSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
-  const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
-
   const [name, setName] = useState("");
   const [izbranaSkupina, setIzbranaSkupina] = useState("");
   const [dniDopusta, setDniDopusta] = useState("");
@@ -20,10 +16,15 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
   const [email, setEmail] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(true);
   const [pass, setPass] = useState("");
+  const [superVodja, setSuperVodja] = useState(false);
   const [emptyTxt, setEmptyTxt] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const [ToggleIcon, PasswordInputType] = usePasswordToggle();
+
+  const postUrl = `${process.env.REACT_APP_BASE_URL}/src/rest/novZaposleni.php`;
+  const getUrlSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getSkupine.php`;
+  const urlImeSkupine = `${process.env.REACT_APP_BASE_URL}/src/rest/getNameSkupina.php`;
 
   function submitForm(e) {
     e.preventDefault();
@@ -34,6 +35,7 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
       email,
       dniDopusta,
       casZacetka,
+      superVodja,
     };
     console.log(postData);
     if (
@@ -51,12 +53,15 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
         email: postData.email,
         preostanekDopusta: postData.dniDopusta,
         predvidenZacetek: postData.casZacetka,
+        vodjaSkupineID: postData.vodjaSkupineID,
+        superVodja: postData.superVodja,
       }).then(() => {
         console.log("submitForm executed");
         setOpenSnackbar(true);
         setName("");
         setPass("");
         setEmail("");
+        setSuperVodja(false);
         //prikaže success box
         getZaposleni();
       });
@@ -105,6 +110,10 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
       newEmail === "" || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(newEmail);
     setEmail(newEmail);
     setIsEmailValid(isValid);
+  };
+
+  const handleSuperVodjaChange = (checked) => {
+    setSuperVodja(checked);
   };
 
   return (
@@ -224,6 +233,15 @@ export const VnosZaposlenega = ({ getZaposleni }) => {
               />
             </Col>
           </div>
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Check
+            type="checkbox"
+            label="Super vodja"
+            checked={superVodja}
+            onChange={(e) => handleSuperVodjaChange(e.target.checked)}
+            className="mt-1"
+          />
         </Form.Group>
         <br />
         <Form.Label>
