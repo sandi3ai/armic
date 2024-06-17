@@ -38,7 +38,7 @@ const DeleteModal = ({
       <Modal show={true} onHide={onHide} centered>
         <Modal.Header className="red-modal-header">
           <Modal.Title>
-            Izbrisanih vnosov: <strong>{selectedDezurni.size}</strong>
+            Izbrani vnosi: <strong>{selectedDezurni.size}</strong>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>Nadaljujem?</Modal.Body>
