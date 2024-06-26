@@ -12,7 +12,7 @@ if (isset($_POST['updatedName'])) {
     $fieldsToUpdate['zaposleniIme'] = $_POST['updatedName'];
 }
 
-if (isset($_POST['updatedSkupina'])) {
+if (isset($_POST['updatedSkupina']) && !empty($_POST['updatedSkupina'])) {
     $fieldsToUpdate['zaposleniSkupinaID'] = $_POST['updatedSkupina'];
 }
 
